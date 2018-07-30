@@ -58,7 +58,6 @@ export default class EventHubManagementClient extends AzureServiceClient {
   // Operation groups
   operations: operations.Operations;
   namespaces: operations.Namespaces;
-  messagingPlanOperations: operations.MessagingPlanOperations;
   disasterRecoveryConfigs: operations.DisasterRecoveryConfigs;
   eventHubs: operations.EventHubs;
   consumerGroups: operations.ConsumerGroups;
