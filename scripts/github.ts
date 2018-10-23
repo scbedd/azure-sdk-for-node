@@ -6,7 +6,7 @@
 
 import Octokit from '@octokit/rest'
 import { PullRequestsCreateParams, Response, PullRequestsCreateReviewRequestParams, PullRequestsCreateReviewRequestResponse, PullRequestsGetParams, PullRequestsGetAllParams, PullRequestsGetAllResponse, PullRequestsGetAllResponseItem, PullRequestsUpdateParams } from '@octokit/rest';
-import { getToken, createNewUniqueBranch, commitChanges, pushBranch,ValidateFunction, ValidateEachFunction, Branch } from './git';
+import { getToken, createNewUniqueBranch, commitChanges, pushBranch, ValidateFunction, ValidateEachFunction, Branch } from './git';
 import { Logger } from './logger';
 import { Repository, Reference } from 'nodegit';
 
@@ -71,10 +71,10 @@ export async function requestPullRequestReview(repositoryName: string, prId: num
         owner: _repositoryOwner,
         repo: repositoryName,
         number: prId,
-        reviewers: [ "daschult", "amarzavery", "sergey-shandar" ]
+        reviewers: ["daschult", "amarzavery", "sergey-shandar"]
     };
 
-     return new Promise<Response<PullRequestsCreateReviewRequestResponse>>((resolve, reject) => {
+    return new Promise<Response<PullRequestsCreateReviewRequestResponse>>((resolve, reject) => {
         octokit.pullRequests.createReviewRequest(params, (error, response) => {
             if (error) {
                 reject(error);
@@ -82,7 +82,7 @@ export async function requestPullRequestReview(repositoryName: string, prId: num
                 resolve(response);
             }
         });
-     });
+    });
 }
 
 export async function commitAndCreatePullRequest(
@@ -91,7 +91,7 @@ export async function commitAndCreatePullRequest(
     commitMessage: string,
     repositoryName: string,
     pullRequestTitle: string,
-    pullRequestDescription:string,
+    pullRequestDescription: string,
     validate?: ValidateFunction,
     validateEach?: string | ValidateEachFunction): Promise<string> {
     await createNewUniqueBranch(repository, `generated/${packageName}`, true);
@@ -113,17 +113,13 @@ export async function commitAndCreatePullRequest(
     return reviewResponse.data.html_url;
 }
 
-export async function getDataFromPullRequest(pullRequestUrl: string): Promise<{ packageName: string, branchName: string, prId: number }> {
+export async function getDataFromPullRequest(pullRequestUrl: string): Promise<{ packageName: string | undefined, branchName: string, prId: number }> {
     const octokit = getAuthenticatedClient();
     const params = parsePullRequestUrl(pullRequestUrl);
     const pullRequest = await octokit.pullRequests.get(params);
     const branchName = pullRequest.data.head.ref;
-    const files = await octokit.pullRequests.getFiles(params);
-    const path = getRootFolder(files.data.map(i => i.filename));
-    const packageName = getPackageNameFromPath(path);
 
-    _logger.logTrace(`Found "${packageName}" package name and ${branchName} branch name`)
-    return { packageName: packageName!, branchName: branchName, prId: params.number };
+    return { packageName: undefined, branchName: branchName, prId: params.number };
 }
 
 function parsePullRequestUrl(pullRequestUrl: string): PullRequestsGetParams {

@@ -333,8 +333,7 @@ gulp.task("regenerate", async () => {
         "pull-request": {
           alias: "pr",
           string: true,
-          description: "URL to GitHub pull request",
-          conflicts: ["branch", "package"]
+          description: "URL to GitHub pull request"
         },
         "skip-version-bump": {
           boolean: true,
