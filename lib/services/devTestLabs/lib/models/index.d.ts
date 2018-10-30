@@ -18,426 +18,6 @@ export { CloudError } from 'ms-rest-azure';
 
 /**
  * @class
- * Initializes a new instance of the WeekDetails class.
- * @constructor
- * Properties of a weekly schedule.
- *
- * @member {array} [weekdays] The days of the week for which the schedule is
- * set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [time] The time of the day the schedule will occur.
- */
-export interface WeekDetails {
-  weekdays?: string[];
-  time?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DayDetails class.
- * @constructor
- * Properties of a daily schedule.
- *
- * @member {string} [time] The time of day the schedule will occur.
- */
-export interface DayDetails {
-  time?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the HourDetails class.
- * @constructor
- * Properties of an hourly schedule.
- *
- * @member {number} [minute] Minutes of the hour the schedule will run.
- */
-export interface HourDetails {
-  minute?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the NotificationSettings class.
- * @constructor
- * Notification settings for a schedule.
- *
- * @member {string} [status] If notifications are enabled for this schedule
- * (i.e. Enabled, Disabled). Possible values include: 'Disabled', 'Enabled'
- * @member {number} [timeInMinutes] Time in minutes before event at which
- * notification will be sent.
- * @member {string} [webhookUrl] The webhook URL to which the notification will
- * be sent.
- */
-export interface NotificationSettings {
-  status?: string;
-  timeInMinutes?: number;
-  webhookUrl?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the Resource class.
- * @constructor
- * An Azure resource.
- *
- * @member {string} [id] The identifier of the resource.
- * @member {string} [name] The name of the resource.
- * @member {string} [type] The type of the resource.
- * @member {string} [location] The location of the resource.
- * @member {object} [tags] The tags of the resource.
- */
-export interface Resource extends BaseResource {
-  readonly id?: string;
-  readonly name?: string;
-  readonly type?: string;
-  location?: string;
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * @class
- * Initializes a new instance of the Schedule class.
- * @constructor
- * A schedule.
- *
- * @member {string} [status] The status of the schedule (i.e. Enabled,
- * Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {string} [taskType] The task type of the schedule (e.g.
- * LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [weeklyRecurrence] If the schedule will occur only some
- * days of the week, specify the weekly recurrence.
- * @member {array} [weeklyRecurrence.weekdays] The days of the week for which
- * the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [weeklyRecurrence.time] The time of the day the schedule
- * will occur.
- * @member {object} [dailyRecurrence] If the schedule will occur once each day
- * of the week, specify the daily recurrence.
- * @member {string} [dailyRecurrence.time] The time of day the schedule will
- * occur.
- * @member {object} [hourlyRecurrence] If the schedule will occur multiple
- * times a day, specify the hourly recurrence.
- * @member {number} [hourlyRecurrence.minute] Minutes of the hour the schedule
- * will run.
- * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard time).
- * @member {object} [notificationSettings] Notification settings.
- * @member {string} [notificationSettings.status] If notifications are enabled
- * for this schedule (i.e. Enabled, Disabled). Possible values include:
- * 'Disabled', 'Enabled'
- * @member {number} [notificationSettings.timeInMinutes] Time in minutes before
- * event at which notification will be sent.
- * @member {string} [notificationSettings.webhookUrl] The webhook URL to which
- * the notification will be sent.
- * @member {date} [createdDate] The creation date of the schedule.
- * @member {string} [targetResourceId] The resource ID to which the schedule
- * belongs
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface Schedule extends Resource {
-  status?: string;
-  taskType?: string;
-  weeklyRecurrence?: WeekDetails;
-  dailyRecurrence?: DayDetails;
-  hourlyRecurrence?: HourDetails;
-  timeZoneId?: string;
-  notificationSettings?: NotificationSettings;
-  readonly createdDate?: Date;
-  targetResourceId?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ApplicableSchedule class.
- * @constructor
- * Schedules applicable to a virtual machine. The schedules may have been
- * defined on a VM or on lab level.
- *
- * @member {object} [labVmsShutdown] The auto-shutdown schedule, if one has
- * been set at the lab or lab resource level.
- * @member {string} [labVmsShutdown.status] The status of the schedule (i.e.
- * Enabled, Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {string} [labVmsShutdown.taskType] The task type of the schedule
- * (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [labVmsShutdown.weeklyRecurrence] If the schedule will
- * occur only some days of the week, specify the weekly recurrence.
- * @member {array} [labVmsShutdown.weeklyRecurrence.weekdays] The days of the
- * week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [labVmsShutdown.weeklyRecurrence.time] The time of the day
- * the schedule will occur.
- * @member {object} [labVmsShutdown.dailyRecurrence] If the schedule will occur
- * once each day of the week, specify the daily recurrence.
- * @member {string} [labVmsShutdown.dailyRecurrence.time] The time of day the
- * schedule will occur.
- * @member {object} [labVmsShutdown.hourlyRecurrence] If the schedule will
- * occur multiple times a day, specify the hourly recurrence.
- * @member {number} [labVmsShutdown.hourlyRecurrence.minute] Minutes of the
- * hour the schedule will run.
- * @member {string} [labVmsShutdown.timeZoneId] The time zone ID (e.g. Pacific
- * Standard time).
- * @member {object} [labVmsShutdown.notificationSettings] Notification
- * settings.
- * @member {string} [labVmsShutdown.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number} [labVmsShutdown.notificationSettings.timeInMinutes] Time in
- * minutes before event at which notification will be sent.
- * @member {string} [labVmsShutdown.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {date} [labVmsShutdown.createdDate] The creation date of the
- * schedule.
- * @member {string} [labVmsShutdown.targetResourceId] The resource ID to which
- * the schedule belongs
- * @member {string} [labVmsShutdown.provisioningState] The provisioning status
- * of the resource.
- * @member {string} [labVmsShutdown.uniqueIdentifier] The unique immutable
- * identifier of a resource (Guid).
- * @member {object} [labVmsStartup] The auto-startup schedule, if one has been
- * set at the lab or lab resource level.
- * @member {string} [labVmsStartup.status] The status of the schedule (i.e.
- * Enabled, Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {string} [labVmsStartup.taskType] The task type of the schedule
- * (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [labVmsStartup.weeklyRecurrence] If the schedule will occur
- * only some days of the week, specify the weekly recurrence.
- * @member {array} [labVmsStartup.weeklyRecurrence.weekdays] The days of the
- * week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [labVmsStartup.weeklyRecurrence.time] The time of the day
- * the schedule will occur.
- * @member {object} [labVmsStartup.dailyRecurrence] If the schedule will occur
- * once each day of the week, specify the daily recurrence.
- * @member {string} [labVmsStartup.dailyRecurrence.time] The time of day the
- * schedule will occur.
- * @member {object} [labVmsStartup.hourlyRecurrence] If the schedule will occur
- * multiple times a day, specify the hourly recurrence.
- * @member {number} [labVmsStartup.hourlyRecurrence.minute] Minutes of the hour
- * the schedule will run.
- * @member {string} [labVmsStartup.timeZoneId] The time zone ID (e.g. Pacific
- * Standard time).
- * @member {object} [labVmsStartup.notificationSettings] Notification settings.
- * @member {string} [labVmsStartup.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number} [labVmsStartup.notificationSettings.timeInMinutes] Time in
- * minutes before event at which notification will be sent.
- * @member {string} [labVmsStartup.notificationSettings.webhookUrl] The webhook
- * URL to which the notification will be sent.
- * @member {date} [labVmsStartup.createdDate] The creation date of the
- * schedule.
- * @member {string} [labVmsStartup.targetResourceId] The resource ID to which
- * the schedule belongs
- * @member {string} [labVmsStartup.provisioningState] The provisioning status
- * of the resource.
- * @member {string} [labVmsStartup.uniqueIdentifier] The unique immutable
- * identifier of a resource (Guid).
- */
-export interface ApplicableSchedule extends Resource {
-  labVmsShutdown?: Schedule;
-  labVmsStartup?: Schedule;
-}
-
-/**
- * @class
- * Initializes a new instance of the WeekDetailsFragment class.
- * @constructor
- * Properties of a weekly schedule.
- *
- * @member {array} [weekdays] The days of the week for which the schedule is
- * set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [time] The time of the day the schedule will occur.
- */
-export interface WeekDetailsFragment {
-  weekdays?: string[];
-  time?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DayDetailsFragment class.
- * @constructor
- * Properties of a daily schedule.
- *
- * @member {string} [time] The time of day the schedule will occur.
- */
-export interface DayDetailsFragment {
-  time?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the HourDetailsFragment class.
- * @constructor
- * Properties of an hourly schedule.
- *
- * @member {number} [minute] Minutes of the hour the schedule will run.
- */
-export interface HourDetailsFragment {
-  minute?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the NotificationSettingsFragment class.
- * @constructor
- * Notification settings for a schedule.
- *
- * @member {string} [status] If notifications are enabled for this schedule
- * (i.e. Enabled, Disabled). Possible values include: 'Disabled', 'Enabled'
- * @member {number} [timeInMinutes] Time in minutes before event at which
- * notification will be sent.
- * @member {string} [webhookUrl] The webhook URL to which the notification will
- * be sent.
- */
-export interface NotificationSettingsFragment {
-  status?: string;
-  timeInMinutes?: number;
-  webhookUrl?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ScheduleFragment class.
- * @constructor
- * A schedule.
- *
- * @member {string} [status] The status of the schedule (i.e. Enabled,
- * Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {string} [taskType] The task type of the schedule (e.g.
- * LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [weeklyRecurrence] If the schedule will occur only some
- * days of the week, specify the weekly recurrence.
- * @member {array} [weeklyRecurrence.weekdays] The days of the week for which
- * the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [weeklyRecurrence.time] The time of the day the schedule
- * will occur.
- * @member {object} [dailyRecurrence] If the schedule will occur once each day
- * of the week, specify the daily recurrence.
- * @member {string} [dailyRecurrence.time] The time of day the schedule will
- * occur.
- * @member {object} [hourlyRecurrence] If the schedule will occur multiple
- * times a day, specify the hourly recurrence.
- * @member {number} [hourlyRecurrence.minute] Minutes of the hour the schedule
- * will run.
- * @member {string} [timeZoneId] The time zone ID (e.g. Pacific Standard time).
- * @member {object} [notificationSettings] Notification settings.
- * @member {string} [notificationSettings.status] If notifications are enabled
- * for this schedule (i.e. Enabled, Disabled). Possible values include:
- * 'Disabled', 'Enabled'
- * @member {number} [notificationSettings.timeInMinutes] Time in minutes before
- * event at which notification will be sent.
- * @member {string} [notificationSettings.webhookUrl] The webhook URL to which
- * the notification will be sent.
- * @member {string} [targetResourceId] The resource ID to which the schedule
- * belongs
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface ScheduleFragment extends Resource {
-  status?: string;
-  taskType?: string;
-  weeklyRecurrence?: WeekDetailsFragment;
-  dailyRecurrence?: DayDetailsFragment;
-  hourlyRecurrence?: HourDetailsFragment;
-  timeZoneId?: string;
-  notificationSettings?: NotificationSettingsFragment;
-  targetResourceId?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ApplicableScheduleFragment class.
- * @constructor
- * Schedules applicable to a virtual machine. The schedules may have been
- * defined on a VM or on lab level.
- *
- * @member {object} [labVmsShutdown] The auto-shutdown schedule, if one has
- * been set at the lab or lab resource level.
- * @member {string} [labVmsShutdown.status] The status of the schedule (i.e.
- * Enabled, Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {string} [labVmsShutdown.taskType] The task type of the schedule
- * (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [labVmsShutdown.weeklyRecurrence] If the schedule will
- * occur only some days of the week, specify the weekly recurrence.
- * @member {array} [labVmsShutdown.weeklyRecurrence.weekdays] The days of the
- * week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [labVmsShutdown.weeklyRecurrence.time] The time of the day
- * the schedule will occur.
- * @member {object} [labVmsShutdown.dailyRecurrence] If the schedule will occur
- * once each day of the week, specify the daily recurrence.
- * @member {string} [labVmsShutdown.dailyRecurrence.time] The time of day the
- * schedule will occur.
- * @member {object} [labVmsShutdown.hourlyRecurrence] If the schedule will
- * occur multiple times a day, specify the hourly recurrence.
- * @member {number} [labVmsShutdown.hourlyRecurrence.minute] Minutes of the
- * hour the schedule will run.
- * @member {string} [labVmsShutdown.timeZoneId] The time zone ID (e.g. Pacific
- * Standard time).
- * @member {object} [labVmsShutdown.notificationSettings] Notification
- * settings.
- * @member {string} [labVmsShutdown.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number} [labVmsShutdown.notificationSettings.timeInMinutes] Time in
- * minutes before event at which notification will be sent.
- * @member {string} [labVmsShutdown.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {string} [labVmsShutdown.targetResourceId] The resource ID to which
- * the schedule belongs
- * @member {string} [labVmsShutdown.provisioningState] The provisioning status
- * of the resource.
- * @member {string} [labVmsShutdown.uniqueIdentifier] The unique immutable
- * identifier of a resource (Guid).
- * @member {object} [labVmsStartup] The auto-startup schedule, if one has been
- * set at the lab or lab resource level.
- * @member {string} [labVmsStartup.status] The status of the schedule (i.e.
- * Enabled, Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {string} [labVmsStartup.taskType] The task type of the schedule
- * (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [labVmsStartup.weeklyRecurrence] If the schedule will occur
- * only some days of the week, specify the weekly recurrence.
- * @member {array} [labVmsStartup.weeklyRecurrence.weekdays] The days of the
- * week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [labVmsStartup.weeklyRecurrence.time] The time of the day
- * the schedule will occur.
- * @member {object} [labVmsStartup.dailyRecurrence] If the schedule will occur
- * once each day of the week, specify the daily recurrence.
- * @member {string} [labVmsStartup.dailyRecurrence.time] The time of day the
- * schedule will occur.
- * @member {object} [labVmsStartup.hourlyRecurrence] If the schedule will occur
- * multiple times a day, specify the hourly recurrence.
- * @member {number} [labVmsStartup.hourlyRecurrence.minute] Minutes of the hour
- * the schedule will run.
- * @member {string} [labVmsStartup.timeZoneId] The time zone ID (e.g. Pacific
- * Standard time).
- * @member {object} [labVmsStartup.notificationSettings] Notification settings.
- * @member {string} [labVmsStartup.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number} [labVmsStartup.notificationSettings.timeInMinutes] Time in
- * minutes before event at which notification will be sent.
- * @member {string} [labVmsStartup.notificationSettings.webhookUrl] The webhook
- * URL to which the notification will be sent.
- * @member {string} [labVmsStartup.targetResourceId] The resource ID to which
- * the schedule belongs
- * @member {string} [labVmsStartup.provisioningState] The provisioning status
- * of the resource.
- * @member {string} [labVmsStartup.uniqueIdentifier] The unique immutable
- * identifier of a resource (Guid).
- */
-export interface ApplicableScheduleFragment extends Resource {
-  labVmsShutdown?: ScheduleFragment;
-  labVmsStartup?: ScheduleFragment;
-}
-
-/**
- * @class
  * Initializes a new instance of the ArtifactParameterProperties class.
  * @constructor
  * Properties of an artifact parameter.
@@ -458,21 +38,10 @@ export interface ArtifactParameterProperties {
  *
  * @member {string} [artifactId] The artifact's identifier.
  * @member {array} [parameters] The parameters of the artifact.
- * @member {string} [status] The status of the artifact.
- * @member {string} [deploymentStatusMessage] The status message from the
- * deployment.
- * @member {string} [vmExtensionStatusMessage] The status message from the
- * virtual machine extension.
- * @member {date} [installTime] The time that the artifact starts to install on
- * the virtual machine.
  */
 export interface ArtifactInstallProperties {
   artifactId?: string;
   parameters?: ArtifactParameterProperties[];
-  status?: string;
-  deploymentStatusMessage?: string;
-  vmExtensionStatusMessage?: string;
-  installTime?: Date;
 }
 
 /**
@@ -485,45 +54,6 @@ export interface ArtifactInstallProperties {
  */
 export interface ApplyArtifactsRequest {
   artifacts?: ArtifactInstallProperties[];
-}
-
-/**
- * @class
- * Initializes a new instance of the ParametersValueFileInfo class.
- * @constructor
- * A file containing a set of parameter values for an ARM template.
- *
- * @member {string} [fileName] File name.
- * @member {object} [parametersValueInfo] Contents of the file.
- */
-export interface ParametersValueFileInfo {
-  fileName?: string;
-  parametersValueInfo?: any;
-}
-
-/**
- * @class
- * Initializes a new instance of the ArmTemplate class.
- * @constructor
- * An Azure Resource Manager template.
- *
- * @member {string} [displayName] The display name of the ARM template.
- * @member {string} [description] The description of the ARM template.
- * @member {string} [publisher] The publisher of the ARM template.
- * @member {string} [icon] The URI to the icon of the ARM template.
- * @member {object} [contents] The contents of the ARM template.
- * @member {date} [createdDate] The creation date of the armTemplate.
- * @member {array} [parametersValueFilesInfo] File name and parameter values
- * information from all azuredeploy.*.parameters.json for the ARM template.
- */
-export interface ArmTemplate extends Resource {
-  readonly displayName?: string;
-  readonly description?: string;
-  readonly publisher?: string;
-  readonly icon?: string;
-  readonly contents?: any;
-  readonly createdDate?: Date;
-  readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
 }
 
 /**
@@ -542,42 +72,34 @@ export interface ArmTemplateInfo {
 
 /**
  * @class
- * Initializes a new instance of the ArmTemplateParameterProperties class.
- * @constructor
- * Properties of an Azure Resource Manager template parameter.
- *
- * @member {string} [name] The name of the template parameter.
- * @member {string} [value] The value of the template parameter.
- */
-export interface ArmTemplateParameterProperties {
-  name?: string;
-  value?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the Artifact class.
  * @constructor
  * An artifact.
  *
- * @member {string} [title] The artifact's title.
- * @member {string} [description] The artifact's description.
- * @member {string} [publisher] The artifact's publisher.
- * @member {string} [filePath] The file path to the artifact.
- * @member {string} [icon] The URI to the artifact icon.
- * @member {string} [targetOsType] The artifact's target OS.
- * @member {object} [parameters] The artifact's parameters.
- * @member {date} [createdDate] The artifact's creation date.
+ * @member {string} [title] The title of the artifact.
+ * @member {string} [description] The description of the artifact.
+ * @member {string} [filePath] The file path of the artifact.
+ * @member {string} [icon] The icon of the artifact.
+ * @member {string} [targetOsType] Gets or sets the type of the target os.
+ * @member {object} [parameters] The parameters of the artifact.
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface Artifact extends Resource {
-  readonly title?: string;
-  readonly description?: string;
-  readonly publisher?: string;
-  readonly filePath?: string;
-  readonly icon?: string;
-  readonly targetOsType?: string;
-  readonly parameters?: any;
-  readonly createdDate?: Date;
+export interface Artifact extends BaseResource {
+  title?: string;
+  description?: string;
+  filePath?: string;
+  icon?: string;
+  targetOsType?: string;
+  parameters?: any;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -600,343 +122,121 @@ export interface ArtifactDeploymentStatusProperties {
 
 /**
  * @class
- * Initializes a new instance of the ArtifactDeploymentStatusPropertiesFragment class.
- * @constructor
- * Properties of an artifact deployment.
- *
- * @member {string} [deploymentStatus] The deployment status of the artifact.
- * @member {number} [artifactsApplied] The total count of the artifacts that
- * were successfully applied.
- * @member {number} [totalArtifacts] The total count of the artifacts that were
- * tentatively applied.
- */
-export interface ArtifactDeploymentStatusPropertiesFragment {
-  deploymentStatus?: string;
-  artifactsApplied?: number;
-  totalArtifacts?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the ArtifactParameterPropertiesFragment class.
- * @constructor
- * Properties of an artifact parameter.
- *
- * @member {string} [name] The name of the artifact parameter.
- * @member {string} [value] The value of the artifact parameter.
- */
-export interface ArtifactParameterPropertiesFragment {
-  name?: string;
-  value?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ArtifactInstallPropertiesFragment class.
- * @constructor
- * Properties of an artifact.
- *
- * @member {string} [artifactId] The artifact's identifier.
- * @member {array} [parameters] The parameters of the artifact.
- * @member {string} [status] The status of the artifact.
- * @member {string} [deploymentStatusMessage] The status message from the
- * deployment.
- * @member {string} [vmExtensionStatusMessage] The status message from the
- * virtual machine extension.
- * @member {date} [installTime] The time that the artifact starts to install on
- * the virtual machine.
- */
-export interface ArtifactInstallPropertiesFragment {
-  artifactId?: string;
-  parameters?: ArtifactParameterPropertiesFragment[];
-  status?: string;
-  deploymentStatusMessage?: string;
-  vmExtensionStatusMessage?: string;
-  installTime?: Date;
-}
-
-/**
- * @class
  * Initializes a new instance of the ArtifactSource class.
  * @constructor
  * Properties of an artifact source.
  *
- * @member {string} [displayName] The artifact source's display name.
- * @member {string} [uri] The artifact source's URI.
- * @member {string} [sourceType] The artifact source's type. Possible values
- * include: 'VsoGit', 'GitHub'
- * @member {string} [folderPath] The folder containing artifacts.
- * @member {string} [armTemplateFolderPath] The folder containing Azure
- * Resource Manager templates.
- * @member {string} [branchRef] The artifact source's branch reference.
- * @member {string} [securityToken] The security token to authenticate to the
- * artifact source.
- * @member {string} [status] Indicates if the artifact source is enabled
- * (values: Enabled, Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {date} [createdDate] The artifact source's creation date.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface ArtifactSource extends Resource {
-  displayName?: string;
-  uri?: string;
-  sourceType?: string;
-  folderPath?: string;
-  armTemplateFolderPath?: string;
-  branchRef?: string;
-  securityToken?: string;
-  status?: string;
-  readonly createdDate?: Date;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ArtifactSourceFragment class.
- * @constructor
- * Properties of an artifact source.
- *
- * @member {string} [displayName] The artifact source's display name.
- * @member {string} [uri] The artifact source's URI.
- * @member {string} [sourceType] The artifact source's type. Possible values
- * include: 'VsoGit', 'GitHub'
- * @member {string} [folderPath] The folder containing artifacts.
- * @member {string} [armTemplateFolderPath] The folder containing Azure
- * Resource Manager templates.
- * @member {string} [branchRef] The artifact source's branch reference.
- * @member {string} [securityToken] The security token to authenticate to the
- * artifact source.
- * @member {string} [status] Indicates if the artifact source is enabled
- * (values: Enabled, Disabled). Possible values include: 'Enabled', 'Disabled'
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface ArtifactSourceFragment extends Resource {
-  displayName?: string;
-  uri?: string;
-  sourceType?: string;
-  folderPath?: string;
-  armTemplateFolderPath?: string;
-  branchRef?: string;
-  securityToken?: string;
-  status?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the AttachDiskProperties class.
- * @constructor
- * Properties of the disk to attach.
- *
- * @member {string} [leasedByLabVmId] The resource ID of the Lab virtual
- * machine to which the disk is attached.
- */
-export interface AttachDiskProperties {
-  leasedByLabVmId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the AttachNewDataDiskOptions class.
- * @constructor
- * Properties to attach new disk to the Virtual Machine.
- *
- * @member {number} [diskSizeGiB] Size of the disk to be attached in GibiBytes.
- * @member {string} [diskName] The name of the disk to be attached.
- * @member {string} [diskType] The storage type for the disk (i.e. Standard,
- * Premium). Possible values include: 'Standard', 'Premium'
- */
-export interface AttachNewDataDiskOptions {
-  diskSizeGiB?: number;
-  diskName?: string;
-  diskType?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the BulkCreationParameters class.
- * @constructor
- * Parameters for creating multiple virtual machines as a single action.
- *
- * @member {number} [instanceCount] The number of virtual machine instances to
- * create.
- */
-export interface BulkCreationParameters {
-  instanceCount?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the ComputeDataDisk class.
- * @constructor
- * A data disks attached to a virtual machine.
- *
- * @member {string} [name] Gets data disk name.
- * @member {string} [diskUri] When backed by a blob, the URI of underlying
- * blob.
- * @member {string} [managedDiskId] When backed by managed disk, this is the ID
- * of the compute disk resource.
- * @member {number} [diskSizeGiB] Gets data disk size in GiB.
- */
-export interface ComputeDataDisk {
-  name?: string;
-  diskUri?: string;
-  managedDiskId?: string;
-  diskSizeGiB?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the ComputeDataDiskFragment class.
- * @constructor
- * A data disks attached to a virtual machine.
- *
- * @member {string} [name] Gets data disk name.
- * @member {string} [diskUri] When backed by a blob, the URI of underlying
- * blob.
- * @member {string} [managedDiskId] When backed by managed disk, this is the ID
- * of the compute disk resource.
- * @member {number} [diskSizeGiB] Gets data disk size in GiB.
- */
-export interface ComputeDataDiskFragment {
-  name?: string;
-  diskUri?: string;
-  managedDiskId?: string;
-  diskSizeGiB?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the ComputeVmInstanceViewStatus class.
- * @constructor
- * Status information about a virtual machine.
- *
- * @member {string} [code] Gets the status Code.
- * @member {string} [displayStatus] Gets the short localizable label for the
- * status.
- * @member {string} [message] Gets the message associated with the status.
- */
-export interface ComputeVmInstanceViewStatus {
-  code?: string;
-  displayStatus?: string;
-  message?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ComputeVmInstanceViewStatusFragment class.
- * @constructor
- * Status information about a virtual machine.
- *
- * @member {string} [code] Gets the status Code.
- * @member {string} [displayStatus] Gets the short localizable label for the
- * status.
- * @member {string} [message] Gets the message associated with the status.
- */
-export interface ComputeVmInstanceViewStatusFragment {
-  code?: string;
-  displayStatus?: string;
-  message?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ComputeVmProperties class.
- * @constructor
- * Properties of a virtual machine returned by the Microsoft.Compute API.
- *
- * @member {array} [statuses] Gets the statuses of the virtual machine.
- * @member {string} [osType] Gets the OS type of the virtual machine.
- * @member {string} [vmSize] Gets the size of the virtual machine.
- * @member {string} [networkInterfaceId] Gets the network interface ID of the
- * virtual machine.
- * @member {string} [osDiskId] Gets OS disk blob uri for the virtual machine.
- * @member {array} [dataDiskIds] Gets data disks blob uri for the virtual
- * machine.
- * @member {array} [dataDisks] Gets all data disks attached to the virtual
- * machine.
- */
-export interface ComputeVmProperties {
-  statuses?: ComputeVmInstanceViewStatus[];
-  osType?: string;
-  vmSize?: string;
-  networkInterfaceId?: string;
-  osDiskId?: string;
-  dataDiskIds?: string[];
-  dataDisks?: ComputeDataDisk[];
-}
-
-/**
- * @class
- * Initializes a new instance of the ComputeVmPropertiesFragment class.
- * @constructor
- * Properties of a virtual machine returned by the Microsoft.Compute API.
- *
- * @member {array} [statuses] Gets the statuses of the virtual machine.
- * @member {string} [osType] Gets the OS type of the virtual machine.
- * @member {string} [vmSize] Gets the size of the virtual machine.
- * @member {string} [networkInterfaceId] Gets the network interface ID of the
- * virtual machine.
- * @member {string} [osDiskId] Gets OS disk blob uri for the virtual machine.
- * @member {array} [dataDiskIds] Gets data disks blob uri for the virtual
- * machine.
- * @member {array} [dataDisks] Gets all data disks attached to the virtual
- * machine.
- */
-export interface ComputeVmPropertiesFragment {
-  statuses?: ComputeVmInstanceViewStatusFragment[];
-  osType?: string;
-  vmSize?: string;
-  networkInterfaceId?: string;
-  osDiskId?: string;
-  dataDiskIds?: string[];
-  dataDisks?: ComputeDataDiskFragment[];
-}
-
-/**
- * @class
- * Initializes a new instance of the PercentageCostThresholdProperties class.
- * @constructor
- * Properties of a percentage cost threshold.
- *
- * @member {number} [thresholdValue] The cost threshold value.
- */
-export interface PercentageCostThresholdProperties {
-  thresholdValue?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the CostThresholdProperties class.
- * @constructor
- * Properties of a cost threshold item.
- *
- * @member {string} [thresholdId] The ID of the cost threshold item.
- * @member {object} [percentageThreshold] The value of the percentage cost
- * threshold.
- * @member {number} [percentageThreshold.thresholdValue] The cost threshold
- * value.
- * @member {string} [displayOnChart] Indicates whether this threshold will be
- * displayed on cost charts. Possible values include: 'Enabled', 'Disabled'
- * @member {string} [sendNotificationWhenExceeded] Indicates whether
- * notifications will be sent when this threshold is exceeded. Possible values
+ * @member {string} [displayName] The display name of the artifact source.
+ * @member {string} [uri] The URI of the artifact source.
+ * @member {string} [sourceType] The type of the artifact source. Possible
+ * values include: 'VsoGit', 'GitHub'
+ * @member {string} [folderPath] The folder path of the artifact source.
+ * @member {string} [branchRef] The branch reference of the artifact source.
+ * @member {string} [securityToken] The security token of the artifact source.
+ * @member {string} [status] The status of the artifact source. Possible values
  * include: 'Enabled', 'Disabled'
- * @member {string} [notificationSent] Indicates the datetime when
- * notifications were last sent for this threshold.
+ * @member {string} [provisioningState] The provisioning status of the
+ * resource.
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface CostThresholdProperties {
-  thresholdId?: string;
-  percentageThreshold?: PercentageCostThresholdProperties;
-  displayOnChart?: string;
-  sendNotificationWhenExceeded?: string;
-  notificationSent?: string;
+export interface ArtifactSource extends BaseResource {
+  displayName?: string;
+  uri?: string;
+  sourceType?: string;
+  folderPath?: string;
+  branchRef?: string;
+  securityToken?: string;
+  status?: string;
+  provisioningState?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @class
+ * Initializes a new instance of the CostPerDayProperties class.
+ * @constructor
+ * The per-day properties of a cost item.
+ *
+ * @member {date} [date] The date of the cost item.
+ * @member {number} [cost] The cost of the cost item.
+ * @member {string} [costType] The type of the cost. Possible values include:
+ * 'Unavailable', 'Reported', 'Projected'
+ */
+export interface CostPerDayProperties {
+  date?: Date;
+  cost?: number;
+  costType?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the Cost class.
+ * @constructor
+ * A cost item.
+ *
+ * @member {string} [currencyCode] The currency code of the cost.
+ * @member {array} [costs] The per-day costs items of the cost.
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
+ */
+export interface Cost extends BaseResource {
+  currencyCode?: string;
+  costs?: CostPerDayProperties[];
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @class
+ * Initializes a new instance of the VMCostProperties class.
+ * @constructor
+ * @member {string} [name]
+ * @member {string} [resourceGroupName]
+ * @member {number} [cost]
+ */
+export interface VMCostProperties {
+  name?: string;
+  resourceGroupName?: string;
+  cost?: number;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the CostInsight class.
+ * @constructor
+ * @member {string} [currencyCode]
+ * @member {array} [vmCosts]
+ * @member {string} [provisioningState] The provisioning status of the
+ * resource.
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
+ */
+export interface CostInsight extends BaseResource {
+  currencyCode?: string;
+  vmCosts?: VMCostProperties[];
+  provisioningState?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -945,9 +245,8 @@ export interface CostThresholdProperties {
  * @constructor
  * Information about a Windows OS.
  *
- * @member {string} [windowsOsState] The state of the Windows OS (i.e.
- * NonSysprepped, SysprepRequested, SysprepApplied). Possible values include:
- * 'NonSysprepped', 'SysprepRequested', 'SysprepApplied'
+ * @member {string} [windowsOsState] The state of the Windows OS. Possible
+ * values include: 'NonSysprepped', 'SysprepRequested', 'SysprepApplied'
  */
 export interface WindowsOsInfo {
   windowsOsState?: string;
@@ -959,8 +258,7 @@ export interface WindowsOsInfo {
  * @constructor
  * Information about a Linux OS.
  *
- * @member {string} [linuxOsState] The state of the Linux OS (i.e.
- * NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). Possible values
+ * @member {string} [linuxOsState] The state of the Linux OS. Possible values
  * include: 'NonDeprovisioned', 'DeprovisionRequested', 'DeprovisionApplied'
  */
 export interface LinuxOsInfo {
@@ -974,17 +272,20 @@ export interface LinuxOsInfo {
  * Properties for creating a custom image from a virtual machine.
  *
  * @member {string} [sourceVmId] The source vm identifier.
+ * @member {boolean} [sysPrep] Indicates whether sysprep has been run on the
+ * VHD.
  * @member {object} [windowsOsInfo] The Windows OS information of the VM.
- * @member {string} [windowsOsInfo.windowsOsState] The state of the Windows OS
- * (i.e. NonSysprepped, SysprepRequested, SysprepApplied). Possible values
- * include: 'NonSysprepped', 'SysprepRequested', 'SysprepApplied'
+ * @member {string} [windowsOsInfo.windowsOsState] The state of the Windows OS.
+ * Possible values include: 'NonSysprepped', 'SysprepRequested',
+ * 'SysprepApplied'
  * @member {object} [linuxOsInfo] The Linux OS information of the VM.
- * @member {string} [linuxOsInfo.linuxOsState] The state of the Linux OS (i.e.
- * NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). Possible values
- * include: 'NonDeprovisioned', 'DeprovisionRequested', 'DeprovisionApplied'
+ * @member {string} [linuxOsInfo.linuxOsState] The state of the Linux OS.
+ * Possible values include: 'NonDeprovisioned', 'DeprovisionRequested',
+ * 'DeprovisionApplied'
  */
 export interface CustomImagePropertiesFromVm {
   sourceVmId?: string;
+  sysPrep?: boolean;
   windowsOsInfo?: WindowsOsInfo;
   linuxOsInfo?: LinuxOsInfo;
 }
@@ -998,13 +299,10 @@ export interface CustomImagePropertiesFromVm {
  * @member {string} [imageName] The image name.
  * @member {boolean} [sysPrep] Indicates whether sysprep has been run on the
  * VHD.
- * @member {string} osType The OS type of the custom image (i.e. Windows,
- * Linux). Possible values include: 'Windows', 'Linux', 'None'
  */
 export interface CustomImagePropertiesCustom {
   imageName?: string;
   sysPrep?: boolean;
-  osType: string;
 }
 
 /**
@@ -1013,181 +311,60 @@ export interface CustomImagePropertiesCustom {
  * @constructor
  * A custom image.
  *
- * @member {object} [vm] The virtual machine from which the image is to be
- * created.
+ * @member {object} [vm]
  * @member {string} [vm.sourceVmId] The source vm identifier.
+ * @member {boolean} [vm.sysPrep] Indicates whether sysprep has been run on the
+ * VHD.
  * @member {object} [vm.windowsOsInfo] The Windows OS information of the VM.
  * @member {string} [vm.windowsOsInfo.windowsOsState] The state of the Windows
- * OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied). Possible values
- * include: 'NonSysprepped', 'SysprepRequested', 'SysprepApplied'
+ * OS. Possible values include: 'NonSysprepped', 'SysprepRequested',
+ * 'SysprepApplied'
  * @member {object} [vm.linuxOsInfo] The Linux OS information of the VM.
- * @member {string} [vm.linuxOsInfo.linuxOsState] The state of the Linux OS
- * (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). Possible
- * values include: 'NonDeprovisioned', 'DeprovisionRequested',
+ * @member {string} [vm.linuxOsInfo.linuxOsState] The state of the Linux OS.
+ * Possible values include: 'NonDeprovisioned', 'DeprovisionRequested',
  * 'DeprovisionApplied'
  * @member {object} [vhd] The VHD from which the image is to be created.
  * @member {string} [vhd.imageName] The image name.
  * @member {boolean} [vhd.sysPrep] Indicates whether sysprep has been run on
  * the VHD.
- * @member {string} [vhd.osType] The OS type of the custom image (i.e. Windows,
- * Linux). Possible values include: 'Windows', 'Linux', 'None'
  * @member {string} [description] The description of the custom image.
+ * @member {string} [osType] The OS type of the custom image. Possible values
+ * include: 'Windows', 'Linux', 'None'
  * @member {string} [author] The author of the custom image.
  * @member {date} [creationDate] The creation date of the custom image.
- * @member {string} [managedImageId] The Managed Image Id backing the custom
- * image.
  * @member {string} [provisioningState] The provisioning status of the
  * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface CustomImage extends Resource {
+export interface CustomImage extends BaseResource {
   vm?: CustomImagePropertiesFromVm;
   vhd?: CustomImagePropertiesCustom;
   description?: string;
+  osType?: string;
   author?: string;
-  readonly creationDate?: Date;
-  managedImageId?: string;
+  creationDate?: Date;
   provisioningState?: string;
-  uniqueIdentifier?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
  * @class
- * Initializes a new instance of the DataDiskProperties class.
+ * Initializes a new instance of the DayDetails class.
  * @constructor
- * Request body for adding a new or existing data disk to a virtual machine.
+ * Properties of a daily schedule.
  *
- * @member {object} [attachNewDataDiskOptions] Specifies options to attach a
- * new disk to the virtual machine.
- * @member {number} [attachNewDataDiskOptions.diskSizeGiB] Size of the disk to
- * be attached in GibiBytes.
- * @member {string} [attachNewDataDiskOptions.diskName] The name of the disk to
- * be attached.
- * @member {string} [attachNewDataDiskOptions.diskType] The storage type for
- * the disk (i.e. Standard, Premium). Possible values include: 'Standard',
- * 'Premium'
- * @member {string} [existingLabDiskId] Specifies the existing lab disk id to
- * attach to virtual machine.
- * @member {string} [hostCaching] Caching option for a data disk (i.e. None,
- * ReadOnly, ReadWrite). Possible values include: 'None', 'ReadOnly',
- * 'ReadWrite'
+ * @member {string} [time]
  */
-export interface DataDiskProperties {
-  attachNewDataDiskOptions?: AttachNewDataDiskOptions;
-  existingLabDiskId?: string;
-  hostCaching?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DetachDataDiskProperties class.
- * @constructor
- * Request body for detaching data disk from a virtual machine.
- *
- * @member {string} [existingLabDiskId] Specifies the disk resource ID to
- * detach from virtual machine.
- */
-export interface DetachDataDiskProperties {
-  existingLabDiskId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DetachDiskProperties class.
- * @constructor
- * Properties of the disk to detach.
- *
- * @member {string} [leasedByLabVmId] The resource ID of the Lab VM to which
- * the disk is attached.
- */
-export interface DetachDiskProperties {
-  leasedByLabVmId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the Disk class.
- * @constructor
- * A Disk.
- *
- * @member {string} [diskType] The storage type for the disk (i.e. Standard,
- * Premium). Possible values include: 'Standard', 'Premium'
- * @member {number} [diskSizeGiB] The size of the disk in GibiBytes.
- * @member {string} [leasedByLabVmId] The resource ID of the VM to which this
- * disk is leased.
- * @member {string} [diskBlobName] When backed by a blob, the name of the VHD
- * blob without extension.
- * @member {string} [diskUri] When backed by a blob, the URI of underlying
- * blob.
- * @member {date} [createdDate] The creation date of the disk.
- * @member {string} [hostCaching] The host caching policy of the disk (i.e.
- * None, ReadOnly, ReadWrite).
- * @member {string} [managedDiskId] When backed by managed disk, this is the ID
- * of the compute disk resource.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface Disk extends Resource {
-  diskType?: string;
-  diskSizeGiB?: number;
-  leasedByLabVmId?: string;
-  diskBlobName?: string;
-  diskUri?: string;
-  readonly createdDate?: Date;
-  hostCaching?: string;
-  managedDiskId?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the EnvironmentDeploymentProperties class.
- * @constructor
- * Properties of an environment deployment.
- *
- * @member {string} [armTemplateId] The Azure Resource Manager template's
- * identifier.
- * @member {array} [parameters] The parameters of the Azure Resource Manager
- * template.
- */
-export interface EnvironmentDeploymentProperties {
-  armTemplateId?: string;
-  parameters?: ArmTemplateParameterProperties[];
-}
-
-/**
- * @class
- * Initializes a new instance of the DtlEnvironment class.
- * @constructor
- * An environment, which is essentially an ARM template deployment.
- *
- * @member {object} [deploymentProperties] The deployment properties of the
- * environment.
- * @member {string} [deploymentProperties.armTemplateId] The Azure Resource
- * Manager template's identifier.
- * @member {array} [deploymentProperties.parameters] The parameters of the
- * Azure Resource Manager template.
- * @member {string} [armTemplateDisplayName] The display name of the Azure
- * Resource Manager template that produced the environment.
- * @member {string} [resourceGroupId] The identifier of the resource group
- * containing the environment's resources.
- * @member {string} [createdByUser] The creator of the environment.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface DtlEnvironment extends Resource {
-  deploymentProperties?: EnvironmentDeploymentProperties;
-  armTemplateDisplayName?: string;
-  readonly resourceGroupId?: string;
-  readonly createdByUser?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
+export interface DayDetails {
+  time?: string;
 }
 
 /**
@@ -1261,79 +438,6 @@ export interface EvaluatePoliciesResponse {
 
 /**
  * @class
- * Initializes a new instance of the Event class.
- * @constructor
- * An event to be notified for.
- *
- * @member {string} [eventName] The event type for which this notification is
- * enabled (i.e. AutoShutdown, Cost). Possible values include: 'AutoShutdown',
- * 'Cost'
- */
-export interface Event {
-  eventName?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the EventFragment class.
- * @constructor
- * An event to be notified for.
- *
- * @member {string} [eventName] The event type for which this notification is
- * enabled (i.e. AutoShutdown, Cost). Possible values include: 'AutoShutdown',
- * 'Cost'
- */
-export interface EventFragment {
-  eventName?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ExportResourceUsageParameters class.
- * @constructor
- * The parameters of the export operation.
- *
- * @member {string} [blobStorageAbsoluteSasUri] The blob storage absolute sas
- * uri with write permission to the container which the usage data needs to be
- * uploaded to.
- * @member {date} [usageStartDate] The start time of the usage. If not
- * provided, usage will be reported since the beginning of data collection.
- */
-export interface ExportResourceUsageParameters {
-  blobStorageAbsoluteSasUri?: string;
-  usageStartDate?: Date;
-}
-
-/**
- * @class
- * Initializes a new instance of the ExternalSubnet class.
- * @constructor
- * Subnet information as returned by the Microsoft.Network API.
- *
- * @member {string} [id] Gets or sets the identifier.
- * @member {string} [name] Gets or sets the name.
- */
-export interface ExternalSubnet {
-  id?: string;
-  name?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ExternalSubnetFragment class.
- * @constructor
- * Subnet information as returned by the Microsoft.Network API.
- *
- * @member {string} [id] Gets or sets the identifier.
- * @member {string} [name] Gets or sets the name.
- */
-export interface ExternalSubnetFragment {
-  id?: string;
-  name?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the GalleryImageReference class.
  * @constructor
  * The reference information for an Azure Marketplace image.
@@ -1354,93 +458,19 @@ export interface GalleryImageReference {
 
 /**
  * @class
- * Initializes a new instance of the InboundNatRule class.
+ * Initializes a new instance of the LabVirtualMachine class.
  * @constructor
- * A rule for NAT - exposing a VM's port (backendPort) on the public IP address
- * using a load balancer.
+ * A virtual machine.
  *
- * @member {string} [transportProtocol] The transport protocol for the
- * endpoint. Possible values include: 'Tcp', 'Udp'
- * @member {number} [frontendPort] The external endpoint port of the inbound
- * connection. Possible values range between 1 and 65535, inclusive. If
- * unspecified, a value will be allocated automatically.
- * @member {number} [backendPort] The port to which the external traffic will
- * be redirected.
- */
-export interface InboundNatRule {
-  transportProtocol?: string;
-  frontendPort?: number;
-  backendPort?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the SharedPublicIpAddressConfiguration class.
- * @constructor
- * Properties of a virtual machine that determine how it is connected to a load
- * balancer.
- *
- * @member {array} [inboundNatRules] The incoming NAT rules
- */
-export interface SharedPublicIpAddressConfiguration {
-  inboundNatRules?: InboundNatRule[];
-}
-
-/**
- * @class
- * Initializes a new instance of the NetworkInterfaceProperties class.
- * @constructor
- * Properties of a network interface.
- *
- * @member {string} [virtualNetworkId] The resource ID of the virtual network.
- * @member {string} [subnetId] The resource ID of the sub net.
- * @member {string} [publicIpAddressId] The resource ID of the public IP
- * address.
- * @member {string} [publicIpAddress] The public IP address.
- * @member {string} [privateIpAddress] The private IP address.
- * @member {string} [dnsName] The DNS name.
- * @member {string} [rdpAuthority] The RdpAuthority property is a server DNS
- * host name or IP address followed by the service port number for RDP (Remote
- * Desktop Protocol).
- * @member {string} [sshAuthority] The SshAuthority property is a server DNS
- * host name or IP address followed by the service port number for SSH.
- * @member {object} [sharedPublicIpAddressConfiguration] The configuration for
- * sharing a public IP address across multiple virtual machines.
- * @member {array} [sharedPublicIpAddressConfiguration.inboundNatRules] The
- * incoming NAT rules
- */
-export interface NetworkInterfaceProperties {
-  virtualNetworkId?: string;
-  subnetId?: string;
-  publicIpAddressId?: string;
-  publicIpAddress?: string;
-  privateIpAddress?: string;
-  dnsName?: string;
-  rdpAuthority?: string;
-  sshAuthority?: string;
-  sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfiguration;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabVirtualMachineCreationParameter class.
- * @constructor
- * Properties for creating a virtual machine.
- *
- * @member {object} [bulkCreationParameters] The number of virtual machine
- * instances to create.
- * @member {number} [bulkCreationParameters.instanceCount] The number of
- * virtual machine instances to create.
  * @member {string} [notes] The notes of the virtual machine.
  * @member {string} [ownerObjectId] The object identifier of the owner of the
  * virtual machine.
- * @member {string} [ownerUserPrincipalName] The user principal name of the
- * virtual machine owner.
  * @member {string} [createdByUserId] The object identifier of the creator of
  * the virtual machine.
  * @member {string} [createdByUser] The email address of creator of the virtual
  * machine.
- * @member {date} [createdDate] The creation date of the virtual machine.
+ * @member {string} [computeId] The resource identifier (Microsoft.Compute) of
+ * the virtual machine.
  * @member {string} [customImageId] The custom image identifier of the virtual
  * machine.
  * @member {string} [osType] The OS type of the virtual machine.
@@ -1449,8 +479,8 @@ export interface NetworkInterfaceProperties {
  * @member {string} [password] The password of the virtual machine
  * administrator.
  * @member {string} [sshKey] The SSH key of the virtual machine administrator.
- * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
- * virtual machine uses an SSH key for authentication.
+ * @member {boolean} [isAuthenticationWithSshKey] A value indicating whether
+ * this virtual machine uses an SSH key for authentication.
  * @member {string} [fqdn] The fully-qualified domain name of the virtual
  * machine.
  * @member {string} [labSubnetName] The lab subnet name of the virtual machine.
@@ -1479,159 +509,20 @@ export interface NetworkInterfaceProperties {
  * image.
  * @member {string} [galleryImageReference.version] The version of the gallery
  * image.
- * @member {object} [computeVm] The compute virtual machine properties.
- * @member {array} [computeVm.statuses] Gets the statuses of the virtual
- * machine.
- * @member {string} [computeVm.osType] Gets the OS type of the virtual machine.
- * @member {string} [computeVm.vmSize] Gets the size of the virtual machine.
- * @member {string} [computeVm.networkInterfaceId] Gets the network interface
- * ID of the virtual machine.
- * @member {string} [computeVm.osDiskId] Gets OS disk blob uri for the virtual
- * machine.
- * @member {array} [computeVm.dataDiskIds] Gets data disks blob uri for the
- * virtual machine.
- * @member {array} [computeVm.dataDisks] Gets all data disks attached to the
- * virtual machine.
- * @member {object} [networkInterface] The network interface properties.
- * @member {string} [networkInterface.virtualNetworkId] The resource ID of the
- * virtual network.
- * @member {string} [networkInterface.subnetId] The resource ID of the sub net.
- * @member {string} [networkInterface.publicIpAddressId] The resource ID of the
- * public IP address.
- * @member {string} [networkInterface.publicIpAddress] The public IP address.
- * @member {string} [networkInterface.privateIpAddress] The private IP address.
- * @member {string} [networkInterface.dnsName] The DNS name.
- * @member {string} [networkInterface.rdpAuthority] The RdpAuthority property
- * is a server DNS host name or IP address followed by the service port number
- * for RDP (Remote Desktop Protocol).
- * @member {string} [networkInterface.sshAuthority] The SshAuthority property
- * is a server DNS host name or IP address followed by the service port number
- * for SSH.
- * @member {object} [networkInterface.sharedPublicIpAddressConfiguration] The
- * configuration for sharing a public IP address across multiple virtual
- * machines.
- * @member {array}
- * [networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules] The
- * incoming NAT rules
- * @member {object} [applicableSchedule] The applicable schedule for the
- * virtual machine.
- * @member {object} [applicableSchedule.labVmsShutdown] The auto-shutdown
- * schedule, if one has been set at the lab or lab resource level.
- * @member {string} [applicableSchedule.labVmsShutdown.status] The status of
- * the schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
- * 'Disabled'
- * @member {string} [applicableSchedule.labVmsShutdown.taskType] The task type
- * of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [applicableSchedule.labVmsShutdown.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array}
- * [applicableSchedule.labVmsShutdown.weeklyRecurrence.weekdays] The days of
- * the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [applicableSchedule.labVmsShutdown.weeklyRecurrence.time]
- * The time of the day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsShutdown.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string} [applicableSchedule.labVmsShutdown.dailyRecurrence.time]
- * The time of day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsShutdown.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number} [applicableSchedule.labVmsShutdown.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string} [applicableSchedule.labVmsShutdown.timeZoneId] The time
- * zone ID (e.g. Pacific Standard time).
- * @member {object} [applicableSchedule.labVmsShutdown.notificationSettings]
- * Notification settings.
- * @member {string}
- * [applicableSchedule.labVmsShutdown.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [applicableSchedule.labVmsShutdown.notificationSettings.timeInMinutes] Time
- * in minutes before event at which notification will be sent.
- * @member {string}
- * [applicableSchedule.labVmsShutdown.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {date} [applicableSchedule.labVmsShutdown.createdDate] The creation
- * date of the schedule.
- * @member {string} [applicableSchedule.labVmsShutdown.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string} [applicableSchedule.labVmsShutdown.provisioningState] The
- * provisioning status of the resource.
- * @member {string} [applicableSchedule.labVmsShutdown.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {object} [applicableSchedule.labVmsStartup] The auto-startup
- * schedule, if one has been set at the lab or lab resource level.
- * @member {string} [applicableSchedule.labVmsStartup.status] The status of the
- * schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
- * 'Disabled'
- * @member {string} [applicableSchedule.labVmsStartup.taskType] The task type
- * of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [applicableSchedule.labVmsStartup.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array} [applicableSchedule.labVmsStartup.weeklyRecurrence.weekdays]
- * The days of the week for which the schedule is set (e.g. Sunday, Monday,
- * Tuesday, etc.).
- * @member {string} [applicableSchedule.labVmsStartup.weeklyRecurrence.time]
- * The time of the day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsStartup.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string} [applicableSchedule.labVmsStartup.dailyRecurrence.time] The
- * time of day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsStartup.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number} [applicableSchedule.labVmsStartup.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string} [applicableSchedule.labVmsStartup.timeZoneId] The time zone
- * ID (e.g. Pacific Standard time).
- * @member {object} [applicableSchedule.labVmsStartup.notificationSettings]
- * Notification settings.
- * @member {string}
- * [applicableSchedule.labVmsStartup.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [applicableSchedule.labVmsStartup.notificationSettings.timeInMinutes] Time
- * in minutes before event at which notification will be sent.
- * @member {string}
- * [applicableSchedule.labVmsStartup.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {date} [applicableSchedule.labVmsStartup.createdDate] The creation
- * date of the schedule.
- * @member {string} [applicableSchedule.labVmsStartup.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string} [applicableSchedule.labVmsStartup.provisioningState] The
- * provisioning status of the resource.
- * @member {string} [applicableSchedule.labVmsStartup.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {date} [expirationDate] The expiration date for VM.
- * @member {boolean} [allowClaim] Indicates whether another user can take
- * ownership of the virtual machine
- * @member {string} [storageType] Storage type to use for virtual machine (i.e.
- * Standard, Premium).
- * @member {string} [virtualMachineCreationSource] Tells source of creation of
- * lab virtual machine. Output property only. Possible values include:
- * 'FromCustomImage', 'FromGalleryImage'
- * @member {string} [environmentId] The resource ID of the environment that
- * contains this virtual machine, if any.
  * @member {string} [provisioningState] The provisioning status of the
  * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- * @member {string} [name] The name of the virtual machine or environment
- * @member {string} [location] The location of the new virtual machine or
- * environment
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
  * @member {object} [tags] The tags of the resource.
  */
-export interface LabVirtualMachineCreationParameter {
-  bulkCreationParameters?: BulkCreationParameters;
+export interface LabVirtualMachine extends BaseResource {
   notes?: string;
   ownerObjectId?: string;
-  ownerUserPrincipalName?: string;
   createdByUserId?: string;
   createdByUser?: string;
-  createdDate?: Date;
+  computeId?: string;
   customImageId?: string;
   osType?: string;
   size?: string;
@@ -1646,17 +537,10 @@ export interface LabVirtualMachineCreationParameter {
   artifacts?: ArtifactInstallProperties[];
   artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
   galleryImageReference?: GalleryImageReference;
-  computeVm?: ComputeVmProperties;
-  networkInterface?: NetworkInterfaceProperties;
-  applicableSchedule?: ApplicableSchedule;
-  expirationDate?: Date;
-  allowClaim?: boolean;
-  storageType?: string;
-  virtualMachineCreationSource?: string;
-  environmentId?: string;
   provisioningState?: string;
-  uniqueIdentifier?: string;
+  id?: string;
   name?: string;
+  type?: string;
   location?: string;
   tags?: { [propertyName: string]: string };
 }
@@ -1678,28 +562,22 @@ export interface FormulaPropertiesFromVm {
  * @class
  * Initializes a new instance of the Formula class.
  * @constructor
- * A formula for creating a VM, specifying an image base and other parameters
+ * A formula.
  *
  * @member {string} [description] The description of the formula.
  * @member {string} [author] The author of the formula.
  * @member {string} [osType] The OS type of the formula.
  * @member {date} [creationDate] The creation date of the formula.
  * @member {object} [formulaContent] The content of the formula.
- * @member {object} [formulaContent.bulkCreationParameters] The number of
- * virtual machine instances to create.
- * @member {number} [formulaContent.bulkCreationParameters.instanceCount] The
- * number of virtual machine instances to create.
  * @member {string} [formulaContent.notes] The notes of the virtual machine.
  * @member {string} [formulaContent.ownerObjectId] The object identifier of the
  * owner of the virtual machine.
- * @member {string} [formulaContent.ownerUserPrincipalName] The user principal
- * name of the virtual machine owner.
  * @member {string} [formulaContent.createdByUserId] The object identifier of
  * the creator of the virtual machine.
  * @member {string} [formulaContent.createdByUser] The email address of creator
  * of the virtual machine.
- * @member {date} [formulaContent.createdDate] The creation date of the virtual
- * machine.
+ * @member {string} [formulaContent.computeId] The resource identifier
+ * (Microsoft.Compute) of the virtual machine.
  * @member {string} [formulaContent.customImageId] The custom image identifier
  * of the virtual machine.
  * @member {string} [formulaContent.osType] The OS type of the virtual machine.
@@ -1710,8 +588,8 @@ export interface FormulaPropertiesFromVm {
  * machine administrator.
  * @member {string} [formulaContent.sshKey] The SSH key of the virtual machine
  * administrator.
- * @member {boolean} [formulaContent.isAuthenticationWithSshKey] Indicates
- * whether this virtual machine uses an SSH key for authentication.
+ * @member {boolean} [formulaContent.isAuthenticationWithSshKey] A value
+ * indicating whether this virtual machine uses an SSH key for authentication.
  * @member {string} [formulaContent.fqdn] The fully-qualified domain name of
  * the virtual machine.
  * @member {string} [formulaContent.labSubnetName] The lab subnet name of the
@@ -1742,184 +620,12 @@ export interface FormulaPropertiesFromVm {
  * of the gallery image.
  * @member {string} [formulaContent.galleryImageReference.version] The version
  * of the gallery image.
- * @member {object} [formulaContent.computeVm] The compute virtual machine
- * properties.
- * @member {array} [formulaContent.computeVm.statuses] Gets the statuses of the
- * virtual machine.
- * @member {string} [formulaContent.computeVm.osType] Gets the OS type of the
- * virtual machine.
- * @member {string} [formulaContent.computeVm.vmSize] Gets the size of the
- * virtual machine.
- * @member {string} [formulaContent.computeVm.networkInterfaceId] Gets the
- * network interface ID of the virtual machine.
- * @member {string} [formulaContent.computeVm.osDiskId] Gets OS disk blob uri
- * for the virtual machine.
- * @member {array} [formulaContent.computeVm.dataDiskIds] Gets data disks blob
- * uri for the virtual machine.
- * @member {array} [formulaContent.computeVm.dataDisks] Gets all data disks
- * attached to the virtual machine.
- * @member {object} [formulaContent.networkInterface] The network interface
- * properties.
- * @member {string} [formulaContent.networkInterface.virtualNetworkId] The
- * resource ID of the virtual network.
- * @member {string} [formulaContent.networkInterface.subnetId] The resource ID
- * of the sub net.
- * @member {string} [formulaContent.networkInterface.publicIpAddressId] The
- * resource ID of the public IP address.
- * @member {string} [formulaContent.networkInterface.publicIpAddress] The
- * public IP address.
- * @member {string} [formulaContent.networkInterface.privateIpAddress] The
- * private IP address.
- * @member {string} [formulaContent.networkInterface.dnsName] The DNS name.
- * @member {string} [formulaContent.networkInterface.rdpAuthority] The
- * RdpAuthority property is a server DNS host name or IP address followed by
- * the service port number for RDP (Remote Desktop Protocol).
- * @member {string} [formulaContent.networkInterface.sshAuthority] The
- * SshAuthority property is a server DNS host name or IP address followed by
- * the service port number for SSH.
- * @member {object}
- * [formulaContent.networkInterface.sharedPublicIpAddressConfiguration] The
- * configuration for sharing a public IP address across multiple virtual
- * machines.
- * @member {array}
- * [formulaContent.networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules]
- * The incoming NAT rules
- * @member {object} [formulaContent.applicableSchedule] The applicable schedule
- * for the virtual machine.
- * @member {object} [formulaContent.applicableSchedule.labVmsShutdown] The
- * auto-shutdown schedule, if one has been set at the lab or lab resource
- * level.
- * @member {string} [formulaContent.applicableSchedule.labVmsShutdown.status]
- * The status of the schedule (i.e. Enabled, Disabled). Possible values
- * include: 'Enabled', 'Disabled'
- * @member {string} [formulaContent.applicableSchedule.labVmsShutdown.taskType]
- * The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsShutdown.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array}
- * [formulaContent.applicableSchedule.labVmsShutdown.weeklyRecurrence.weekdays]
- * The days of the week for which the schedule is set (e.g. Sunday, Monday,
- * Tuesday, etc.).
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.weeklyRecurrence.time] The
- * time of the day the schedule will occur.
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsShutdown.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.dailyRecurrence.time] The
- * time of day the schedule will occur.
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsShutdown.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number}
- * [formulaContent.applicableSchedule.labVmsShutdown.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.timeZoneId] The time zone
- * ID (e.g. Pacific Standard time).
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsShutdown.notificationSettings]
- * Notification settings.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.notificationSettings.status]
- * If notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [formulaContent.applicableSchedule.labVmsShutdown.notificationSettings.timeInMinutes]
- * Time in minutes before event at which notification will be sent.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.notificationSettings.webhookUrl]
- * The webhook URL to which the notification will be sent.
- * @member {date}
- * [formulaContent.applicableSchedule.labVmsShutdown.createdDate] The creation
- * date of the schedule.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.provisioningState] The
- * provisioning status of the resource.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsShutdown.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {object} [formulaContent.applicableSchedule.labVmsStartup] The
- * auto-startup schedule, if one has been set at the lab or lab resource level.
- * @member {string} [formulaContent.applicableSchedule.labVmsStartup.status]
- * The status of the schedule (i.e. Enabled, Disabled). Possible values
- * include: 'Enabled', 'Disabled'
- * @member {string} [formulaContent.applicableSchedule.labVmsStartup.taskType]
- * The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsStartup.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array}
- * [formulaContent.applicableSchedule.labVmsStartup.weeklyRecurrence.weekdays]
- * The days of the week for which the schedule is set (e.g. Sunday, Monday,
- * Tuesday, etc.).
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.weeklyRecurrence.time] The
- * time of the day the schedule will occur.
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsStartup.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.dailyRecurrence.time] The
- * time of day the schedule will occur.
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsStartup.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number}
- * [formulaContent.applicableSchedule.labVmsStartup.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.timeZoneId] The time zone
- * ID (e.g. Pacific Standard time).
- * @member {object}
- * [formulaContent.applicableSchedule.labVmsStartup.notificationSettings]
- * Notification settings.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.notificationSettings.status]
- * If notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [formulaContent.applicableSchedule.labVmsStartup.notificationSettings.timeInMinutes]
- * Time in minutes before event at which notification will be sent.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.notificationSettings.webhookUrl]
- * The webhook URL to which the notification will be sent.
- * @member {date} [formulaContent.applicableSchedule.labVmsStartup.createdDate]
- * The creation date of the schedule.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.provisioningState] The
- * provisioning status of the resource.
- * @member {string}
- * [formulaContent.applicableSchedule.labVmsStartup.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {date} [formulaContent.expirationDate] The expiration date for VM.
- * @member {boolean} [formulaContent.allowClaim] Indicates whether another user
- * can take ownership of the virtual machine
- * @member {string} [formulaContent.storageType] Storage type to use for
- * virtual machine (i.e. Standard, Premium).
- * @member {string} [formulaContent.virtualMachineCreationSource] Tells source
- * of creation of lab virtual machine. Output property only. Possible values
- * include: 'FromCustomImage', 'FromGalleryImage'
- * @member {string} [formulaContent.environmentId] The resource ID of the
- * environment that contains this virtual machine, if any.
  * @member {string} [formulaContent.provisioningState] The provisioning status
  * of the resource.
- * @member {string} [formulaContent.uniqueIdentifier] The unique immutable
- * identifier of a resource (Guid).
- * @member {string} [formulaContent.name] The name of the virtual machine or
- * environment
- * @member {string} [formulaContent.location] The location of the new virtual
- * machine or environment
+ * @member {string} [formulaContent.id] The identifier of the resource.
+ * @member {string} [formulaContent.name] The name of the resource.
+ * @member {string} [formulaContent.type] The type of the resource.
+ * @member {string} [formulaContent.location] The location of the resource.
  * @member {object} [formulaContent.tags] The tags of the resource.
  * @member {object} [vm] Information about a VM from which a formula is to be
  * created.
@@ -1927,18 +633,25 @@ export interface FormulaPropertiesFromVm {
  * is to be created.
  * @member {string} [provisioningState] The provisioning status of the
  * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface Formula extends Resource {
+export interface Formula extends BaseResource {
   description?: string;
   author?: string;
   osType?: string;
-  readonly creationDate?: Date;
-  formulaContent?: LabVirtualMachineCreationParameter;
+  creationDate?: Date;
+  formulaContent?: LabVirtualMachine;
   vm?: FormulaPropertiesFromVm;
   provisioningState?: string;
-  uniqueIdentifier?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -1959,44 +672,32 @@ export interface Formula extends Resource {
  * @member {string} [imageReference.version] The version of the gallery image.
  * @member {string} [icon] The icon of the gallery image.
  * @member {boolean} [enabled] Indicates whether this gallery image is enabled.
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface GalleryImage extends Resource {
+export interface GalleryImage extends BaseResource {
   author?: string;
-  readonly createdDate?: Date;
+  createdDate?: Date;
   description?: string;
   imageReference?: GalleryImageReference;
   icon?: string;
   enabled?: boolean;
-}
-
-/**
- * @class
- * Initializes a new instance of the GalleryImageReferenceFragment class.
- * @constructor
- * The reference information for an Azure Marketplace image.
- *
- * @member {string} [offer] The offer of the gallery image.
- * @member {string} [publisher] The publisher of the gallery image.
- * @member {string} [sku] The SKU of the gallery image.
- * @member {string} [osType] The OS type of the gallery image.
- * @member {string} [version] The version of the gallery image.
- */
-export interface GalleryImageReferenceFragment {
-  offer?: string;
-  publisher?: string;
-  sku?: string;
-  osType?: string;
-  version?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
  * @class
  * Initializes a new instance of the ParameterInfo class.
  * @constructor
- * Information about an artifact's parameter.
- *
- * @member {string} [name] The name of the artifact parameter.
- * @member {string} [value] The value of the artifact parameter.
+ * @member {string} [name]
+ * @member {string} [value]
  */
 export interface ParameterInfo {
   name?: string;
@@ -2013,15 +714,11 @@ export interface ParameterInfo {
  * machine.
  * @member {array} [parameters] The parameters of the ARM template.
  * @member {string} [location] The location of the virtual machine.
- * @member {string} [fileUploadOptions] Options for uploading the files for the
- * artifact. UploadFilesAndGenerateSasTokens is the default value. Possible
- * values include: 'UploadFilesAndGenerateSasTokens', 'None'
  */
 export interface GenerateArmTemplateRequest {
   virtualMachineName?: string;
   parameters?: ParameterInfo[];
   location?: string;
-  fileUploadOptions?: string;
 }
 
 /**
@@ -2050,41 +747,14 @@ export interface GenerateUploadUriResponse {
 
 /**
  * @class
- * Initializes a new instance of the IdentityProperties class.
+ * Initializes a new instance of the HourDetails class.
  * @constructor
- * Properties of a managed identity
+ * Properties of an hourly schedule.
  *
- * @member {string} [type] Managed identity.
- * @member {string} [principalId] The principal id of resource identity.
- * @member {string} [tenantId] The tenant identifier of resource.
- * @member {string} [clientSecretUrl] The client secret URL of the identity.
+ * @member {number} [minute] Minutes of the hour the schedule will run.
  */
-export interface IdentityProperties {
-  type?: string;
-  principalId?: string;
-  tenantId?: string;
-  clientSecretUrl?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the InboundNatRuleFragment class.
- * @constructor
- * A rule for NAT - exposing a VM's port (backendPort) on the public IP address
- * using a load balancer.
- *
- * @member {string} [transportProtocol] The transport protocol for the
- * endpoint. Possible values include: 'Tcp', 'Udp'
- * @member {number} [frontendPort] The external endpoint port of the inbound
- * connection. Possible values range between 1 and 65535, inclusive. If
- * unspecified, a value will be allocated automatically.
- * @member {number} [backendPort] The port to which the external traffic will
- * be redirected.
- */
-export interface InboundNatRuleFragment {
-  transportProtocol?: string;
-  frontendPort?: number;
-  backendPort?: number;
+export interface HourDetails {
+  minute?: number;
 }
 
 /**
@@ -2094,196 +764,37 @@ export interface InboundNatRuleFragment {
  * A lab.
  *
  * @member {string} [defaultStorageAccount] The lab's default storage account.
- * @member {string} [defaultPremiumStorageAccount] The lab's default premium
- * storage account.
- * @member {string} [artifactsStorageAccount] The lab's artifact storage
- * account.
- * @member {string} [premiumDataDiskStorageAccount] The lab's premium data disk
- * storage account.
- * @member {string} [vaultName] The lab's Key vault.
- * @member {string} [labStorageType] Type of storage used by the lab. It can be
- * either Premium or Standard. Default is Premium. Possible values include:
- * 'Standard', 'Premium'
+ * @member {string} [artifactsStorageAccount] The artifact storage account of
+ * the lab.
+ * @member {array} [storageAccounts] The storage accounts of the lab.
+ * @member {string} [vaultName] The name of the key vault of the lab.
+ * @member {string} [labStorageType] The type of the lab storage. Possible
+ * values include: 'Standard', 'Premium'
+ * @member {string} [defaultVirtualNetworkId] The default virtual network
+ * identifier of the lab.
  * @member {date} [createdDate] The creation date of the lab.
- * @member {string} [premiumDataDisks] The setting to enable usage of premium
- * data disks.
- * When its value is 'Enabled', creation of standard or premium data disks is
- * allowed.
- * When its value is 'Disabled', only creation of standard data disks is
- * allowed. Possible values include: 'Disabled', 'Enabled'
  * @member {string} [provisioningState] The provisioning status of the
  * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface Lab extends Resource {
-  readonly defaultStorageAccount?: string;
-  readonly defaultPremiumStorageAccount?: string;
-  readonly artifactsStorageAccount?: string;
-  readonly premiumDataDiskStorageAccount?: string;
-  readonly vaultName?: string;
+export interface Lab extends BaseResource {
+  defaultStorageAccount?: string;
+  artifactsStorageAccount?: string;
+  storageAccounts?: string[];
+  vaultName?: string;
   labStorageType?: string;
-  readonly createdDate?: Date;
-  premiumDataDisks?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the TargetCostProperties class.
- * @constructor
- * Properties of a cost target.
- *
- * @member {string} [status] Target cost status. Possible values include:
- * 'Enabled', 'Disabled'
- * @member {number} [target] Lab target cost
- * @member {array} [costThresholds] Cost thresholds.
- * @member {date} [cycleStartDateTime] Reporting cycle start date.
- * @member {date} [cycleEndDateTime] Reporting cycle end date.
- * @member {string} [cycleType] Reporting cycle type. Possible values include:
- * 'CalendarMonth', 'Custom'
- */
-export interface TargetCostProperties {
-  status?: string;
-  target?: number;
-  costThresholds?: CostThresholdProperties[];
-  cycleStartDateTime?: Date;
-  cycleEndDateTime?: Date;
-  cycleType?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabCostSummaryProperties class.
- * @constructor
- * The properties of the cost summary.
- *
- * @member {number} [estimatedLabCost] The cost component of the cost item.
- */
-export interface LabCostSummaryProperties {
-  estimatedLabCost?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabCostDetailsProperties class.
- * @constructor
- * The properties of a lab cost item.
- *
- * @member {date} [date] The date of the cost item.
- * @member {number} [cost] The cost component of the cost item.
- * @member {string} [costType] The type of the cost. Possible values include:
- * 'Unavailable', 'Reported', 'Projected'
- */
-export interface LabCostDetailsProperties {
-  date?: Date;
-  cost?: number;
-  costType?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabResourceCostProperties class.
- * @constructor
- * The properties of a resource cost item.
- *
- * @member {string} [resourcename] The name of the resource.
- * @member {string} [resourceUId] The unique identifier of the resource.
- * @member {number} [resourceCost] The cost component of the resource cost
- * item.
- * @member {string} [resourceType] The logical resource type (ex.
- * virtualmachine, storageaccount)
- * @member {string} [resourceOwner] The owner of the resource (ex.
- * janedoe@microsoft.com)
- * @member {string} [resourcePricingTier] The category of the resource (ex.
- * Premium_LRS, Standard_DS1)
- * @member {string} [resourceStatus] The status of the resource (ex. Active)
- * @member {string} [resourceId] The ID of the resource
- * @member {string} [externalResourceId] The ID of the external resource
- */
-export interface LabResourceCostProperties {
-  resourcename?: string;
-  resourceUId?: string;
-  resourceCost?: number;
-  resourceType?: string;
-  resourceOwner?: string;
-  resourcePricingTier?: string;
-  resourceStatus?: string;
-  resourceId?: string;
-  externalResourceId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabCost class.
- * @constructor
- * A cost item.
- *
- * @member {object} [targetCost] The target cost properties
- * @member {string} [targetCost.status] Target cost status. Possible values
- * include: 'Enabled', 'Disabled'
- * @member {number} [targetCost.target] Lab target cost
- * @member {array} [targetCost.costThresholds] Cost thresholds.
- * @member {date} [targetCost.cycleStartDateTime] Reporting cycle start date.
- * @member {date} [targetCost.cycleEndDateTime] Reporting cycle end date.
- * @member {string} [targetCost.cycleType] Reporting cycle type. Possible
- * values include: 'CalendarMonth', 'Custom'
- * @member {object} [labCostSummary] The lab cost summary component of the cost
- * data.
- * @member {number} [labCostSummary.estimatedLabCost] The cost component of the
- * cost item.
- * @member {array} [labCostDetails] The lab cost details component of the cost
- * data.
- * @member {array} [resourceCosts] The resource cost component of the cost
- * data.
- * @member {string} [currencyCode] The currency code of the cost.
- * @member {date} [startDateTime] The start time of the cost data.
- * @member {date} [endDateTime] The end time of the cost data.
- * @member {date} [createdDate] The creation date of the cost.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface LabCost extends Resource {
-  targetCost?: TargetCostProperties;
-  readonly labCostSummary?: LabCostSummaryProperties;
-  readonly labCostDetails?: LabCostDetailsProperties[];
-  readonly resourceCosts?: LabResourceCostProperties[];
-  currencyCode?: string;
-  startDateTime?: Date;
-  endDateTime?: Date;
+  defaultVirtualNetworkId?: string;
   createdDate?: Date;
   provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabFragment class.
- * @constructor
- * A lab.
- *
- * @member {string} [labStorageType] Type of storage used by the lab. It can be
- * either Premium or Standard. Default is Premium. Possible values include:
- * 'Standard', 'Premium'
- * @member {string} [premiumDataDisks] The setting to enable usage of premium
- * data disks.
- * When its value is 'Enabled', creation of standard or premium data disks is
- * allowed.
- * When its value is 'Disabled', only creation of standard data disks is
- * allowed. Possible values include: 'Disabled', 'Enabled'
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface LabFragment extends Resource {
-  labStorageType?: string;
-  premiumDataDisks?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -2292,661 +803,10 @@ export interface LabFragment extends Resource {
  * @constructor
  * Properties of a VHD in the lab.
  *
- * @member {string} [id] The URI to the VHD.
+ * @member {string} [id] The absolute URI of the VHD.
  */
 export interface LabVhd {
   id?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabVirtualMachine class.
- * @constructor
- * A virtual machine.
- *
- * @member {string} [notes] The notes of the virtual machine.
- * @member {string} [ownerObjectId] The object identifier of the owner of the
- * virtual machine.
- * @member {string} [ownerUserPrincipalName] The user principal name of the
- * virtual machine owner.
- * @member {string} [createdByUserId] The object identifier of the creator of
- * the virtual machine.
- * @member {string} [createdByUser] The email address of creator of the virtual
- * machine.
- * @member {date} [createdDate] The creation date of the virtual machine.
- * @member {string} [computeId] The resource identifier (Microsoft.Compute) of
- * the virtual machine.
- * @member {string} [customImageId] The custom image identifier of the virtual
- * machine.
- * @member {string} [osType] The OS type of the virtual machine.
- * @member {string} [size] The size of the virtual machine.
- * @member {string} [userName] The user name of the virtual machine.
- * @member {string} [password] The password of the virtual machine
- * administrator.
- * @member {string} [sshKey] The SSH key of the virtual machine administrator.
- * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
- * virtual machine uses an SSH key for authentication.
- * @member {string} [fqdn] The fully-qualified domain name of the virtual
- * machine.
- * @member {string} [labSubnetName] The lab subnet name of the virtual machine.
- * @member {string} [labVirtualNetworkId] The lab virtual network identifier of
- * the virtual machine.
- * @member {boolean} [disallowPublicIpAddress] Indicates whether the virtual
- * machine is to be created without a public IP address.
- * @member {array} [artifacts] The artifacts to be installed on the virtual
- * machine.
- * @member {object} [artifactDeploymentStatus] The artifact deployment status
- * for the virtual machine.
- * @member {string} [artifactDeploymentStatus.deploymentStatus] The deployment
- * status of the artifact.
- * @member {number} [artifactDeploymentStatus.artifactsApplied] The total count
- * of the artifacts that were successfully applied.
- * @member {number} [artifactDeploymentStatus.totalArtifacts] The total count
- * of the artifacts that were tentatively applied.
- * @member {object} [galleryImageReference] The Microsoft Azure Marketplace
- * image reference of the virtual machine.
- * @member {string} [galleryImageReference.offer] The offer of the gallery
- * image.
- * @member {string} [galleryImageReference.publisher] The publisher of the
- * gallery image.
- * @member {string} [galleryImageReference.sku] The SKU of the gallery image.
- * @member {string} [galleryImageReference.osType] The OS type of the gallery
- * image.
- * @member {string} [galleryImageReference.version] The version of the gallery
- * image.
- * @member {object} [computeVm] The compute virtual machine properties.
- * @member {array} [computeVm.statuses] Gets the statuses of the virtual
- * machine.
- * @member {string} [computeVm.osType] Gets the OS type of the virtual machine.
- * @member {string} [computeVm.vmSize] Gets the size of the virtual machine.
- * @member {string} [computeVm.networkInterfaceId] Gets the network interface
- * ID of the virtual machine.
- * @member {string} [computeVm.osDiskId] Gets OS disk blob uri for the virtual
- * machine.
- * @member {array} [computeVm.dataDiskIds] Gets data disks blob uri for the
- * virtual machine.
- * @member {array} [computeVm.dataDisks] Gets all data disks attached to the
- * virtual machine.
- * @member {object} [networkInterface] The network interface properties.
- * @member {string} [networkInterface.virtualNetworkId] The resource ID of the
- * virtual network.
- * @member {string} [networkInterface.subnetId] The resource ID of the sub net.
- * @member {string} [networkInterface.publicIpAddressId] The resource ID of the
- * public IP address.
- * @member {string} [networkInterface.publicIpAddress] The public IP address.
- * @member {string} [networkInterface.privateIpAddress] The private IP address.
- * @member {string} [networkInterface.dnsName] The DNS name.
- * @member {string} [networkInterface.rdpAuthority] The RdpAuthority property
- * is a server DNS host name or IP address followed by the service port number
- * for RDP (Remote Desktop Protocol).
- * @member {string} [networkInterface.sshAuthority] The SshAuthority property
- * is a server DNS host name or IP address followed by the service port number
- * for SSH.
- * @member {object} [networkInterface.sharedPublicIpAddressConfiguration] The
- * configuration for sharing a public IP address across multiple virtual
- * machines.
- * @member {array}
- * [networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules] The
- * incoming NAT rules
- * @member {object} [applicableSchedule] The applicable schedule for the
- * virtual machine.
- * @member {object} [applicableSchedule.labVmsShutdown] The auto-shutdown
- * schedule, if one has been set at the lab or lab resource level.
- * @member {string} [applicableSchedule.labVmsShutdown.status] The status of
- * the schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
- * 'Disabled'
- * @member {string} [applicableSchedule.labVmsShutdown.taskType] The task type
- * of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [applicableSchedule.labVmsShutdown.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array}
- * [applicableSchedule.labVmsShutdown.weeklyRecurrence.weekdays] The days of
- * the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [applicableSchedule.labVmsShutdown.weeklyRecurrence.time]
- * The time of the day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsShutdown.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string} [applicableSchedule.labVmsShutdown.dailyRecurrence.time]
- * The time of day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsShutdown.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number} [applicableSchedule.labVmsShutdown.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string} [applicableSchedule.labVmsShutdown.timeZoneId] The time
- * zone ID (e.g. Pacific Standard time).
- * @member {object} [applicableSchedule.labVmsShutdown.notificationSettings]
- * Notification settings.
- * @member {string}
- * [applicableSchedule.labVmsShutdown.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [applicableSchedule.labVmsShutdown.notificationSettings.timeInMinutes] Time
- * in minutes before event at which notification will be sent.
- * @member {string}
- * [applicableSchedule.labVmsShutdown.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {date} [applicableSchedule.labVmsShutdown.createdDate] The creation
- * date of the schedule.
- * @member {string} [applicableSchedule.labVmsShutdown.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string} [applicableSchedule.labVmsShutdown.provisioningState] The
- * provisioning status of the resource.
- * @member {string} [applicableSchedule.labVmsShutdown.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {object} [applicableSchedule.labVmsStartup] The auto-startup
- * schedule, if one has been set at the lab or lab resource level.
- * @member {string} [applicableSchedule.labVmsStartup.status] The status of the
- * schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
- * 'Disabled'
- * @member {string} [applicableSchedule.labVmsStartup.taskType] The task type
- * of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [applicableSchedule.labVmsStartup.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array} [applicableSchedule.labVmsStartup.weeklyRecurrence.weekdays]
- * The days of the week for which the schedule is set (e.g. Sunday, Monday,
- * Tuesday, etc.).
- * @member {string} [applicableSchedule.labVmsStartup.weeklyRecurrence.time]
- * The time of the day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsStartup.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string} [applicableSchedule.labVmsStartup.dailyRecurrence.time] The
- * time of day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsStartup.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number} [applicableSchedule.labVmsStartup.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string} [applicableSchedule.labVmsStartup.timeZoneId] The time zone
- * ID (e.g. Pacific Standard time).
- * @member {object} [applicableSchedule.labVmsStartup.notificationSettings]
- * Notification settings.
- * @member {string}
- * [applicableSchedule.labVmsStartup.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [applicableSchedule.labVmsStartup.notificationSettings.timeInMinutes] Time
- * in minutes before event at which notification will be sent.
- * @member {string}
- * [applicableSchedule.labVmsStartup.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {date} [applicableSchedule.labVmsStartup.createdDate] The creation
- * date of the schedule.
- * @member {string} [applicableSchedule.labVmsStartup.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string} [applicableSchedule.labVmsStartup.provisioningState] The
- * provisioning status of the resource.
- * @member {string} [applicableSchedule.labVmsStartup.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {date} [expirationDate] The expiration date for VM.
- * @member {boolean} [allowClaim] Indicates whether another user can take
- * ownership of the virtual machine
- * @member {string} [storageType] Storage type to use for virtual machine (i.e.
- * Standard, Premium).
- * @member {string} [virtualMachineCreationSource] Tells source of creation of
- * lab virtual machine. Output property only. Possible values include:
- * 'FromCustomImage', 'FromGalleryImage'
- * @member {string} [environmentId] The resource ID of the environment that
- * contains this virtual machine, if any.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface LabVirtualMachine extends Resource {
-  notes?: string;
-  ownerObjectId?: string;
-  ownerUserPrincipalName?: string;
-  createdByUserId?: string;
-  createdByUser?: string;
-  createdDate?: Date;
-  readonly computeId?: string;
-  customImageId?: string;
-  osType?: string;
-  size?: string;
-  userName?: string;
-  password?: string;
-  sshKey?: string;
-  isAuthenticationWithSshKey?: boolean;
-  fqdn?: string;
-  labSubnetName?: string;
-  labVirtualNetworkId?: string;
-  disallowPublicIpAddress?: boolean;
-  artifacts?: ArtifactInstallProperties[];
-  artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
-  galleryImageReference?: GalleryImageReference;
-  computeVm?: ComputeVmProperties;
-  networkInterface?: NetworkInterfaceProperties;
-  applicableSchedule?: ApplicableSchedule;
-  expirationDate?: Date;
-  allowClaim?: boolean;
-  storageType?: string;
-  virtualMachineCreationSource?: string;
-  environmentId?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the SharedPublicIpAddressConfigurationFragment class.
- * @constructor
- * Properties of a virtual machine that determine how it is connected to a load
- * balancer.
- *
- * @member {array} [inboundNatRules] The incoming NAT rules
- */
-export interface SharedPublicIpAddressConfigurationFragment {
-  inboundNatRules?: InboundNatRuleFragment[];
-}
-
-/**
- * @class
- * Initializes a new instance of the NetworkInterfacePropertiesFragment class.
- * @constructor
- * Properties of a network interface.
- *
- * @member {string} [virtualNetworkId] The resource ID of the virtual network.
- * @member {string} [subnetId] The resource ID of the sub net.
- * @member {string} [publicIpAddressId] The resource ID of the public IP
- * address.
- * @member {string} [publicIpAddress] The public IP address.
- * @member {string} [privateIpAddress] The private IP address.
- * @member {string} [dnsName] The DNS name.
- * @member {string} [rdpAuthority] The RdpAuthority property is a server DNS
- * host name or IP address followed by the service port number for RDP (Remote
- * Desktop Protocol).
- * @member {string} [sshAuthority] The SshAuthority property is a server DNS
- * host name or IP address followed by the service port number for SSH.
- * @member {object} [sharedPublicIpAddressConfiguration] The configuration for
- * sharing a public IP address across multiple virtual machines.
- * @member {array} [sharedPublicIpAddressConfiguration.inboundNatRules] The
- * incoming NAT rules
- */
-export interface NetworkInterfacePropertiesFragment {
-  virtualNetworkId?: string;
-  subnetId?: string;
-  publicIpAddressId?: string;
-  publicIpAddress?: string;
-  privateIpAddress?: string;
-  dnsName?: string;
-  rdpAuthority?: string;
-  sshAuthority?: string;
-  sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfigurationFragment;
-}
-
-/**
- * @class
- * Initializes a new instance of the LabVirtualMachineFragment class.
- * @constructor
- * A virtual machine.
- *
- * @member {string} [notes] The notes of the virtual machine.
- * @member {string} [ownerObjectId] The object identifier of the owner of the
- * virtual machine.
- * @member {string} [ownerUserPrincipalName] The user principal name of the
- * virtual machine owner.
- * @member {string} [createdByUserId] The object identifier of the creator of
- * the virtual machine.
- * @member {string} [createdByUser] The email address of creator of the virtual
- * machine.
- * @member {date} [createdDate] The creation date of the virtual machine.
- * @member {string} [customImageId] The custom image identifier of the virtual
- * machine.
- * @member {string} [osType] The OS type of the virtual machine.
- * @member {string} [size] The size of the virtual machine.
- * @member {string} [userName] The user name of the virtual machine.
- * @member {string} [password] The password of the virtual machine
- * administrator.
- * @member {string} [sshKey] The SSH key of the virtual machine administrator.
- * @member {boolean} [isAuthenticationWithSshKey] Indicates whether this
- * virtual machine uses an SSH key for authentication.
- * @member {string} [fqdn] The fully-qualified domain name of the virtual
- * machine.
- * @member {string} [labSubnetName] The lab subnet name of the virtual machine.
- * @member {string} [labVirtualNetworkId] The lab virtual network identifier of
- * the virtual machine.
- * @member {boolean} [disallowPublicIpAddress] Indicates whether the virtual
- * machine is to be created without a public IP address.
- * @member {array} [artifacts] The artifacts to be installed on the virtual
- * machine.
- * @member {object} [artifactDeploymentStatus] The artifact deployment status
- * for the virtual machine.
- * @member {string} [artifactDeploymentStatus.deploymentStatus] The deployment
- * status of the artifact.
- * @member {number} [artifactDeploymentStatus.artifactsApplied] The total count
- * of the artifacts that were successfully applied.
- * @member {number} [artifactDeploymentStatus.totalArtifacts] The total count
- * of the artifacts that were tentatively applied.
- * @member {object} [galleryImageReference] The Microsoft Azure Marketplace
- * image reference of the virtual machine.
- * @member {string} [galleryImageReference.offer] The offer of the gallery
- * image.
- * @member {string} [galleryImageReference.publisher] The publisher of the
- * gallery image.
- * @member {string} [galleryImageReference.sku] The SKU of the gallery image.
- * @member {string} [galleryImageReference.osType] The OS type of the gallery
- * image.
- * @member {string} [galleryImageReference.version] The version of the gallery
- * image.
- * @member {object} [computeVm] The compute virtual machine properties.
- * @member {array} [computeVm.statuses] Gets the statuses of the virtual
- * machine.
- * @member {string} [computeVm.osType] Gets the OS type of the virtual machine.
- * @member {string} [computeVm.vmSize] Gets the size of the virtual machine.
- * @member {string} [computeVm.networkInterfaceId] Gets the network interface
- * ID of the virtual machine.
- * @member {string} [computeVm.osDiskId] Gets OS disk blob uri for the virtual
- * machine.
- * @member {array} [computeVm.dataDiskIds] Gets data disks blob uri for the
- * virtual machine.
- * @member {array} [computeVm.dataDisks] Gets all data disks attached to the
- * virtual machine.
- * @member {object} [networkInterface] The network interface properties.
- * @member {string} [networkInterface.virtualNetworkId] The resource ID of the
- * virtual network.
- * @member {string} [networkInterface.subnetId] The resource ID of the sub net.
- * @member {string} [networkInterface.publicIpAddressId] The resource ID of the
- * public IP address.
- * @member {string} [networkInterface.publicIpAddress] The public IP address.
- * @member {string} [networkInterface.privateIpAddress] The private IP address.
- * @member {string} [networkInterface.dnsName] The DNS name.
- * @member {string} [networkInterface.rdpAuthority] The RdpAuthority property
- * is a server DNS host name or IP address followed by the service port number
- * for RDP (Remote Desktop Protocol).
- * @member {string} [networkInterface.sshAuthority] The SshAuthority property
- * is a server DNS host name or IP address followed by the service port number
- * for SSH.
- * @member {object} [networkInterface.sharedPublicIpAddressConfiguration] The
- * configuration for sharing a public IP address across multiple virtual
- * machines.
- * @member {array}
- * [networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules] The
- * incoming NAT rules
- * @member {object} [applicableSchedule] The applicable schedule for the
- * virtual machine.
- * @member {object} [applicableSchedule.labVmsShutdown] The auto-shutdown
- * schedule, if one has been set at the lab or lab resource level.
- * @member {string} [applicableSchedule.labVmsShutdown.status] The status of
- * the schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
- * 'Disabled'
- * @member {string} [applicableSchedule.labVmsShutdown.taskType] The task type
- * of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [applicableSchedule.labVmsShutdown.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array}
- * [applicableSchedule.labVmsShutdown.weeklyRecurrence.weekdays] The days of
- * the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
- * @member {string} [applicableSchedule.labVmsShutdown.weeklyRecurrence.time]
- * The time of the day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsShutdown.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string} [applicableSchedule.labVmsShutdown.dailyRecurrence.time]
- * The time of day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsShutdown.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number} [applicableSchedule.labVmsShutdown.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string} [applicableSchedule.labVmsShutdown.timeZoneId] The time
- * zone ID (e.g. Pacific Standard time).
- * @member {object} [applicableSchedule.labVmsShutdown.notificationSettings]
- * Notification settings.
- * @member {string}
- * [applicableSchedule.labVmsShutdown.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [applicableSchedule.labVmsShutdown.notificationSettings.timeInMinutes] Time
- * in minutes before event at which notification will be sent.
- * @member {string}
- * [applicableSchedule.labVmsShutdown.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {string} [applicableSchedule.labVmsShutdown.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string} [applicableSchedule.labVmsShutdown.provisioningState] The
- * provisioning status of the resource.
- * @member {string} [applicableSchedule.labVmsShutdown.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {object} [applicableSchedule.labVmsStartup] The auto-startup
- * schedule, if one has been set at the lab or lab resource level.
- * @member {string} [applicableSchedule.labVmsStartup.status] The status of the
- * schedule (i.e. Enabled, Disabled). Possible values include: 'Enabled',
- * 'Disabled'
- * @member {string} [applicableSchedule.labVmsStartup.taskType] The task type
- * of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
- * @member {object} [applicableSchedule.labVmsStartup.weeklyRecurrence] If the
- * schedule will occur only some days of the week, specify the weekly
- * recurrence.
- * @member {array} [applicableSchedule.labVmsStartup.weeklyRecurrence.weekdays]
- * The days of the week for which the schedule is set (e.g. Sunday, Monday,
- * Tuesday, etc.).
- * @member {string} [applicableSchedule.labVmsStartup.weeklyRecurrence.time]
- * The time of the day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsStartup.dailyRecurrence] If the
- * schedule will occur once each day of the week, specify the daily recurrence.
- * @member {string} [applicableSchedule.labVmsStartup.dailyRecurrence.time] The
- * time of day the schedule will occur.
- * @member {object} [applicableSchedule.labVmsStartup.hourlyRecurrence] If the
- * schedule will occur multiple times a day, specify the hourly recurrence.
- * @member {number} [applicableSchedule.labVmsStartup.hourlyRecurrence.minute]
- * Minutes of the hour the schedule will run.
- * @member {string} [applicableSchedule.labVmsStartup.timeZoneId] The time zone
- * ID (e.g. Pacific Standard time).
- * @member {object} [applicableSchedule.labVmsStartup.notificationSettings]
- * Notification settings.
- * @member {string}
- * [applicableSchedule.labVmsStartup.notificationSettings.status] If
- * notifications are enabled for this schedule (i.e. Enabled, Disabled).
- * Possible values include: 'Disabled', 'Enabled'
- * @member {number}
- * [applicableSchedule.labVmsStartup.notificationSettings.timeInMinutes] Time
- * in minutes before event at which notification will be sent.
- * @member {string}
- * [applicableSchedule.labVmsStartup.notificationSettings.webhookUrl] The
- * webhook URL to which the notification will be sent.
- * @member {string} [applicableSchedule.labVmsStartup.targetResourceId] The
- * resource ID to which the schedule belongs
- * @member {string} [applicableSchedule.labVmsStartup.provisioningState] The
- * provisioning status of the resource.
- * @member {string} [applicableSchedule.labVmsStartup.uniqueIdentifier] The
- * unique immutable identifier of a resource (Guid).
- * @member {date} [expirationDate] The expiration date for VM.
- * @member {boolean} [allowClaim] Indicates whether another user can take
- * ownership of the virtual machine
- * @member {string} [storageType] Storage type to use for virtual machine (i.e.
- * Standard, Premium).
- * @member {string} [virtualMachineCreationSource] Tells source of creation of
- * lab virtual machine. Output property only. Possible values include:
- * 'FromCustomImage', 'FromGalleryImage'
- * @member {string} [environmentId] The resource ID of the environment that
- * contains this virtual machine, if any.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface LabVirtualMachineFragment extends Resource {
-  notes?: string;
-  ownerObjectId?: string;
-  ownerUserPrincipalName?: string;
-  createdByUserId?: string;
-  createdByUser?: string;
-  createdDate?: Date;
-  customImageId?: string;
-  osType?: string;
-  size?: string;
-  userName?: string;
-  password?: string;
-  sshKey?: string;
-  isAuthenticationWithSshKey?: boolean;
-  fqdn?: string;
-  labSubnetName?: string;
-  labVirtualNetworkId?: string;
-  disallowPublicIpAddress?: boolean;
-  artifacts?: ArtifactInstallPropertiesFragment[];
-  artifactDeploymentStatus?: ArtifactDeploymentStatusPropertiesFragment;
-  galleryImageReference?: GalleryImageReferenceFragment;
-  computeVm?: ComputeVmPropertiesFragment;
-  networkInterface?: NetworkInterfacePropertiesFragment;
-  applicableSchedule?: ApplicableScheduleFragment;
-  expirationDate?: Date;
-  allowClaim?: boolean;
-  storageType?: string;
-  virtualMachineCreationSource?: string;
-  environmentId?: string;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the NotificationChannel class.
- * @constructor
- * A notification.
- *
- * @member {string} [webHookUrl] The webhook URL to send notifications to.
- * @member {string} [description] Description of notification.
- * @member {array} [events] The list of event for which this notification is
- * enabled.
- * @member {date} [createdDate] The creation date of the notification channel.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface NotificationChannel extends Resource {
-  webHookUrl?: string;
-  description?: string;
-  events?: Event[];
-  readonly createdDate?: Date;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the NotificationChannelFragment class.
- * @constructor
- * A notification.
- *
- * @member {string} [webHookUrl] The webhook URL to send notifications to.
- * @member {string} [description] Description of notification.
- * @member {array} [events] The list of event for which this notification is
- * enabled.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface NotificationChannelFragment extends Resource {
-  webHookUrl?: string;
-  description?: string;
-  events?: EventFragment[];
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the NotifyParameters class.
- * @constructor
- * Properties for generating a Notification.
- *
- * @member {string} [eventName] The type of event (i.e. AutoShutdown, Cost).
- * Possible values include: 'AutoShutdown', 'Cost'
- * @member {string} [jsonPayload] Properties for the notification in json
- * format.
- */
-export interface NotifyParameters {
-  eventName?: string;
-  jsonPayload?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the OperationError class.
- * @constructor
- * Error details for the operation in case of a failure.
- *
- * @member {string} [code] The error code of the operation error.
- * @member {string} [message] The error message of the operation error.
- */
-export interface OperationError {
-  code?: string;
-  message?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the OperationMetadataDisplay class.
- * @constructor
- * The object that describes the operations
- *
- * @member {string} [provider] Friendly name of the resource provider
- * @member {string} [resource] Resource type on which the operation is
- * performed.
- * @member {string} [operation] Operation type: read, write, delete,
- * listKeys/action, etc.
- * @member {string} [description] Friendly name of the operation
- */
-export interface OperationMetadataDisplay {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the OperationMetadata class.
- * @constructor
- * The REST API operation supported by DevTestLab ResourceProvider.
- *
- * @member {string} [name] Operation name: {provider}/{resource}/{operation}
- * @member {object} [display] The object that describes the operations
- * @member {string} [display.provider] Friendly name of the resource provider
- * @member {string} [display.resource] Resource type on which the operation is
- * performed.
- * @member {string} [display.operation] Operation type: read, write, delete,
- * listKeys/action, etc.
- * @member {string} [display.description] Friendly name of the operation
- */
-export interface OperationMetadata {
-  name?: string;
-  display?: OperationMetadataDisplay;
-}
-
-/**
- * @class
- * Initializes a new instance of the OperationResult class.
- * @constructor
- * An Operation Result
- *
- * @member {string} [status] The operation status.
- * @member {string} [statusCode] The status code for the operation. Possible
- * values include: 'Continue', 'SwitchingProtocols', 'OK', 'Created',
- * 'Accepted', 'NonAuthoritativeInformation', 'NoContent', 'ResetContent',
- * 'PartialContent', 'MultipleChoices', 'MovedPermanently', 'Redirect',
- * 'SeeOther', 'NotModified', 'UseProxy', 'Unused', 'TemporaryRedirect',
- * 'BadRequest', 'Unauthorized', 'PaymentRequired', 'Forbidden', 'NotFound',
- * 'MethodNotAllowed', 'NotAcceptable', 'ProxyAuthenticationRequired',
- * 'RequestTimeout', 'Conflict', 'Gone', 'LengthRequired',
- * 'PreconditionFailed', 'RequestEntityTooLarge', 'RequestUriTooLong',
- * 'UnsupportedMediaType', 'RequestedRangeNotSatisfiable', 'ExpectationFailed',
- * 'UpgradeRequired', 'InternalServerError', 'NotImplemented', 'BadGateway',
- * 'ServiceUnavailable', 'GatewayTimeout', 'HttpVersionNotSupported'
- * @member {object} [error] Error details for the operation in case of a
- * failure.
- * @member {string} [error.code] The error code of the operation error.
- * @member {string} [error.message] The error message of the operation error.
- */
-export interface OperationResult {
-  status?: string;
-  statusCode?: string;
-  error?: OperationError;
 }
 
 /**
@@ -2958,61 +818,22 @@ export interface OperationResult {
  * @member {string} [description] The description of the policy.
  * @member {string} [status] The status of the policy. Possible values include:
  * 'Enabled', 'Disabled'
- * @member {string} [factName] The fact name of the policy (e.g. LabVmCount,
- * LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
- * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
- * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
- * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
+ * @member {string} [factName] The fact name of the policy. Possible values
+ * include: 'UserOwnedLabVmCount', 'LabVmCount', 'LabVmSize', 'GalleryImage',
+ * 'UserOwnedLabVmCountInSubnet'
  * @member {string} [factData] The fact data of the policy.
- * @member {string} [threshold] The threshold of the policy (i.e. a number for
- * MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).
- * @member {string} [evaluatorType] The evaluator type of the policy (i.e.
- * AllowedValuesPolicy, MaxValuePolicy). Possible values include:
- * 'AllowedValuesPolicy', 'MaxValuePolicy'
- * @member {date} [createdDate] The creation date of the policy.
+ * @member {string} [threshold] The threshold of the policy.
+ * @member {string} [evaluatorType] The evaluator type of the policy. Possible
+ * values include: 'AllowedValuesPolicy', 'MaxValuePolicy'
  * @member {string} [provisioningState] The provisioning status of the
  * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface Policy extends Resource {
-  description?: string;
-  status?: string;
-  factName?: string;
-  factData?: string;
-  threshold?: string;
-  evaluatorType?: string;
-  readonly createdDate?: Date;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the PolicyFragment class.
- * @constructor
- * A Policy.
- *
- * @member {string} [description] The description of the policy.
- * @member {string} [status] The status of the policy. Possible values include:
- * 'Enabled', 'Disabled'
- * @member {string} [factName] The fact name of the policy (e.g. LabVmCount,
- * LabVmSize, MaxVmsAllowedPerLab, etc. Possible values include:
- * 'UserOwnedLabVmCount', 'UserOwnedLabPremiumVmCount', 'LabVmCount',
- * 'LabPremiumVmCount', 'LabVmSize', 'GalleryImage',
- * 'UserOwnedLabVmCountInSubnet', 'LabTargetCost'
- * @member {string} [factData] The fact data of the policy.
- * @member {string} [threshold] The threshold of the policy (i.e. a number for
- * MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).
- * @member {string} [evaluatorType] The evaluator type of the policy (i.e.
- * AllowedValuesPolicy, MaxValuePolicy). Possible values include:
- * 'AllowedValuesPolicy', 'MaxValuePolicy'
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface PolicyFragment extends Resource {
+export interface Policy extends BaseResource {
   description?: string;
   status?: string;
   factName?: string;
@@ -3020,137 +841,77 @@ export interface PolicyFragment extends Resource {
   threshold?: string;
   evaluatorType?: string;
   provisioningState?: string;
-  uniqueIdentifier?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
  * @class
- * Initializes a new instance of the Port class.
+ * Initializes a new instance of the WeekDetails class.
  * @constructor
- * Properties of a network port.
+ * Properties of a weekly schedule.
  *
- * @member {string} [transportProtocol] Protocol type of the port. Possible
- * values include: 'Tcp', 'Udp'
- * @member {number} [backendPort] Backend port of the target virtual machine.
+ * @member {array} [weekdays] The days of the week.
+ * @member {string} [time] The time of the day.
  */
-export interface Port {
-  transportProtocol?: string;
-  backendPort?: number;
+export interface WeekDetails {
+  weekdays?: string[];
+  time?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the PortFragment class.
+ * Initializes a new instance of the Schedule class.
  * @constructor
- * Properties of a network port.
+ * A schedule.
  *
- * @member {string} [transportProtocol] Protocol type of the port. Possible
- * values include: 'Tcp', 'Udp'
- * @member {number} [backendPort] Backend port of the target virtual machine.
- */
-export interface PortFragment {
-  transportProtocol?: string;
-  backendPort?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the RetargetScheduleProperties class.
- * @constructor
- * Properties for retargeting a virtual machine schedule.
- *
- * @member {string} [currentResourceId] The resource Id of the virtual machine
- * on which the schedule operates
- * @member {string} [targetResourceId] The resource Id of the virtual machine
- * that the schedule should be retargeted to
- */
-export interface RetargetScheduleProperties {
-  currentResourceId?: string;
-  targetResourceId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the Secret class.
- * @constructor
- * A secret.
- *
- * @member {string} [value] The value of the secret for secret creation.
+ * @member {string} [status] The status of the schedule. Possible values
+ * include: 'Enabled', 'Disabled'
+ * @member {string} [taskType] The task type of the schedule. Possible values
+ * include: 'LabVmsShutdownTask', 'LabVmsStartupTask', 'LabBillingTask'
+ * @member {object} [weeklyRecurrence] The weekly recurrence of the schedule.
+ * @member {array} [weeklyRecurrence.weekdays] The days of the week.
+ * @member {string} [weeklyRecurrence.time] The time of the day.
+ * @member {object} [dailyRecurrence] The daily recurrence of the schedule.
+ * @member {string} [dailyRecurrence.time]
+ * @member {object} [hourlyRecurrence] The hourly recurrence of the schedule.
+ * @member {number} [hourlyRecurrence.minute] Minutes of the hour the schedule
+ * will run.
+ * @member {string} [timeZoneId] The time zone id.
  * @member {string} [provisioningState] The provisioning status of the
  * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface Secret extends Resource {
-  value?: string;
+export interface Schedule extends BaseResource {
+  status?: string;
+  taskType?: string;
+  weeklyRecurrence?: WeekDetails;
+  dailyRecurrence?: DayDetails;
+  hourlyRecurrence?: HourDetails;
+  timeZoneId?: string;
   provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ServiceRunner class.
- * @constructor
- * A container for a managed identity to execute DevTest lab services.
- *
- * @member {object} [identity] The identity of the resource.
- * @member {string} [identity.type] Managed identity.
- * @member {string} [identity.principalId] The principal id of resource
- * identity.
- * @member {string} [identity.tenantId] The tenant identifier of resource.
- * @member {string} [identity.clientSecretUrl] The client secret URL of the
- * identity.
- */
-export interface ServiceRunner extends Resource {
-  identity?: IdentityProperties;
-}
-
-/**
- * @class
- * Initializes a new instance of the ShutdownNotificationContent class.
- * @constructor
- * The contents of a shutdown notification. Webhooks can use this type to
- * deserialize the request body when they get notified of an imminent shutdown.
- *
- * @member {string} [skipUrl] The URL to skip auto-shutdown.
- * @member {string} [delayUrl60] The URL to delay shutdown by 60 minutes.
- * @member {string} [delayUrl120] The URL to delay shutdown by 2 hours.
- * @member {string} [vmName] The virtual machine to be shut down.
- * @member {string} [guid] The GUID for the virtual machine to be shut down.
- * @member {string} [owner] The owner of the virtual machine.
- * @member {string} [eventType] The event for which a notification will be
- * sent.
- * @member {string} [text] The text for the notification.
- * @member {string} [subscriptionId] The subscription ID for the schedule.
- * @member {string} [resourceGroupName] The resource group name for the
- * schedule.
- * @member {string} [labName] The lab for the schedule.
- */
-export interface ShutdownNotificationContent {
-  skipUrl?: string;
-  delayUrl60?: string;
-  delayUrl120?: string;
-  vmName?: string;
-  guid?: string;
-  owner?: string;
-  eventType?: string;
-  text?: string;
-  subscriptionId?: string;
-  resourceGroupName?: string;
-  labName?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
 /**
  * @class
  * Initializes a new instance of the Subnet class.
  * @constructor
- * Subnet information.
- *
- * @member {string} [resourceId] The resource ID of the subnet.
- * @member {string} [labSubnetName] The name of the subnet as seen in the lab.
- * @member {string} [allowPublicIp] The permission policy of the subnet for
- * allowing public IP addresses (i.e. Allow, Deny)). Possible values include:
- * 'Default', 'Deny', 'Allow'
+ * @member {string} [resourceId]
+ * @member {string} [labSubnetName]
+ * @member {string} [allowPublicIp] Possible values include: 'Default', 'Deny',
+ * 'Allow'
  */
 export interface Subnet {
   resourceId?: string;
@@ -3160,258 +921,51 @@ export interface Subnet {
 
 /**
  * @class
- * Initializes a new instance of the SubnetFragment class.
- * @constructor
- * Subnet information.
- *
- * @member {string} [resourceId] The resource ID of the subnet.
- * @member {string} [labSubnetName] The name of the subnet as seen in the lab.
- * @member {string} [allowPublicIp] The permission policy of the subnet for
- * allowing public IP addresses (i.e. Allow, Deny)). Possible values include:
- * 'Default', 'Deny', 'Allow'
- */
-export interface SubnetFragment {
-  resourceId?: string;
-  labSubnetName?: string;
-  allowPublicIp?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the SubnetSharedPublicIpAddressConfiguration class.
- * @constructor
- * Configuration for public IP address sharing.
- *
- * @member {array} [allowedPorts] Backend ports that virtual machines on this
- * subnet are allowed to expose
- */
-export interface SubnetSharedPublicIpAddressConfiguration {
-  allowedPorts?: Port[];
-}
-
-/**
- * @class
  * Initializes a new instance of the SubnetOverride class.
  * @constructor
  * Property overrides on a subnet of a virtual network.
  *
- * @member {string} [resourceId] The resource ID of the subnet.
+ * @member {string} [resourceId] The resource identifier of the subnet.
  * @member {string} [labSubnetName] The name given to the subnet within the
  * lab.
  * @member {string} [useInVmCreationPermission] Indicates whether this subnet
- * can be used during virtual machine creation (i.e. Allow, Deny). Possible
- * values include: 'Default', 'Deny', 'Allow'
+ * can be used during virtual machine creation. Possible values include:
+ * 'Default', 'Deny', 'Allow'
  * @member {string} [usePublicIpAddressPermission] Indicates whether public IP
- * addresses can be assigned to virtual machines on this subnet (i.e. Allow,
- * Deny). Possible values include: 'Default', 'Deny', 'Allow'
- * @member {object} [sharedPublicIpAddressConfiguration] Properties that
- * virtual machines on this subnet will share.
- * @member {array} [sharedPublicIpAddressConfiguration.allowedPorts] Backend
- * ports that virtual machines on this subnet are allowed to expose
- * @member {string} [virtualNetworkPoolName] The virtual network pool
- * associated with this subnet.
+ * addresses can be assigned to virtual machines on this subnet. Possible
+ * values include: 'Default', 'Deny', 'Allow'
  */
 export interface SubnetOverride {
   resourceId?: string;
   labSubnetName?: string;
   useInVmCreationPermission?: string;
   usePublicIpAddressPermission?: string;
-  sharedPublicIpAddressConfiguration?: SubnetSharedPublicIpAddressConfiguration;
-  virtualNetworkPoolName?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the SubnetSharedPublicIpAddressConfigurationFragment class.
+ * Initializes a new instance of the SubscriptionNotificationProperties class.
  * @constructor
- * Configuration for public IP address sharing.
- *
- * @member {array} [allowedPorts] Backend ports that virtual machines on this
- * subnet are allowed to expose
+ * @member {string} [tenantId]
  */
-export interface SubnetSharedPublicIpAddressConfigurationFragment {
-  allowedPorts?: PortFragment[];
-}
-
-/**
- * @class
- * Initializes a new instance of the SubnetOverrideFragment class.
- * @constructor
- * Property overrides on a subnet of a virtual network.
- *
- * @member {string} [resourceId] The resource ID of the subnet.
- * @member {string} [labSubnetName] The name given to the subnet within the
- * lab.
- * @member {string} [useInVmCreationPermission] Indicates whether this subnet
- * can be used during virtual machine creation (i.e. Allow, Deny). Possible
- * values include: 'Default', 'Deny', 'Allow'
- * @member {string} [usePublicIpAddressPermission] Indicates whether public IP
- * addresses can be assigned to virtual machines on this subnet (i.e. Allow,
- * Deny). Possible values include: 'Default', 'Deny', 'Allow'
- * @member {object} [sharedPublicIpAddressConfiguration] Properties that
- * virtual machines on this subnet will share.
- * @member {array} [sharedPublicIpAddressConfiguration.allowedPorts] Backend
- * ports that virtual machines on this subnet are allowed to expose
- * @member {string} [virtualNetworkPoolName] The virtual network pool
- * associated with this subnet.
- */
-export interface SubnetOverrideFragment {
-  resourceId?: string;
-  labSubnetName?: string;
-  useInVmCreationPermission?: string;
-  usePublicIpAddressPermission?: string;
-  sharedPublicIpAddressConfiguration?: SubnetSharedPublicIpAddressConfigurationFragment;
-  virtualNetworkPoolName?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the UserIdentity class.
- * @constructor
- * Identity attributes of a lab user.
- *
- * @member {string} [principalName] Set to the principal name / UPN of the
- * client JWT making the request.
- * @member {string} [principalId] Set to the principal Id of the client JWT
- * making the request. Service principal will not have the principal Id.
- * @member {string} [tenantId] Set to the tenant ID of the client JWT making
- * the request.
- * @member {string} [objectId] Set to the object Id of the client JWT making
- * the request. Not all users have object Id. For CSP (reseller) scenarios for
- * example, object Id is not available.
- * @member {string} [appId] Set to the app Id of the client JWT making the
- * request.
- */
-export interface UserIdentity {
-  principalName?: string;
-  principalId?: string;
+export interface SubscriptionNotificationProperties {
   tenantId?: string;
-  objectId?: string;
-  appId?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the UserSecretStore class.
+ * Initializes a new instance of the SubscriptionNotification class.
  * @constructor
- * Properties of a user's secret store.
- *
- * @member {string} [keyVaultUri] The URI of the user's Key vault.
- * @member {string} [keyVaultId] The ID of the user's Key vault.
+ * @member {string} [registrationDate]
+ * @member {string} [state] Possible values include: 'NotDefined',
+ * 'Registered', 'Unregistered', 'Warned', 'Suspended', 'Deleted'
+ * @member {object} [properties]
+ * @member {string} [properties.tenantId]
  */
-export interface UserSecretStore {
-  keyVaultUri?: string;
-  keyVaultId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the User class.
- * @constructor
- * Profile of a lab user.
- *
- * @member {object} [identity] The identity of the user.
- * @member {string} [identity.principalName] Set to the principal name / UPN of
- * the client JWT making the request.
- * @member {string} [identity.principalId] Set to the principal Id of the
- * client JWT making the request. Service principal will not have the principal
- * Id.
- * @member {string} [identity.tenantId] Set to the tenant ID of the client JWT
- * making the request.
- * @member {string} [identity.objectId] Set to the object Id of the client JWT
- * making the request. Not all users have object Id. For CSP (reseller)
- * scenarios for example, object Id is not available.
- * @member {string} [identity.appId] Set to the app Id of the client JWT making
- * the request.
- * @member {object} [secretStore] The secret store of the user.
- * @member {string} [secretStore.keyVaultUri] The URI of the user's Key vault.
- * @member {string} [secretStore.keyVaultId] The ID of the user's Key vault.
- * @member {date} [createdDate] The creation date of the user profile.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface User extends Resource {
-  identity?: UserIdentity;
-  secretStore?: UserSecretStore;
-  readonly createdDate?: Date;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the UserIdentityFragment class.
- * @constructor
- * Identity attributes of a lab user.
- *
- * @member {string} [principalName] Set to the principal name / UPN of the
- * client JWT making the request.
- * @member {string} [principalId] Set to the principal Id of the client JWT
- * making the request. Service principal will not have the principal Id.
- * @member {string} [tenantId] Set to the tenant ID of the client JWT making
- * the request.
- * @member {string} [objectId] Set to the object Id of the client JWT making
- * the request. Not all users have object Id. For CSP (reseller) scenarios for
- * example, object Id is not available.
- * @member {string} [appId] Set to the app Id of the client JWT making the
- * request.
- */
-export interface UserIdentityFragment {
-  principalName?: string;
-  principalId?: string;
-  tenantId?: string;
-  objectId?: string;
-  appId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the UserSecretStoreFragment class.
- * @constructor
- * Properties of a user's secret store.
- *
- * @member {string} [keyVaultUri] The URI of the user's Key vault.
- * @member {string} [keyVaultId] The ID of the user's Key vault.
- */
-export interface UserSecretStoreFragment {
-  keyVaultUri?: string;
-  keyVaultId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the UserFragment class.
- * @constructor
- * Profile of a lab user.
- *
- * @member {object} [identity] The identity of the user.
- * @member {string} [identity.principalName] Set to the principal name / UPN of
- * the client JWT making the request.
- * @member {string} [identity.principalId] Set to the principal Id of the
- * client JWT making the request. Service principal will not have the principal
- * Id.
- * @member {string} [identity.tenantId] Set to the tenant ID of the client JWT
- * making the request.
- * @member {string} [identity.objectId] Set to the object Id of the client JWT
- * making the request. Not all users have object Id. For CSP (reseller)
- * scenarios for example, object Id is not available.
- * @member {string} [identity.appId] Set to the app Id of the client JWT making
- * the request.
- * @member {object} [secretStore] The secret store of the user.
- * @member {string} [secretStore.keyVaultUri] The URI of the user's Key vault.
- * @member {string} [secretStore.keyVaultId] The ID of the user's Key vault.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface UserFragment extends Resource {
-  identity?: UserIdentityFragment;
-  secretStore?: UserSecretStoreFragment;
-  provisioningState?: string;
-  uniqueIdentifier?: string;
+export interface SubscriptionNotification {
+  registrationDate?: string;
+  state?: string;
+  properties?: SubscriptionNotificationProperties;
 }
 
 /**
@@ -3424,67 +978,29 @@ export interface UserFragment extends Resource {
  * @member {string} [description] The description of the virtual network.
  * @member {string} [externalProviderResourceId] The Microsoft.Network resource
  * identifier of the virtual network.
- * @member {array} [externalSubnets] The external subnet properties.
  * @member {array} [subnetOverrides] The subnet overrides of the virtual
  * network.
- * @member {date} [createdDate] The creation date of the virtual network.
  * @member {string} [provisioningState] The provisioning status of the
  * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
+ * @member {string} [id] The identifier of the resource.
+ * @member {string} [name] The name of the resource.
+ * @member {string} [type] The type of the resource.
+ * @member {string} [location] The location of the resource.
+ * @member {object} [tags] The tags of the resource.
  */
-export interface VirtualNetwork extends Resource {
+export interface VirtualNetwork extends BaseResource {
   allowedSubnets?: Subnet[];
   description?: string;
   externalProviderResourceId?: string;
-  externalSubnets?: ExternalSubnet[];
   subnetOverrides?: SubnetOverride[];
-  readonly createdDate?: Date;
   provisioningState?: string;
-  uniqueIdentifier?: string;
+  id?: string;
+  name?: string;
+  type?: string;
+  location?: string;
+  tags?: { [propertyName: string]: string };
 }
 
-/**
- * @class
- * Initializes a new instance of the VirtualNetworkFragment class.
- * @constructor
- * A virtual network.
- *
- * @member {array} [allowedSubnets] The allowed subnets of the virtual network.
- * @member {string} [description] The description of the virtual network.
- * @member {string} [externalProviderResourceId] The Microsoft.Network resource
- * identifier of the virtual network.
- * @member {array} [externalSubnets] The external subnet properties.
- * @member {array} [subnetOverrides] The subnet overrides of the virtual
- * network.
- * @member {string} [provisioningState] The provisioning status of the
- * resource.
- * @member {string} [uniqueIdentifier] The unique immutable identifier of a
- * resource (Guid).
- */
-export interface VirtualNetworkFragment extends Resource {
-  allowedSubnets?: SubnetFragment[];
-  description?: string;
-  externalProviderResourceId?: string;
-  externalSubnets?: ExternalSubnetFragment[];
-  subnetOverrides?: SubnetOverrideFragment[];
-  provisioningState?: string;
-  uniqueIdentifier?: string;
-}
-
-
-/**
- * @class
- * Initializes a new instance of the ProviderOperationResult class.
- * @constructor
- * Result of the request to list REST API operations
- *
- * @member {string} [nextLink] URL to get the next set of operation list
- * results if there are any.
- */
-export interface ProviderOperationResult extends Array<OperationMetadata> {
-  readonly nextLink?: string;
-}
 
 /**
  * @class
@@ -3512,18 +1028,6 @@ export interface ResponseWithContinuationLabVhd extends Array<LabVhd> {
 
 /**
  * @class
- * Initializes a new instance of the ResponseWithContinuationSchedule class.
- * @constructor
- * The response of a list operation.
- *
- * @member {string} [nextLink] Link for next set of results.
- */
-export interface ResponseWithContinuationSchedule extends Array<Schedule> {
-  nextLink?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the ResponseWithContinuationArtifactSource class.
  * @constructor
  * The response of a list operation.
@@ -3536,18 +1040,6 @@ export interface ResponseWithContinuationArtifactSource extends Array<ArtifactSo
 
 /**
  * @class
- * Initializes a new instance of the ResponseWithContinuationArmTemplate class.
- * @constructor
- * The response of a list operation.
- *
- * @member {string} [nextLink] Link for next set of results.
- */
-export interface ResponseWithContinuationArmTemplate extends Array<ArmTemplate> {
-  nextLink?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the ResponseWithContinuationArtifact class.
  * @constructor
  * The response of a list operation.
@@ -3555,6 +1047,30 @@ export interface ResponseWithContinuationArmTemplate extends Array<ArmTemplate> 
  * @member {string} [nextLink] Link for next set of results.
  */
 export interface ResponseWithContinuationArtifact extends Array<Artifact> {
+  nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResponseWithContinuationCostInsight class.
+ * @constructor
+ * The response of a list operation.
+ *
+ * @member {string} [nextLink] Link for next set of results.
+ */
+export interface ResponseWithContinuationCostInsight extends Array<CostInsight> {
+  nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResponseWithContinuationCost class.
+ * @constructor
+ * The response of a list operation.
+ *
+ * @member {string} [nextLink] Link for next set of results.
+ */
+export interface ResponseWithContinuationCost extends Array<Cost> {
   nextLink?: string;
 }
 
@@ -3596,18 +1112,6 @@ export interface ResponseWithContinuationGalleryImage extends Array<GalleryImage
 
 /**
  * @class
- * Initializes a new instance of the ResponseWithContinuationNotificationChannel class.
- * @constructor
- * The response of a list operation.
- *
- * @member {string} [nextLink] Link for next set of results.
- */
-export interface ResponseWithContinuationNotificationChannel extends Array<NotificationChannel> {
-  nextLink?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the ResponseWithContinuationPolicy class.
  * @constructor
  * The response of a list operation.
@@ -3620,61 +1124,13 @@ export interface ResponseWithContinuationPolicy extends Array<Policy> {
 
 /**
  * @class
- * Initializes a new instance of the ResponseWithContinuationServiceRunner class.
+ * Initializes a new instance of the ResponseWithContinuationSchedule class.
  * @constructor
  * The response of a list operation.
  *
  * @member {string} [nextLink] Link for next set of results.
  */
-export interface ResponseWithContinuationServiceRunner extends Array<ServiceRunner> {
-  nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResponseWithContinuationUser class.
- * @constructor
- * The response of a list operation.
- *
- * @member {string} [nextLink] Link for next set of results.
- */
-export interface ResponseWithContinuationUser extends Array<User> {
-  nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResponseWithContinuationDisk class.
- * @constructor
- * The response of a list operation.
- *
- * @member {string} [nextLink] Link for next set of results.
- */
-export interface ResponseWithContinuationDisk extends Array<Disk> {
-  nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResponseWithContinuationDtlEnvironment class.
- * @constructor
- * The response of a list operation.
- *
- * @member {string} [nextLink] Link for next set of results.
- */
-export interface ResponseWithContinuationDtlEnvironment extends Array<DtlEnvironment> {
-  nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResponseWithContinuationSecret class.
- * @constructor
- * The response of a list operation.
- *
- * @member {string} [nextLink] Link for next set of results.
- */
-export interface ResponseWithContinuationSecret extends Array<Secret> {
+export interface ResponseWithContinuationSchedule extends Array<Schedule> {
   nextLink?: string;
 }
 
