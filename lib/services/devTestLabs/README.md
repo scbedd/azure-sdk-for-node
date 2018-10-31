@@ -18,7 +18,7 @@ npm install azure-arm-devtestlabs
 
 ## How to use
 
-### Authentication, client creation and list providerOperations as an example.
+### Authentication, client creation and listBySubscription lab as an example.
 
 ```javascript
 const msRestAzure = require("ms-rest-azure");
@@ -26,12 +26,15 @@ const DevTestLabsClient = require("azure-arm-devtestlabs");
 msRestAzure.interactiveLogin().then((creds) => {
     const subscriptionId = "<Subscription_Id>";
     const client = new DevTestLabsClient(creds, subscriptionId);
-    return client.providerOperations.list().then((result) => {
+    const filter = "testfilter";
+    const top = 1;
+    const orderBy = "testorderBy";
+    return client.lab.listBySubscription(filter, top, orderBy).then((result) => {
       console.log("The result is:");
       console.log(result);
     });
 }).catch((err) => {
-  console.log('An error ocurred:');
+  console.log('An error occurred:');
   console.dir(err, {depth: null, colors: true});
 });
 
