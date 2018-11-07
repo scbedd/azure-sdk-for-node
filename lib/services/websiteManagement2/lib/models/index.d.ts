@@ -18,23 +18,288 @@ export { CloudError } from 'ms-rest-azure';
 
 /**
  * @class
- * Initializes a new instance of the AppServiceCertificate class.
+ * Initializes a new instance of the VirtualIPMapping class.
  * @constructor
- * Key Vault container for a certificate that is purchased through Azure.
+ * Virtual IP mapping.
  *
- * @member {string} [keyVaultId] Key Vault resource Id.
- * @member {string} [keyVaultSecretName] Key Vault secret name.
- * @member {string} [provisioningState] Status of the Key Vault secret.
- * Possible values include: 'Initialized', 'WaitingOnCertificateOrder',
- * 'Succeeded', 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault',
- * 'AzureServiceUnauthorizedToAccessKeyVault', 'KeyVaultDoesNotExist',
- * 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey',
- * 'Unknown'
+ * @member {string} [virtualIP] Virtual IP address.
+ * @member {number} [internalHttpPort] Internal HTTP port.
+ * @member {number} [internalHttpsPort] Internal HTTPS port.
+ * @member {boolean} [inUse] Is virtual IP mapping in use.
  */
-export interface AppServiceCertificate {
-  keyVaultId?: string;
-  keyVaultSecretName?: string;
+export interface VirtualIPMapping {
+  virtualIP?: string;
+  internalHttpPort?: number;
+  internalHttpsPort?: number;
+  inUse?: boolean;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the AddressResponse class.
+ * @constructor
+ * Describes main public IP address and any extra virtual IPs.
+ *
+ * @member {string} [serviceIpAddress] Main public virtual IP.
+ * @member {string} [internalIpAddress] Virtual Network internal IP address of
+ * the App Service Environment if it is in internal load-balancing mode.
+ * @member {array} [outboundIpAddresses] IP addresses appearing on outbound
+ * connections.
+ * @member {array} [vipMappings] Additional virtual IPs.
+ */
+export interface AddressResponse {
+  serviceIpAddress?: string;
+  internalIpAddress?: string;
+  outboundIpAddresses?: string[];
+  vipMappings?: VirtualIPMapping[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the VirtualNetworkProfile class.
+ * @constructor
+ * Specification for using a Virtual Network.
+ *
+ * @member {string} [id] Resource id of the Virtual Network.
+ * @member {string} [name] Name of the Virtual Network (read-only).
+ * @member {string} [type] Resource type of the Virtual Network (read-only).
+ * @member {string} [subnet] Subnet within the Virtual Network.
+ */
+export interface VirtualNetworkProfile {
+  id?: string;
+  readonly name?: string;
+  readonly type?: string;
+  subnet?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the WorkerPool class.
+ * @constructor
+ * Worker pool of an App Service Environment.
+ *
+ * @member {number} [workerSizeId] Worker size ID for referencing this worker
+ * pool.
+ * @member {string} [computeMode] Shared or dedicated app hosting. Possible
+ * values include: 'Shared', 'Dedicated', 'Dynamic'
+ * @member {string} [workerSize] VM size of the worker pool instances.
+ * @member {number} [workerCount] Number of instances in the worker pool.
+ * @member {array} [instanceNames] Names of all instances in the worker pool
+ * (read only).
+ */
+export interface WorkerPool {
+  workerSizeId?: number;
+  computeMode?: string;
+  workerSize?: string;
+  workerCount?: number;
+  readonly instanceNames?: string[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the StampCapacity class.
+ * @constructor
+ * Stamp capacity information.
+ *
+ * @member {string} [name] Name of the stamp.
+ * @member {number} [availableCapacity] Available capacity (# of machines,
+ * bytes of storage etc...).
+ * @member {number} [totalCapacity] Total capacity (# of machines, bytes of
+ * storage etc...).
+ * @member {string} [unit] Name of the unit.
+ * @member {string} [computeMode] Shared/dedicated workers. Possible values
+ * include: 'Shared', 'Dedicated', 'Dynamic'
+ * @member {string} [workerSize] Size of the machines. Possible values include:
+ * 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'
+ * @member {number} [workerSizeId] Size ID of machines:
+ * 0 - Small
+ * 1 - Medium
+ * 2 - Large
+ * @member {boolean} [excludeFromCapacityAllocation] If <code>true</code>, it
+ * includes basic apps.
+ * Basic apps are not used for capacity allocation.
+ * @member {boolean} [isApplicableForAllComputeModes] <code>true</code> if
+ * capacity is applicable for all apps; otherwise, <code>false</code>.
+ * @member {string} [siteMode] Shared or Dedicated.
+ * @member {boolean} [isLinux] Is this a linux stamp capacity
+ */
+export interface StampCapacity {
+  name?: string;
+  availableCapacity?: number;
+  totalCapacity?: number;
+  unit?: string;
+  computeMode?: string;
+  workerSize?: string;
+  workerSizeId?: number;
+  excludeFromCapacityAllocation?: boolean;
+  isApplicableForAllComputeModes?: boolean;
+  siteMode?: string;
+  isLinux?: boolean;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the NetworkAccessControlEntry class.
+ * @constructor
+ * Network access control entry.
+ *
+ * @member {string} [action] Action object. Possible values include: 'Permit',
+ * 'Deny'
+ * @member {string} [description] Description of network access control entry.
+ * @member {number} [order] Order of precedence.
+ * @member {string} [remoteSubnet] Remote subnet.
+ */
+export interface NetworkAccessControlEntry {
+  action?: string;
+  description?: string;
+  order?: number;
+  remoteSubnet?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the NameValuePair class.
+ * @constructor
+ * Name value pair.
+ *
+ * @member {string} [name] Pair name.
+ * @member {string} [value] Pair value.
+ */
+export interface NameValuePair {
+  name?: string;
+  value?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the AppServiceEnvironment class.
+ * @constructor
+ * Description of an App Service Environment.
+ *
+ * @member {string} name Name of the App Service Environment.
+ * @member {string} location Location of the App Service Environment, e.g.
+ * "West US".
+ * @member {string} [provisioningState] Provisioning state of the App Service
+ * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
+ * 'InProgress', 'Deleting'
+ * @member {string} [status] Current status of the App Service Environment.
+ * Possible values include: 'Preparing', 'Ready', 'Scaling', 'Deleting'
+ * @member {string} [vnetName] Name of the Virtual Network for the App Service
+ * Environment.
+ * @member {string} [vnetResourceGroupName] Resource group of the Virtual
+ * Network.
+ * @member {string} [vnetSubnetName] Subnet of the Virtual Network.
+ * @member {object} virtualNetwork Description of the Virtual Network.
+ * @member {string} [virtualNetwork.id] Resource id of the Virtual Network.
+ * @member {string} [virtualNetwork.name] Name of the Virtual Network
+ * (read-only).
+ * @member {string} [virtualNetwork.type] Resource type of the Virtual Network
+ * (read-only).
+ * @member {string} [virtualNetwork.subnet] Subnet within the Virtual Network.
+ * @member {string} [internalLoadBalancingMode] Specifies which endpoints to
+ * serve internally in the Virtual Network for the App Service Environment.
+ * Possible values include: 'None', 'Web', 'Publishing'
+ * @member {string} [multiSize] Front-end VM size, e.g. "Medium", "Large".
+ * @member {number} [multiRoleCount] Number of front-end instances.
+ * @member {array} workerPools Description of worker pools with worker size
+ * IDs, VM sizes, and number of workers in each pool.
+ * @member {number} [ipsslAddressCount] Number of IP SSL addresses reserved for
+ * the App Service Environment.
+ * @member {string} [databaseEdition] Edition of the metadata database for the
+ * App Service Environment, e.g. "Standard".
+ * @member {string} [databaseServiceObjective] Service objective of the
+ * metadata database for the App Service Environment, e.g. "S0".
+ * @member {number} [upgradeDomains] Number of upgrade domains of the App
+ * Service Environment.
+ * @member {string} [subscriptionId] Subscription of the App Service
+ * Environment.
+ * @member {string} [dnsSuffix] DNS suffix of the App Service Environment.
+ * @member {string} [lastAction] Last deployment action on the App Service
+ * Environment.
+ * @member {string} [lastActionResult] Result of the last deployment action on
+ * the App Service Environment.
+ * @member {string} [allowedMultiSizes] List of comma separated strings
+ * describing which VM sizes are allowed for front-ends.
+ * @member {string} [allowedWorkerSizes] List of comma separated strings
+ * describing which VM sizes are allowed for workers.
+ * @member {number} [maximumNumberOfMachines] Maximum number of VMs in the App
+ * Service Environment.
+ * @member {array} [vipMappings] Description of IP SSL mapping for the App
+ * Service Environment.
+ * @member {array} [environmentCapacities] Current total, used, and available
+ * worker capacities.
+ * @member {array} [networkAccessControlList] Access control list for
+ * controlling traffic to the App Service Environment.
+ * @member {boolean} [environmentIsHealthy] True/false indicating whether the
+ * App Service Environment is healthy.
+ * @member {string} [environmentStatus] Detailed message about with results of
+ * the last check of the App Service Environment.
+ * @member {string} [resourceGroup] Resource group of the App Service
+ * Environment.
+ * @member {number} [frontEndScaleFactor] Scale factor for front-ends.
+ * @member {number} [defaultFrontEndScaleFactor] Default Scale Factor for
+ * FrontEnds.
+ * @member {string} [apiManagementAccountId] API Management Account associated
+ * with the App Service Environment.
+ * @member {boolean} [suspended] <code>true</code> if the App Service
+ * Environment is suspended; otherwise, <code>false</code>. The environment can
+ * be suspended, e.g. when the management endpoint is no longer available
+ * (most likely because NSG blocked the incoming traffic).
+ * @member {boolean} [dynamicCacheEnabled] True/false indicating whether the
+ * App Service Environment is suspended. The environment can be suspended e.g.
+ * when the management endpoint is no longer available
+ * (most likely because NSG blocked the incoming traffic).
+ * @member {array} [clusterSettings] Custom settings for changing the behavior
+ * of the App Service Environment.
+ * @member {array} [userWhitelistedIpRanges] User added ip ranges to whitelist
+ * on ASE db
+ * @member {boolean} [hasLinuxWorkers] Flag that displays whether an ASE has
+ * linux workers or not
+ * @member {string} [sslCertKeyVaultId] Key Vault ID for ILB App Service
+ * Environment default SSL certificate
+ * @member {string} [sslCertKeyVaultSecretName] Key Vault Secret Name for ILB
+ * App Service Environment default SSL certificate
+ */
+export interface AppServiceEnvironment {
+  name: string;
+  location: string;
   readonly provisioningState?: string;
+  readonly status?: string;
+  vnetName?: string;
+  vnetResourceGroupName?: string;
+  vnetSubnetName?: string;
+  virtualNetwork: VirtualNetworkProfile;
+  internalLoadBalancingMode?: string;
+  multiSize?: string;
+  multiRoleCount?: number;
+  workerPools: WorkerPool[];
+  ipsslAddressCount?: number;
+  readonly databaseEdition?: string;
+  readonly databaseServiceObjective?: string;
+  readonly upgradeDomains?: number;
+  readonly subscriptionId?: string;
+  dnsSuffix?: string;
+  readonly lastAction?: string;
+  readonly lastActionResult?: string;
+  readonly allowedMultiSizes?: string;
+  readonly allowedWorkerSizes?: string;
+  readonly maximumNumberOfMachines?: number;
+  readonly vipMappings?: VirtualIPMapping[];
+  readonly environmentCapacities?: StampCapacity[];
+  networkAccessControlList?: NetworkAccessControlEntry[];
+  readonly environmentIsHealthy?: boolean;
+  readonly environmentStatus?: string;
+  readonly resourceGroup?: string;
+  frontEndScaleFactor?: number;
+  readonly defaultFrontEndScaleFactor?: number;
+  apiManagementAccountId?: string;
+  suspended?: boolean;
+  dynamicCacheEnabled?: boolean;
+  clusterSettings?: NameValuePair[];
+  userWhitelistedIpRanges?: string[];
+  hasLinuxWorkers?: boolean;
+  sslCertKeyVaultId?: string;
+  sslCertKeyVaultSecretName?: string;
 }
 
 /**
@@ -61,139 +326,135 @@ export interface Resource extends BaseResource {
 
 /**
  * @class
- * Initializes a new instance of the AppServiceCertificateResource class.
+ * Initializes a new instance of the AppServiceEnvironmentResource class.
  * @constructor
- * Key Vault container ARM resource for a certificate that is purchased through
- * Azure.
+ * App Service Environment ARM resource.
  *
- * @member {string} [keyVaultId] Key Vault resource Id.
- * @member {string} [keyVaultSecretName] Key Vault secret name.
- * @member {string} [provisioningState] Status of the Key Vault secret.
- * Possible values include: 'Initialized', 'WaitingOnCertificateOrder',
- * 'Succeeded', 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault',
- * 'AzureServiceUnauthorizedToAccessKeyVault', 'KeyVaultDoesNotExist',
- * 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey',
- * 'Unknown'
+ * @member {string} appServiceEnvironmentResourceName Name of the App Service
+ * Environment.
+ * @member {string} appServiceEnvironmentResourceLocation Location of the App
+ * Service Environment, e.g. "West US".
+ * @member {string} [provisioningState] Provisioning state of the App Service
+ * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
+ * 'InProgress', 'Deleting'
+ * @member {string} [status] Current status of the App Service Environment.
+ * Possible values include: 'Preparing', 'Ready', 'Scaling', 'Deleting'
+ * @member {string} [vnetName] Name of the Virtual Network for the App Service
+ * Environment.
+ * @member {string} [vnetResourceGroupName] Resource group of the Virtual
+ * Network.
+ * @member {string} [vnetSubnetName] Subnet of the Virtual Network.
+ * @member {object} virtualNetwork Description of the Virtual Network.
+ * @member {string} [virtualNetwork.id] Resource id of the Virtual Network.
+ * @member {string} [virtualNetwork.name] Name of the Virtual Network
+ * (read-only).
+ * @member {string} [virtualNetwork.type] Resource type of the Virtual Network
+ * (read-only).
+ * @member {string} [virtualNetwork.subnet] Subnet within the Virtual Network.
+ * @member {string} [internalLoadBalancingMode] Specifies which endpoints to
+ * serve internally in the Virtual Network for the App Service Environment.
+ * Possible values include: 'None', 'Web', 'Publishing'
+ * @member {string} [multiSize] Front-end VM size, e.g. "Medium", "Large".
+ * @member {number} [multiRoleCount] Number of front-end instances.
+ * @member {array} workerPools Description of worker pools with worker size
+ * IDs, VM sizes, and number of workers in each pool.
+ * @member {number} [ipsslAddressCount] Number of IP SSL addresses reserved for
+ * the App Service Environment.
+ * @member {string} [databaseEdition] Edition of the metadata database for the
+ * App Service Environment, e.g. "Standard".
+ * @member {string} [databaseServiceObjective] Service objective of the
+ * metadata database for the App Service Environment, e.g. "S0".
+ * @member {number} [upgradeDomains] Number of upgrade domains of the App
+ * Service Environment.
+ * @member {string} [subscriptionId] Subscription of the App Service
+ * Environment.
+ * @member {string} [dnsSuffix] DNS suffix of the App Service Environment.
+ * @member {string} [lastAction] Last deployment action on the App Service
+ * Environment.
+ * @member {string} [lastActionResult] Result of the last deployment action on
+ * the App Service Environment.
+ * @member {string} [allowedMultiSizes] List of comma separated strings
+ * describing which VM sizes are allowed for front-ends.
+ * @member {string} [allowedWorkerSizes] List of comma separated strings
+ * describing which VM sizes are allowed for workers.
+ * @member {number} [maximumNumberOfMachines] Maximum number of VMs in the App
+ * Service Environment.
+ * @member {array} [vipMappings] Description of IP SSL mapping for the App
+ * Service Environment.
+ * @member {array} [environmentCapacities] Current total, used, and available
+ * worker capacities.
+ * @member {array} [networkAccessControlList] Access control list for
+ * controlling traffic to the App Service Environment.
+ * @member {boolean} [environmentIsHealthy] True/false indicating whether the
+ * App Service Environment is healthy.
+ * @member {string} [environmentStatus] Detailed message about with results of
+ * the last check of the App Service Environment.
+ * @member {string} [resourceGroup] Resource group of the App Service
+ * Environment.
+ * @member {number} [frontEndScaleFactor] Scale factor for front-ends.
+ * @member {number} [defaultFrontEndScaleFactor] Default Scale Factor for
+ * FrontEnds.
+ * @member {string} [apiManagementAccountId] API Management Account associated
+ * with the App Service Environment.
+ * @member {boolean} [suspended] <code>true</code> if the App Service
+ * Environment is suspended; otherwise, <code>false</code>. The environment can
+ * be suspended, e.g. when the management endpoint is no longer available
+ * (most likely because NSG blocked the incoming traffic).
+ * @member {boolean} [dynamicCacheEnabled] True/false indicating whether the
+ * App Service Environment is suspended. The environment can be suspended e.g.
+ * when the management endpoint is no longer available
+ * (most likely because NSG blocked the incoming traffic).
+ * @member {array} [clusterSettings] Custom settings for changing the behavior
+ * of the App Service Environment.
+ * @member {array} [userWhitelistedIpRanges] User added ip ranges to whitelist
+ * on ASE db
+ * @member {boolean} [hasLinuxWorkers] Flag that displays whether an ASE has
+ * linux workers or not
+ * @member {string} [sslCertKeyVaultId] Key Vault ID for ILB App Service
+ * Environment default SSL certificate
+ * @member {string} [sslCertKeyVaultSecretName] Key Vault Secret Name for ILB
+ * App Service Environment default SSL certificate
  */
-export interface AppServiceCertificateResource extends Resource {
-  keyVaultId?: string;
-  keyVaultSecretName?: string;
-  readonly provisioningState?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the CertificateDetails class.
- * @constructor
- * SSL certificate details.
- *
- * @member {number} [version] Certificate Version.
- * @member {string} [serialNumber] Certificate Serial Number.
- * @member {string} [thumbprint] Certificate Thumbprint.
- * @member {string} [subject] Certificate Subject.
- * @member {date} [notBefore] Date Certificate is valid from.
- * @member {date} [notAfter] Date Certificate is valid to.
- * @member {string} [signatureAlgorithm] Certificate Signature algorithm.
- * @member {string} [issuer] Certificate Issuer.
- * @member {string} [rawData] Raw certificate data.
- */
-export interface CertificateDetails {
-  readonly version?: number;
-  readonly serialNumber?: string;
-  readonly thumbprint?: string;
-  readonly subject?: string;
-  readonly notBefore?: Date;
-  readonly notAfter?: Date;
-  readonly signatureAlgorithm?: string;
-  readonly issuer?: string;
-  readonly rawData?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the AppServiceCertificateOrder class.
- * @constructor
- * SSL certificate purchase order.
- *
- * @member {object} [certificates] State of the Key Vault secret.
- * @member {string} [distinguishedName] Certificate distinguished name.
- * @member {string} [domainVerificationToken] Domain verification token.
- * @member {number} [validityInYears] Duration in years (must be between 1 and
- * 3). Default value: 1 .
- * @member {number} [keySize] Certificate key size. Default value: 2048 .
- * @member {string} productType Certificate product type. Possible values
- * include: 'StandardDomainValidatedSsl', 'StandardDomainValidatedWildCardSsl'
- * @member {boolean} [autoRenew] <code>true</code> if the certificate should be
- * automatically renewed when it expires; otherwise, <code>false</code>.
- * Default value: true .
- * @member {string} [provisioningState] Status of certificate order. Possible
- * values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'
- * @member {string} [status] Current order status. Possible values include:
- * 'Pendingissuance', 'Issued', 'Revoked', 'Canceled', 'Denied',
- * 'Pendingrevocation', 'PendingRekey', 'Unused', 'Expired', 'NotSubmitted'
- * @member {object} [signedCertificate] Signed certificate.
- * @member {number} [signedCertificate.version] Certificate Version.
- * @member {string} [signedCertificate.serialNumber] Certificate Serial Number.
- * @member {string} [signedCertificate.thumbprint] Certificate Thumbprint.
- * @member {string} [signedCertificate.subject] Certificate Subject.
- * @member {date} [signedCertificate.notBefore] Date Certificate is valid from.
- * @member {date} [signedCertificate.notAfter] Date Certificate is valid to.
- * @member {string} [signedCertificate.signatureAlgorithm] Certificate
- * Signature algorithm.
- * @member {string} [signedCertificate.issuer] Certificate Issuer.
- * @member {string} [signedCertificate.rawData] Raw certificate data.
- * @member {string} [csr] Last CSR that was created for this order.
- * @member {object} [intermediate] Intermediate certificate.
- * @member {number} [intermediate.version] Certificate Version.
- * @member {string} [intermediate.serialNumber] Certificate Serial Number.
- * @member {string} [intermediate.thumbprint] Certificate Thumbprint.
- * @member {string} [intermediate.subject] Certificate Subject.
- * @member {date} [intermediate.notBefore] Date Certificate is valid from.
- * @member {date} [intermediate.notAfter] Date Certificate is valid to.
- * @member {string} [intermediate.signatureAlgorithm] Certificate Signature
- * algorithm.
- * @member {string} [intermediate.issuer] Certificate Issuer.
- * @member {string} [intermediate.rawData] Raw certificate data.
- * @member {object} [root] Root certificate.
- * @member {number} [root.version] Certificate Version.
- * @member {string} [root.serialNumber] Certificate Serial Number.
- * @member {string} [root.thumbprint] Certificate Thumbprint.
- * @member {string} [root.subject] Certificate Subject.
- * @member {date} [root.notBefore] Date Certificate is valid from.
- * @member {date} [root.notAfter] Date Certificate is valid to.
- * @member {string} [root.signatureAlgorithm] Certificate Signature algorithm.
- * @member {string} [root.issuer] Certificate Issuer.
- * @member {string} [root.rawData] Raw certificate data.
- * @member {string} [serialNumber] Current serial number of the certificate.
- * @member {date} [lastCertificateIssuanceTime] Certificate last issuance time.
- * @member {date} [expirationTime] Certificate expiration time.
- * @member {boolean} [isPrivateKeyExternal] <code>true</code> if private key is
- * external; otherwise, <code>false</code>.
- * @member {array} [appServiceCertificateNotRenewableReasons] Reasons why App
- * Service Certificate is not renewable at the current moment.
- * @member {date} [nextAutoRenewalTimeStamp] Time stamp when the certificate
- * would be auto renewed next
- */
-export interface AppServiceCertificateOrder extends Resource {
-  certificates?: { [propertyName: string]: AppServiceCertificate };
-  distinguishedName?: string;
-  readonly domainVerificationToken?: string;
-  validityInYears?: number;
-  keySize?: number;
-  productType: string;
-  autoRenew?: boolean;
+export interface AppServiceEnvironmentResource extends Resource {
+  appServiceEnvironmentResourceName: string;
+  appServiceEnvironmentResourceLocation: string;
   readonly provisioningState?: string;
   readonly status?: string;
-  readonly signedCertificate?: CertificateDetails;
-  csr?: string;
-  readonly intermediate?: CertificateDetails;
-  readonly root?: CertificateDetails;
-  readonly serialNumber?: string;
-  readonly lastCertificateIssuanceTime?: Date;
-  readonly expirationTime?: Date;
-  readonly isPrivateKeyExternal?: boolean;
-  readonly appServiceCertificateNotRenewableReasons?: string[];
-  readonly nextAutoRenewalTimeStamp?: Date;
+  vnetName?: string;
+  vnetResourceGroupName?: string;
+  vnetSubnetName?: string;
+  virtualNetwork: VirtualNetworkProfile;
+  internalLoadBalancingMode?: string;
+  multiSize?: string;
+  multiRoleCount?: number;
+  workerPools: WorkerPool[];
+  ipsslAddressCount?: number;
+  readonly databaseEdition?: string;
+  readonly databaseServiceObjective?: string;
+  readonly upgradeDomains?: number;
+  readonly subscriptionId?: string;
+  dnsSuffix?: string;
+  readonly lastAction?: string;
+  readonly lastActionResult?: string;
+  readonly allowedMultiSizes?: string;
+  readonly allowedWorkerSizes?: string;
+  readonly maximumNumberOfMachines?: number;
+  readonly vipMappings?: VirtualIPMapping[];
+  readonly environmentCapacities?: StampCapacity[];
+  networkAccessControlList?: NetworkAccessControlEntry[];
+  readonly environmentIsHealthy?: boolean;
+  readonly environmentStatus?: string;
+  readonly resourceGroup?: string;
+  frontEndScaleFactor?: number;
+  readonly defaultFrontEndScaleFactor?: number;
+  apiManagementAccountId?: string;
+  suspended?: boolean;
+  dynamicCacheEnabled?: boolean;
+  clusterSettings?: NameValuePair[];
+  userWhitelistedIpRanges?: string[];
+  hasLinuxWorkers?: boolean;
+  sslCertKeyVaultId?: string;
+  sslCertKeyVaultSecretName?: string;
 }
 
 /**
@@ -217,209 +478,371 @@ export interface ProxyOnlyResource extends BaseResource {
 
 /**
  * @class
- * Initializes a new instance of the AppServiceCertificateOrderPatchResource class.
+ * Initializes a new instance of the AppServiceEnvironmentPatchResource class.
  * @constructor
- * ARM resource for a certificate order that is purchased through Azure.
+ * ARM resource for a app service enviroment.
  *
- * @member {object} [certificates] State of the Key Vault secret.
- * @member {string} [distinguishedName] Certificate distinguished name.
- * @member {string} [domainVerificationToken] Domain verification token.
- * @member {number} [validityInYears] Duration in years (must be between 1 and
- * 3). Default value: 1 .
- * @member {number} [keySize] Certificate key size. Default value: 2048 .
- * @member {string} productType Certificate product type. Possible values
- * include: 'StandardDomainValidatedSsl', 'StandardDomainValidatedWildCardSsl'
- * @member {boolean} [autoRenew] <code>true</code> if the certificate should be
- * automatically renewed when it expires; otherwise, <code>false</code>.
- * Default value: true .
- * @member {string} [provisioningState] Status of certificate order. Possible
- * values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'
- * @member {string} [status] Current order status. Possible values include:
- * 'Pendingissuance', 'Issued', 'Revoked', 'Canceled', 'Denied',
- * 'Pendingrevocation', 'PendingRekey', 'Unused', 'Expired', 'NotSubmitted'
- * @member {object} [signedCertificate] Signed certificate.
- * @member {number} [signedCertificate.version] Certificate Version.
- * @member {string} [signedCertificate.serialNumber] Certificate Serial Number.
- * @member {string} [signedCertificate.thumbprint] Certificate Thumbprint.
- * @member {string} [signedCertificate.subject] Certificate Subject.
- * @member {date} [signedCertificate.notBefore] Date Certificate is valid from.
- * @member {date} [signedCertificate.notAfter] Date Certificate is valid to.
- * @member {string} [signedCertificate.signatureAlgorithm] Certificate
- * Signature algorithm.
- * @member {string} [signedCertificate.issuer] Certificate Issuer.
- * @member {string} [signedCertificate.rawData] Raw certificate data.
- * @member {string} [csr] Last CSR that was created for this order.
- * @member {object} [intermediate] Intermediate certificate.
- * @member {number} [intermediate.version] Certificate Version.
- * @member {string} [intermediate.serialNumber] Certificate Serial Number.
- * @member {string} [intermediate.thumbprint] Certificate Thumbprint.
- * @member {string} [intermediate.subject] Certificate Subject.
- * @member {date} [intermediate.notBefore] Date Certificate is valid from.
- * @member {date} [intermediate.notAfter] Date Certificate is valid to.
- * @member {string} [intermediate.signatureAlgorithm] Certificate Signature
- * algorithm.
- * @member {string} [intermediate.issuer] Certificate Issuer.
- * @member {string} [intermediate.rawData] Raw certificate data.
- * @member {object} [root] Root certificate.
- * @member {number} [root.version] Certificate Version.
- * @member {string} [root.serialNumber] Certificate Serial Number.
- * @member {string} [root.thumbprint] Certificate Thumbprint.
- * @member {string} [root.subject] Certificate Subject.
- * @member {date} [root.notBefore] Date Certificate is valid from.
- * @member {date} [root.notAfter] Date Certificate is valid to.
- * @member {string} [root.signatureAlgorithm] Certificate Signature algorithm.
- * @member {string} [root.issuer] Certificate Issuer.
- * @member {string} [root.rawData] Raw certificate data.
- * @member {string} [serialNumber] Current serial number of the certificate.
- * @member {date} [lastCertificateIssuanceTime] Certificate last issuance time.
- * @member {date} [expirationTime] Certificate expiration time.
- * @member {boolean} [isPrivateKeyExternal] <code>true</code> if private key is
- * external; otherwise, <code>false</code>.
- * @member {array} [appServiceCertificateNotRenewableReasons] Reasons why App
- * Service Certificate is not renewable at the current moment.
- * @member {date} [nextAutoRenewalTimeStamp] Time stamp when the certificate
- * would be auto renewed next
+ * @member {string} appServiceEnvironmentPatchResourceName Name of the App
+ * Service Environment.
+ * @member {string} location Location of the App Service Environment, e.g.
+ * "West US".
+ * @member {string} [provisioningState] Provisioning state of the App Service
+ * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
+ * 'InProgress', 'Deleting'
+ * @member {string} [status] Current status of the App Service Environment.
+ * Possible values include: 'Preparing', 'Ready', 'Scaling', 'Deleting'
+ * @member {string} [vnetName] Name of the Virtual Network for the App Service
+ * Environment.
+ * @member {string} [vnetResourceGroupName] Resource group of the Virtual
+ * Network.
+ * @member {string} [vnetSubnetName] Subnet of the Virtual Network.
+ * @member {object} virtualNetwork Description of the Virtual Network.
+ * @member {string} [virtualNetwork.id] Resource id of the Virtual Network.
+ * @member {string} [virtualNetwork.name] Name of the Virtual Network
+ * (read-only).
+ * @member {string} [virtualNetwork.type] Resource type of the Virtual Network
+ * (read-only).
+ * @member {string} [virtualNetwork.subnet] Subnet within the Virtual Network.
+ * @member {string} [internalLoadBalancingMode] Specifies which endpoints to
+ * serve internally in the Virtual Network for the App Service Environment.
+ * Possible values include: 'None', 'Web', 'Publishing'
+ * @member {string} [multiSize] Front-end VM size, e.g. "Medium", "Large".
+ * @member {number} [multiRoleCount] Number of front-end instances.
+ * @member {array} workerPools Description of worker pools with worker size
+ * IDs, VM sizes, and number of workers in each pool.
+ * @member {number} [ipsslAddressCount] Number of IP SSL addresses reserved for
+ * the App Service Environment.
+ * @member {string} [databaseEdition] Edition of the metadata database for the
+ * App Service Environment, e.g. "Standard".
+ * @member {string} [databaseServiceObjective] Service objective of the
+ * metadata database for the App Service Environment, e.g. "S0".
+ * @member {number} [upgradeDomains] Number of upgrade domains of the App
+ * Service Environment.
+ * @member {string} [subscriptionId] Subscription of the App Service
+ * Environment.
+ * @member {string} [dnsSuffix] DNS suffix of the App Service Environment.
+ * @member {string} [lastAction] Last deployment action on the App Service
+ * Environment.
+ * @member {string} [lastActionResult] Result of the last deployment action on
+ * the App Service Environment.
+ * @member {string} [allowedMultiSizes] List of comma separated strings
+ * describing which VM sizes are allowed for front-ends.
+ * @member {string} [allowedWorkerSizes] List of comma separated strings
+ * describing which VM sizes are allowed for workers.
+ * @member {number} [maximumNumberOfMachines] Maximum number of VMs in the App
+ * Service Environment.
+ * @member {array} [vipMappings] Description of IP SSL mapping for the App
+ * Service Environment.
+ * @member {array} [environmentCapacities] Current total, used, and available
+ * worker capacities.
+ * @member {array} [networkAccessControlList] Access control list for
+ * controlling traffic to the App Service Environment.
+ * @member {boolean} [environmentIsHealthy] True/false indicating whether the
+ * App Service Environment is healthy.
+ * @member {string} [environmentStatus] Detailed message about with results of
+ * the last check of the App Service Environment.
+ * @member {string} [resourceGroup] Resource group of the App Service
+ * Environment.
+ * @member {number} [frontEndScaleFactor] Scale factor for front-ends.
+ * @member {number} [defaultFrontEndScaleFactor] Default Scale Factor for
+ * FrontEnds.
+ * @member {string} [apiManagementAccountId] API Management Account associated
+ * with the App Service Environment.
+ * @member {boolean} [suspended] <code>true</code> if the App Service
+ * Environment is suspended; otherwise, <code>false</code>. The environment can
+ * be suspended, e.g. when the management endpoint is no longer available
+ * (most likely because NSG blocked the incoming traffic).
+ * @member {boolean} [dynamicCacheEnabled] True/false indicating whether the
+ * App Service Environment is suspended. The environment can be suspended e.g.
+ * when the management endpoint is no longer available
+ * (most likely because NSG blocked the incoming traffic).
+ * @member {array} [clusterSettings] Custom settings for changing the behavior
+ * of the App Service Environment.
+ * @member {array} [userWhitelistedIpRanges] User added ip ranges to whitelist
+ * on ASE db
+ * @member {boolean} [hasLinuxWorkers] Flag that displays whether an ASE has
+ * linux workers or not
+ * @member {string} [sslCertKeyVaultId] Key Vault ID for ILB App Service
+ * Environment default SSL certificate
+ * @member {string} [sslCertKeyVaultSecretName] Key Vault Secret Name for ILB
+ * App Service Environment default SSL certificate
  */
-export interface AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
-  certificates?: { [propertyName: string]: AppServiceCertificate };
-  distinguishedName?: string;
-  readonly domainVerificationToken?: string;
-  validityInYears?: number;
-  keySize?: number;
-  productType: string;
-  autoRenew?: boolean;
+export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
+  appServiceEnvironmentPatchResourceName: string;
+  location: string;
   readonly provisioningState?: string;
   readonly status?: string;
-  readonly signedCertificate?: CertificateDetails;
-  csr?: string;
-  readonly intermediate?: CertificateDetails;
-  readonly root?: CertificateDetails;
-  readonly serialNumber?: string;
-  readonly lastCertificateIssuanceTime?: Date;
-  readonly expirationTime?: Date;
-  readonly isPrivateKeyExternal?: boolean;
-  readonly appServiceCertificateNotRenewableReasons?: string[];
-  readonly nextAutoRenewalTimeStamp?: Date;
+  vnetName?: string;
+  vnetResourceGroupName?: string;
+  vnetSubnetName?: string;
+  virtualNetwork: VirtualNetworkProfile;
+  internalLoadBalancingMode?: string;
+  multiSize?: string;
+  multiRoleCount?: number;
+  workerPools: WorkerPool[];
+  ipsslAddressCount?: number;
+  readonly databaseEdition?: string;
+  readonly databaseServiceObjective?: string;
+  readonly upgradeDomains?: number;
+  readonly subscriptionId?: string;
+  dnsSuffix?: string;
+  readonly lastAction?: string;
+  readonly lastActionResult?: string;
+  readonly allowedMultiSizes?: string;
+  readonly allowedWorkerSizes?: string;
+  readonly maximumNumberOfMachines?: number;
+  readonly vipMappings?: VirtualIPMapping[];
+  readonly environmentCapacities?: StampCapacity[];
+  networkAccessControlList?: NetworkAccessControlEntry[];
+  readonly environmentIsHealthy?: boolean;
+  readonly environmentStatus?: string;
+  readonly resourceGroup?: string;
+  frontEndScaleFactor?: number;
+  readonly defaultFrontEndScaleFactor?: number;
+  apiManagementAccountId?: string;
+  suspended?: boolean;
+  dynamicCacheEnabled?: boolean;
+  clusterSettings?: NameValuePair[];
+  userWhitelistedIpRanges?: string[];
+  hasLinuxWorkers?: boolean;
+  sslCertKeyVaultId?: string;
+  sslCertKeyVaultSecretName?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the AppServiceCertificatePatchResource class.
+ * Initializes a new instance of the HostingEnvironmentDiagnostics class.
  * @constructor
- * Key Vault container ARM resource for a certificate that is purchased through
- * Azure.
+ * Diagnostics for an App Service Environment.
  *
- * @member {string} [keyVaultId] Key Vault resource Id.
- * @member {string} [keyVaultSecretName] Key Vault secret name.
- * @member {string} [provisioningState] Status of the Key Vault secret.
- * Possible values include: 'Initialized', 'WaitingOnCertificateOrder',
- * 'Succeeded', 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault',
- * 'AzureServiceUnauthorizedToAccessKeyVault', 'KeyVaultDoesNotExist',
- * 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey',
- * 'Unknown'
+ * @member {string} [name] Name/identifier of the diagnostics.
+ * @member {string} [diagnosicsOutput] Diagnostics output.
  */
-export interface AppServiceCertificatePatchResource extends ProxyOnlyResource {
-  keyVaultId?: string;
-  keyVaultSecretName?: string;
-  readonly provisioningState?: string;
+export interface HostingEnvironmentDiagnostics {
+  name?: string;
+  diagnosicsOutput?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the CertificateEmail class.
+ * Initializes a new instance of the MetricAvailabilily class.
  * @constructor
- * SSL certificate email.
+ * Metric availability and retention.
  *
- * @member {string} [emailId] Email id.
- * @member {date} [timeStamp] Time stamp.
+ * @member {string} [timeGrain] Time grain.
+ * @member {string} [retention] Retention period for the current time grain.
  */
-export interface CertificateEmail extends ProxyOnlyResource {
-  emailId?: string;
-  timeStamp?: Date;
+export interface MetricAvailabilily {
+  timeGrain?: string;
+  retention?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the CertificateOrderAction class.
+ * Initializes a new instance of the MetricDefinition class.
  * @constructor
- * Certificate order action.
+ * Metadata for a metric.
  *
- * @member {string} [actionType] Action type. Possible values include:
- * 'CertificateIssued', 'CertificateOrderCanceled', 'CertificateOrderCreated',
- * 'CertificateRevoked', 'DomainValidationComplete', 'FraudDetected',
- * 'OrgNameChange', 'OrgValidationComplete', 'SanDrop', 'FraudCleared',
- * 'CertificateExpired', 'CertificateExpirationWarning',
- * 'FraudDocumentationRequired', 'Unknown'
- * @member {date} [createdAt] Time at which the certificate action was
- * performed.
+ * @member {string} [unit] Unit of the metric.
+ * @member {string} [primaryAggregationType] Primary aggregation type.
+ * @member {array} [metricAvailabilities] List of time grains supported for the
+ * metric together with retention period.
+ * @member {string} [displayName] Friendly name shown in the UI.
  */
-export interface CertificateOrderAction extends ProxyOnlyResource {
-  readonly actionType?: string;
-  readonly createdAt?: Date;
+export interface MetricDefinition extends ProxyOnlyResource {
+  readonly unit?: string;
+  readonly primaryAggregationType?: string;
+  readonly metricAvailabilities?: MetricAvailabilily[];
+  readonly displayName?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the ReissueCertificateOrderRequest class.
+ * Initializes a new instance of the SkuCapacity class.
  * @constructor
- * Class representing certificate reissue request.
+ * Description of the App Service plan scale options.
  *
- * @member {number} [keySize] Certificate Key Size.
- * @member {number} [delayExistingRevokeInHours] Delay in hours to revoke
- * existing certificate after the new certificate is issued.
- * @member {string} [csr] Csr to be used for re-key operation.
- * @member {boolean} [isPrivateKeyExternal] Should we change the ASC type (from
- * managed private key to external private key and vice versa).
+ * @member {number} [minimum] Minimum number of workers for this App Service
+ * plan SKU.
+ * @member {number} [maximum] Maximum number of workers for this App Service
+ * plan SKU.
+ * @member {number} [default] Default number of workers for this App Service
+ * plan SKU.
+ * @member {string} [scaleType] Available scale configurations for an App
+ * Service plan.
  */
-export interface ReissueCertificateOrderRequest extends ProxyOnlyResource {
-  keySize?: number;
-  delayExistingRevokeInHours?: number;
-  csr?: string;
-  isPrivateKeyExternal?: boolean;
+export interface SkuCapacity {
+  minimum?: number;
+  maximum?: number;
+  default?: number;
+  scaleType?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the RenewCertificateOrderRequest class.
+ * Initializes a new instance of the Capability class.
  * @constructor
- * Class representing certificate renew request.
+ * Describes the capabilities/features allowed for a specific SKU.
  *
- * @member {number} [keySize] Certificate Key Size.
- * @member {string} [csr] Csr to be used for re-key operation.
- * @member {boolean} [isPrivateKeyExternal] Should we change the ASC type (from
- * managed private key to external private key and vice versa).
+ * @member {string} [name] Name of the SKU capability.
+ * @member {string} [value] Value of the SKU capability.
+ * @member {string} [reason] Reason of the SKU capability.
  */
-export interface RenewCertificateOrderRequest extends ProxyOnlyResource {
-  keySize?: number;
-  csr?: string;
-  isPrivateKeyExternal?: boolean;
+export interface Capability {
+  name?: string;
+  value?: string;
+  reason?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the SiteSeal class.
+ * Initializes a new instance of the SkuDescription class.
  * @constructor
- * Site seal
+ * Description of a SKU for a scalable resource.
  *
- * @member {string} html HTML snippet
+ * @member {string} [name] Name of the resource SKU.
+ * @member {string} [tier] Service tier of the resource SKU.
+ * @member {string} [size] Size specifier of the resource SKU.
+ * @member {string} [family] Family code of the resource SKU.
+ * @member {number} [capacity] Current number of instances assigned to the
+ * resource.
+ * @member {object} [skuCapacity] Min, max, and default scale values of the
+ * SKU.
+ * @member {number} [skuCapacity.minimum] Minimum number of workers for this
+ * App Service plan SKU.
+ * @member {number} [skuCapacity.maximum] Maximum number of workers for this
+ * App Service plan SKU.
+ * @member {number} [skuCapacity.default] Default number of workers for this
+ * App Service plan SKU.
+ * @member {string} [skuCapacity.scaleType] Available scale configurations for
+ * an App Service plan.
+ * @member {array} [locations] Locations of the SKU.
+ * @member {array} [capabilities] Capabilities of the SKU, e.g., is traffic
+ * manager enabled?
  */
-export interface SiteSeal {
-  html: string;
+export interface SkuDescription {
+  name?: string;
+  tier?: string;
+  size?: string;
+  family?: string;
+  capacity?: number;
+  skuCapacity?: SkuCapacity;
+  locations?: string[];
+  capabilities?: Capability[];
 }
 
 /**
  * @class
- * Initializes a new instance of the SiteSealRequest class.
+ * Initializes a new instance of the SkuInfo class.
  * @constructor
- * Site seal request.
+ * SKU discovery information.
  *
- * @member {boolean} [lightTheme] If <code>true</code> use the light color
- * theme for site seal; otherwise, use the default color theme.
- * @member {string} [locale] Locale of site seal.
+ * @member {string} [resourceType] Resource type that this SKU applies to.
+ * @member {object} [sku] Name and tier of the SKU.
+ * @member {string} [sku.name] Name of the resource SKU.
+ * @member {string} [sku.tier] Service tier of the resource SKU.
+ * @member {string} [sku.size] Size specifier of the resource SKU.
+ * @member {string} [sku.family] Family code of the resource SKU.
+ * @member {number} [sku.capacity] Current number of instances assigned to the
+ * resource.
+ * @member {object} [sku.skuCapacity] Min, max, and default scale values of the
+ * SKU.
+ * @member {number} [sku.skuCapacity.minimum] Minimum number of workers for
+ * this App Service plan SKU.
+ * @member {number} [sku.skuCapacity.maximum] Maximum number of workers for
+ * this App Service plan SKU.
+ * @member {number} [sku.skuCapacity.default] Default number of workers for
+ * this App Service plan SKU.
+ * @member {string} [sku.skuCapacity.scaleType] Available scale configurations
+ * for an App Service plan.
+ * @member {array} [sku.locations] Locations of the SKU.
+ * @member {array} [sku.capabilities] Capabilities of the SKU, e.g., is traffic
+ * manager enabled?
+ * @member {object} [capacity] Min, max, and default scale values of the SKU.
+ * @member {number} [capacity.minimum] Minimum number of workers for this App
+ * Service plan SKU.
+ * @member {number} [capacity.maximum] Maximum number of workers for this App
+ * Service plan SKU.
+ * @member {number} [capacity.default] Default number of workers for this App
+ * Service plan SKU.
+ * @member {string} [capacity.scaleType] Available scale configurations for an
+ * App Service plan.
  */
-export interface SiteSealRequest {
-  lightTheme?: boolean;
-  locale?: string;
+export interface SkuInfo {
+  resourceType?: string;
+  sku?: SkuDescription;
+  capacity?: SkuCapacity;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the Usage class.
+ * @constructor
+ * Usage of the quota resource.
+ *
+ * @member {string} [displayName] Friendly name shown in the UI.
+ * @member {string} [resourceName] Name of the quota resource.
+ * @member {string} [unit] Units of measurement for the quota resource.
+ * @member {number} [currentValue] The current value of the resource counter.
+ * @member {number} [limit] The resource limit.
+ * @member {date} [nextResetTime] Next reset time for the resource counter.
+ * @member {string} [computeMode] Compute mode used for this usage. Possible
+ * values include: 'Shared', 'Dedicated', 'Dynamic'
+ * @member {string} [siteMode] Site mode used for this usage.
+ */
+export interface Usage extends ProxyOnlyResource {
+  readonly displayName?: string;
+  readonly resourceName?: string;
+  readonly unit?: string;
+  readonly currentValue?: number;
+  readonly limit?: number;
+  readonly nextResetTime?: Date;
+  readonly computeMode?: string;
+  readonly siteMode?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the WorkerPoolResource class.
+ * @constructor
+ * Worker pool of an App Service Environment ARM resource.
+ *
+ * @member {number} [workerSizeId] Worker size ID for referencing this worker
+ * pool.
+ * @member {string} [computeMode] Shared or dedicated app hosting. Possible
+ * values include: 'Shared', 'Dedicated', 'Dynamic'
+ * @member {string} [workerSize] VM size of the worker pool instances.
+ * @member {number} [workerCount] Number of instances in the worker pool.
+ * @member {array} [instanceNames] Names of all instances in the worker pool
+ * (read only).
+ * @member {object} [sku]
+ * @member {string} [sku.name] Name of the resource SKU.
+ * @member {string} [sku.tier] Service tier of the resource SKU.
+ * @member {string} [sku.size] Size specifier of the resource SKU.
+ * @member {string} [sku.family] Family code of the resource SKU.
+ * @member {number} [sku.capacity] Current number of instances assigned to the
+ * resource.
+ * @member {object} [sku.skuCapacity] Min, max, and default scale values of the
+ * SKU.
+ * @member {number} [sku.skuCapacity.minimum] Minimum number of workers for
+ * this App Service plan SKU.
+ * @member {number} [sku.skuCapacity.maximum] Maximum number of workers for
+ * this App Service plan SKU.
+ * @member {number} [sku.skuCapacity.default] Default number of workers for
+ * this App Service plan SKU.
+ * @member {string} [sku.skuCapacity.scaleType] Available scale configurations
+ * for an App Service plan.
+ * @member {array} [sku.locations] Locations of the SKU.
+ * @member {array} [sku.capabilities] Capabilities of the SKU, e.g., is traffic
+ * manager enabled?
+ */
+export interface WorkerPoolResource extends ProxyOnlyResource {
+  workerSizeId?: number;
+  computeMode?: string;
+  workerSize?: string;
+  workerCount?: number;
+  readonly instanceNames?: string[];
+  sku?: SkuDescription;
 }
 
 /**
@@ -1163,20 +1586,6 @@ export interface AzureStorageInfoValue {
 
 /**
  * @class
- * Initializes a new instance of the NameValuePair class.
- * @constructor
- * Name value pair.
- *
- * @member {string} [name] Pair name.
- * @member {string} [value] Pair value.
- */
-export interface NameValuePair {
-  name?: string;
-  value?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the SiteConfig class.
  * @constructor
  * Configuration of an App Service app.
@@ -1711,81 +2120,6 @@ export interface Site extends Resource {
 
 /**
  * @class
- * Initializes a new instance of the Capability class.
- * @constructor
- * Describes the capabilities/features allowed for a specific SKU.
- *
- * @member {string} [name] Name of the SKU capability.
- * @member {string} [value] Value of the SKU capability.
- * @member {string} [reason] Reason of the SKU capability.
- */
-export interface Capability {
-  name?: string;
-  value?: string;
-  reason?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the SkuCapacity class.
- * @constructor
- * Description of the App Service plan scale options.
- *
- * @member {number} [minimum] Minimum number of workers for this App Service
- * plan SKU.
- * @member {number} [maximum] Maximum number of workers for this App Service
- * plan SKU.
- * @member {number} [default] Default number of workers for this App Service
- * plan SKU.
- * @member {string} [scaleType] Available scale configurations for an App
- * Service plan.
- */
-export interface SkuCapacity {
-  minimum?: number;
-  maximum?: number;
-  default?: number;
-  scaleType?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the SkuDescription class.
- * @constructor
- * Description of a SKU for a scalable resource.
- *
- * @member {string} [name] Name of the resource SKU.
- * @member {string} [tier] Service tier of the resource SKU.
- * @member {string} [size] Size specifier of the resource SKU.
- * @member {string} [family] Family code of the resource SKU.
- * @member {number} [capacity] Current number of instances assigned to the
- * resource.
- * @member {object} [skuCapacity] Min, max, and default scale values of the
- * SKU.
- * @member {number} [skuCapacity.minimum] Minimum number of workers for this
- * App Service plan SKU.
- * @member {number} [skuCapacity.maximum] Maximum number of workers for this
- * App Service plan SKU.
- * @member {number} [skuCapacity.default] Default number of workers for this
- * App Service plan SKU.
- * @member {string} [skuCapacity.scaleType] Available scale configurations for
- * an App Service plan.
- * @member {array} [locations] Locations of the SKU.
- * @member {array} [capabilities] Capabilities of the SKU, e.g., is traffic
- * manager enabled?
- */
-export interface SkuDescription {
-  name?: string;
-  tier?: string;
-  size?: string;
-  family?: string;
-  capacity?: number;
-  skuCapacity?: SkuCapacity;
-  locations?: string[];
-  capabilities?: Capability[];
-}
-
-/**
- * @class
  * Initializes a new instance of the AppServicePlan class.
  * @constructor
  * App Service plan.
@@ -1942,715 +2276,258 @@ export interface DefaultErrorResponse {
 
 /**
  * @class
- * Initializes a new instance of the NameIdentifier class.
+ * Initializes a new instance of the ResourceMetricProperty class.
  * @constructor
- * Identifies an object.
+ * Resource metric property.
  *
- * @member {string} [name] Name of the object.
+ * @member {string} [key] Key for resource metric property.
+ * @member {string} [value] Value of pair.
  */
-export interface NameIdentifier {
-  name?: string;
+export interface ResourceMetricProperty {
+  key?: string;
+  value?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the LogSpecification class.
+ * Initializes a new instance of the ResourceMetricValue class.
  * @constructor
- * Log Definition of a single resource metric.
+ * Value of resource metric.
  *
- * @member {string} [name]
- * @member {string} [displayName]
- * @member {string} [blobDuration]
+ * @member {string} [timestamp] Value timestamp.
+ * @member {number} [average] Value average.
+ * @member {number} [minimum] Value minimum.
+ * @member {number} [maximum] Value maximum.
+ * @member {number} [total] Value total.
+ * @member {number} [count] Value count.
+ * @member {array} [properties] Resource metric properties collection.
  */
-export interface LogSpecification {
-  name?: string;
-  displayName?: string;
-  blobDuration?: string;
+export interface ResourceMetricValue {
+  readonly timestamp?: string;
+  readonly average?: number;
+  readonly minimum?: number;
+  readonly maximum?: number;
+  readonly total?: number;
+  readonly count?: number;
+  readonly properties?: ResourceMetricProperty[];
 }
 
 /**
  * @class
- * Initializes a new instance of the MetricAvailability class.
+ * Initializes a new instance of the ResourceMetricName class.
  * @constructor
- * Retention policy of a resource metric.
+ * Name of a metric for any resource .
  *
- * @member {string} [timeGrain]
- * @member {string} [blobDuration]
+ * @member {string} [value] metric name value.
+ * @member {string} [localizedValue] Localized metric name value.
  */
-export interface MetricAvailability {
-  timeGrain?: string;
-  blobDuration?: string;
+export interface ResourceMetricName {
+  readonly value?: string;
+  readonly localizedValue?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the Dimension class.
+ * Initializes a new instance of the ResourceMetric class.
  * @constructor
- * Dimension of a resource metric. For e.g. instance specific HTTP requests for
- * a web app,
- * where instance name is dimension of the metric HTTP request
+ * Object representing a metric for any resource .
  *
- * @member {string} [name]
- * @member {string} [displayName]
- * @member {string} [internalName]
- * @member {boolean} [toBeExportedForShoebox]
+ * @member {object} [name] Name of metric.
+ * @member {string} [name.value] metric name value.
+ * @member {string} [name.localizedValue] Localized metric name value.
+ * @member {string} [unit] Metric unit.
+ * @member {string} [timeGrain] Metric granularity. E.g PT1H, PT5M, P1D
+ * @member {date} [startTime] Metric start time.
+ * @member {date} [endTime] Metric end time.
+ * @member {string} [resourceId] Metric resource Id.
+ * @member {string} [id] Resource Id.
+ * @member {array} [metricValues] Metric values.
+ * @member {array} [properties] Resource metric properties collection.
  */
-export interface Dimension {
-  name?: string;
-  displayName?: string;
-  internalName?: string;
-  toBeExportedForShoebox?: boolean;
+export interface ResourceMetric {
+  readonly name?: ResourceMetricName;
+  readonly unit?: string;
+  readonly timeGrain?: string;
+  readonly startTime?: Date;
+  readonly endTime?: Date;
+  readonly resourceId?: string;
+  readonly id?: string;
+  readonly metricValues?: ResourceMetricValue[];
+  readonly properties?: ResourceMetricProperty[];
 }
 
 /**
  * @class
- * Initializes a new instance of the MetricSpecification class.
+ * Initializes a new instance of the LocalizableString class.
  * @constructor
- * Definition of a single resource metric.
+ * Localizable string object containing the name and a localized value.
  *
- * @member {string} [name]
- * @member {string} [displayName]
- * @member {string} [displayDescription]
- * @member {string} [unit]
- * @member {string} [aggregationType]
- * @member {boolean} [supportsInstanceLevelAggregation]
- * @member {boolean} [enableRegionalMdmAccount]
- * @member {string} [sourceMdmAccount]
- * @member {string} [sourceMdmNamespace]
- * @member {string} [metricFilterPattern]
- * @member {boolean} [fillGapWithZero]
- * @member {boolean} [isInternal]
- * @member {array} [dimensions]
- * @member {string} [category]
- * @member {array} [availabilities]
+ * @member {string} [value] Non-localized name.
+ * @member {string} [localizedValue] Localized name.
  */
-export interface MetricSpecification {
-  name?: string;
-  displayName?: string;
-  displayDescription?: string;
+export interface LocalizableString {
+  value?: string;
+  localizedValue?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the CsmUsageQuota class.
+ * @constructor
+ * Usage of the quota resource.
+ *
+ * @member {string} [unit] Units of measurement for the quota resourse.
+ * @member {date} [nextResetTime] Next reset time for the resource counter.
+ * @member {number} [currentValue] The current value of the resource counter.
+ * @member {number} [limit] The resource limit.
+ * @member {object} [name] Quota name.
+ * @member {string} [name.value] Non-localized name.
+ * @member {string} [name.localizedValue] Localized name.
+ */
+export interface CsmUsageQuota {
   unit?: string;
-  aggregationType?: string;
-  supportsInstanceLevelAggregation?: boolean;
-  enableRegionalMdmAccount?: boolean;
-  sourceMdmAccount?: string;
-  sourceMdmNamespace?: string;
-  metricFilterPattern?: string;
-  fillGapWithZero?: boolean;
-  isInternal?: boolean;
-  dimensions?: Dimension[];
-  category?: string;
-  availabilities?: MetricAvailability[];
+  nextResetTime?: Date;
+  currentValue?: number;
+  limit?: number;
+  name?: LocalizableString;
 }
 
 /**
  * @class
- * Initializes a new instance of the ServiceSpecification class.
+ * Initializes a new instance of the ErrorEntity class.
  * @constructor
- * Resource metrics service provided by Microsoft.Insights resource provider.
+ * Body of the error response returned from the API.
  *
- * @member {array} [metricSpecifications]
- * @member {array} [logSpecifications]
+ * @member {string} [extendedCode] Type of error.
+ * @member {string} [messageTemplate] Message template.
+ * @member {array} [parameters] Parameters for the template.
+ * @member {array} [innerErrors] Inner errors.
+ * @member {string} [code] Basic error code.
+ * @member {string} [message] Any details of the error.
  */
-export interface ServiceSpecification {
-  metricSpecifications?: MetricSpecification[];
-  logSpecifications?: LogSpecification[];
+export interface ErrorEntity {
+  extendedCode?: string;
+  messageTemplate?: string;
+  parameters?: string[];
+  innerErrors?: ErrorEntity[];
+  code?: string;
+  message?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the CsmOperationDescriptionProperties class.
+ * Initializes a new instance of the Operation class.
  * @constructor
- * Properties available for a Microsoft.Web resource provider operation.
+ * An operation on a resource.
  *
- * @member {object} [serviceSpecification]
- * @member {array} [serviceSpecification.metricSpecifications]
- * @member {array} [serviceSpecification.logSpecifications]
+ * @member {string} [id] Operation ID.
+ * @member {string} [name] Operation name.
+ * @member {string} [status] The current status of the operation. Possible
+ * values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut', 'Created'
+ * @member {array} [errors] Any errors associate with the operation.
+ * @member {date} [createdTime] Time when operation has started.
+ * @member {date} [modifiedTime] Time when operation has been updated.
+ * @member {date} [expirationTime] Time when operation will expire.
+ * @member {uuid} [geoMasterOperationId] Applicable only for stamp operation
+ * ids.
  */
-export interface CsmOperationDescriptionProperties {
-  serviceSpecification?: ServiceSpecification;
-}
-
-/**
- * @class
- * Initializes a new instance of the CsmOperationDisplay class.
- * @constructor
- * Meta data about operation used for display in portal.
- *
- * @member {string} [provider]
- * @member {string} [resource]
- * @member {string} [operation]
- * @member {string} [description]
- */
-export interface CsmOperationDisplay {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the CsmOperationDescription class.
- * @constructor
- * Description of an operation available for Microsoft.Web resource provider.
- *
- * @member {string} [name]
- * @member {object} [display]
- * @member {string} [display.provider]
- * @member {string} [display.resource]
- * @member {string} [display.operation]
- * @member {string} [display.description]
- * @member {string} [origin]
- * @member {object} [properties]
- * @member {object} [properties.serviceSpecification]
- * @member {array} [properties.serviceSpecification.metricSpecifications]
- * @member {array} [properties.serviceSpecification.logSpecifications]
- */
-export interface CsmOperationDescription {
+export interface Operation {
+  id?: string;
   name?: string;
-  display?: CsmOperationDisplay;
-  origin?: string;
-  properties?: CsmOperationDescriptionProperties;
+  status?: string;
+  errors?: ErrorEntity[];
+  createdTime?: Date;
+  modifiedTime?: Date;
+  expirationTime?: Date;
+  geoMasterOperationId?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the Address class.
+ * Initializes a new instance of the AppServicePlanPatchResource class.
  * @constructor
- * Address information for domain registration.
+ * ARM resource for a app service plan.
  *
- * @member {string} address1 First line of an Address.
- * @member {string} [address2] The second line of the Address. Optional.
- * @member {string} city The city for the address.
- * @member {string} country The country for the address.
- * @member {string} postalCode The postal code for the address.
- * @member {string} state The state or province for the address.
+ * @member {string} [workerTierName] Target worker tier assigned to the App
+ * Service plan.
+ * @member {string} [status] App Service plan status. Possible values include:
+ * 'Ready', 'Pending', 'Creating'
+ * @member {string} [subscription] App Service plan subscription.
+ * @member {string} [adminSiteName] App Service plan administration site.
+ * @member {object} [hostingEnvironmentProfile] Specification for the App
+ * Service Environment to use for the App Service plan.
+ * @member {string} [hostingEnvironmentProfile.id] Resource ID of the App
+ * Service Environment.
+ * @member {string} [hostingEnvironmentProfile.name] Name of the App Service
+ * Environment.
+ * @member {string} [hostingEnvironmentProfile.type] Resource type of the App
+ * Service Environment.
+ * @member {number} [maximumNumberOfWorkers] Maximum number of instances that
+ * can be assigned to this App Service plan.
+ * @member {string} [geoRegion] Geographical location for the App Service plan.
+ * @member {boolean} [perSiteScaling] If <code>true</code>, apps assigned to
+ * this App Service plan can be scaled independently.
+ * If <code>false</code>, apps assigned to this App Service plan will scale to
+ * all instances of the plan. Default value: false .
+ * @member {number} [maximumElasticWorkerCount] Maximum number of total workers
+ * allowed for this ElasticScaleEnabled App Service Plan
+ * @member {number} [numberOfSites] Number of apps assigned to this App Service
+ * plan.
+ * @member {boolean} [isSpot] If <code>true</code>, this App Service Plan owns
+ * spot instances.
+ * @member {date} [spotExpirationTime] The time when the server farm expires.
+ * Valid only if it is a spot server farm.
+ * @member {date} [freeOfferExpirationTime] The time when the server farm free
+ * offer expires.
+ * @member {string} [resourceGroup] Resource group of the App Service plan.
+ * @member {boolean} [reserved] If Linux app service plan <code>true</code>,
+ * <code>false</code> otherwise. Default value: false .
+ * @member {boolean} [isXenon] Obsolete: If Hyper-V container app service plan
+ * <code>true</code>, <code>false</code> otherwise. Default value: false .
+ * @member {boolean} [hyperV] If Hyper-V container app service plan
+ * <code>true</code>, <code>false</code> otherwise. Default value: false .
+ * @member {number} [targetWorkerCount] Scaling worker count.
+ * @member {number} [targetWorkerSizeId] Scaling worker size ID.
+ * @member {string} [provisioningState] Provisioning state of the App Service
+ * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
+ * 'InProgress', 'Deleting'
  */
-export interface Address {
-  address1: string;
-  address2?: string;
-  city: string;
-  country: string;
-  postalCode: string;
-  state: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the Contact class.
- * @constructor
- * Contact information for domain registration. If 'Domain Privacy' option is
- * not selected then the contact information is made publicly available through
- * the Whois
- * directories as per ICANN requirements.
- *
- * @member {object} [addressMailing] Mailing address.
- * @member {string} [addressMailing.address1] First line of an Address.
- * @member {string} [addressMailing.address2] The second line of the Address.
- * Optional.
- * @member {string} [addressMailing.city] The city for the address.
- * @member {string} [addressMailing.country] The country for the address.
- * @member {string} [addressMailing.postalCode] The postal code for the
- * address.
- * @member {string} [addressMailing.state] The state or province for the
- * address.
- * @member {string} email Email address.
- * @member {string} [fax] Fax number.
- * @member {string} [jobTitle] Job title.
- * @member {string} nameFirst First name.
- * @member {string} nameLast Last name.
- * @member {string} [nameMiddle] Middle name.
- * @member {string} [organization] Organization contact belongs to.
- * @member {string} phone Phone number.
- */
-export interface Contact {
-  addressMailing?: Address;
-  email: string;
-  fax?: string;
-  jobTitle?: string;
-  nameFirst: string;
-  nameLast: string;
-  nameMiddle?: string;
-  organization?: string;
-  phone: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the HostName class.
- * @constructor
- * Details of a hostname derived from a domain.
- *
- * @member {string} [name] Name of the hostname.
- * @member {array} [siteNames] List of apps the hostname is assigned to. This
- * list will have more than one app only if the hostname is pointing to a
- * Traffic Manager.
- * @member {string} [azureResourceName] Name of the Azure resource the hostname
- * is assigned to. If it is assigned to a Traffic Manager then it will be the
- * Traffic Manager name otherwise it will be the app name.
- * @member {string} [azureResourceType] Type of the Azure resource the hostname
- * is assigned to. Possible values include: 'Website', 'TrafficManager'
- * @member {string} [customHostNameDnsRecordType] Type of the DNS record.
- * Possible values include: 'CName', 'A'
- * @member {string} [hostNameType] Type of the hostname. Possible values
- * include: 'Verified', 'Managed'
- */
-export interface HostName {
-  name?: string;
-  siteNames?: string[];
-  azureResourceName?: string;
-  azureResourceType?: string;
-  customHostNameDnsRecordType?: string;
-  hostNameType?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DomainPurchaseConsent class.
- * @constructor
- * Domain purchase consent object, representing acceptance of applicable legal
- * agreements.
- *
- * @member {array} [agreementKeys] List of applicable legal agreement keys.
- * This list can be retrieved using ListLegalAgreements API under
- * <code>TopLevelDomain</code> resource.
- * @member {string} [agreedBy] Client IP address.
- * @member {date} [agreedAt] Timestamp when the agreements were accepted.
- */
-export interface DomainPurchaseConsent {
-  agreementKeys?: string[];
-  agreedBy?: string;
-  agreedAt?: Date;
-}
-
-/**
- * @class
- * Initializes a new instance of the Domain class.
- * @constructor
- * Information about a domain.
- *
- * @member {object} contactAdmin Administrative contact.
- * @member {object} [contactAdmin.addressMailing] Mailing address.
- * @member {string} [contactAdmin.addressMailing.address1] First line of an
- * Address.
- * @member {string} [contactAdmin.addressMailing.address2] The second line of
- * the Address. Optional.
- * @member {string} [contactAdmin.addressMailing.city] The city for the
- * address.
- * @member {string} [contactAdmin.addressMailing.country] The country for the
- * address.
- * @member {string} [contactAdmin.addressMailing.postalCode] The postal code
- * for the address.
- * @member {string} [contactAdmin.addressMailing.state] The state or province
- * for the address.
- * @member {string} [contactAdmin.email] Email address.
- * @member {string} [contactAdmin.fax] Fax number.
- * @member {string} [contactAdmin.jobTitle] Job title.
- * @member {string} [contactAdmin.nameFirst] First name.
- * @member {string} [contactAdmin.nameLast] Last name.
- * @member {string} [contactAdmin.nameMiddle] Middle name.
- * @member {string} [contactAdmin.organization] Organization contact belongs
- * to.
- * @member {string} [contactAdmin.phone] Phone number.
- * @member {object} contactBilling Billing contact.
- * @member {object} [contactBilling.addressMailing] Mailing address.
- * @member {string} [contactBilling.addressMailing.address1] First line of an
- * Address.
- * @member {string} [contactBilling.addressMailing.address2] The second line of
- * the Address. Optional.
- * @member {string} [contactBilling.addressMailing.city] The city for the
- * address.
- * @member {string} [contactBilling.addressMailing.country] The country for the
- * address.
- * @member {string} [contactBilling.addressMailing.postalCode] The postal code
- * for the address.
- * @member {string} [contactBilling.addressMailing.state] The state or province
- * for the address.
- * @member {string} [contactBilling.email] Email address.
- * @member {string} [contactBilling.fax] Fax number.
- * @member {string} [contactBilling.jobTitle] Job title.
- * @member {string} [contactBilling.nameFirst] First name.
- * @member {string} [contactBilling.nameLast] Last name.
- * @member {string} [contactBilling.nameMiddle] Middle name.
- * @member {string} [contactBilling.organization] Organization contact belongs
- * to.
- * @member {string} [contactBilling.phone] Phone number.
- * @member {object} contactRegistrant Registrant contact.
- * @member {object} [contactRegistrant.addressMailing] Mailing address.
- * @member {string} [contactRegistrant.addressMailing.address1] First line of
- * an Address.
- * @member {string} [contactRegistrant.addressMailing.address2] The second line
- * of the Address. Optional.
- * @member {string} [contactRegistrant.addressMailing.city] The city for the
- * address.
- * @member {string} [contactRegistrant.addressMailing.country] The country for
- * the address.
- * @member {string} [contactRegistrant.addressMailing.postalCode] The postal
- * code for the address.
- * @member {string} [contactRegistrant.addressMailing.state] The state or
- * province for the address.
- * @member {string} [contactRegistrant.email] Email address.
- * @member {string} [contactRegistrant.fax] Fax number.
- * @member {string} [contactRegistrant.jobTitle] Job title.
- * @member {string} [contactRegistrant.nameFirst] First name.
- * @member {string} [contactRegistrant.nameLast] Last name.
- * @member {string} [contactRegistrant.nameMiddle] Middle name.
- * @member {string} [contactRegistrant.organization] Organization contact
- * belongs to.
- * @member {string} [contactRegistrant.phone] Phone number.
- * @member {object} contactTech Technical contact.
- * @member {object} [contactTech.addressMailing] Mailing address.
- * @member {string} [contactTech.addressMailing.address1] First line of an
- * Address.
- * @member {string} [contactTech.addressMailing.address2] The second line of
- * the Address. Optional.
- * @member {string} [contactTech.addressMailing.city] The city for the address.
- * @member {string} [contactTech.addressMailing.country] The country for the
- * address.
- * @member {string} [contactTech.addressMailing.postalCode] The postal code for
- * the address.
- * @member {string} [contactTech.addressMailing.state] The state or province
- * for the address.
- * @member {string} [contactTech.email] Email address.
- * @member {string} [contactTech.fax] Fax number.
- * @member {string} [contactTech.jobTitle] Job title.
- * @member {string} [contactTech.nameFirst] First name.
- * @member {string} [contactTech.nameLast] Last name.
- * @member {string} [contactTech.nameMiddle] Middle name.
- * @member {string} [contactTech.organization] Organization contact belongs to.
- * @member {string} [contactTech.phone] Phone number.
- * @member {string} [registrationStatus] Domain registration status. Possible
- * values include: 'Active', 'Awaiting', 'Cancelled', 'Confiscated',
- * 'Disabled', 'Excluded', 'Expired', 'Failed', 'Held', 'Locked', 'Parked',
- * 'Pending', 'Reserved', 'Reverted', 'Suspended', 'Transferred', 'Unknown',
- * 'Unlocked', 'Unparked', 'Updated', 'JsonConverterFailed'
- * @member {string} [provisioningState] Domain provisioning state. Possible
- * values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'
- * @member {array} [nameServers] Name servers.
- * @member {boolean} [privacy] <code>true</code> if domain privacy is enabled
- * for this domain; otherwise, <code>false</code>.
- * @member {date} [createdTime] Domain creation timestamp.
- * @member {date} [expirationTime] Domain expiration timestamp.
- * @member {date} [lastRenewedTime] Timestamp when the domain was renewed last
- * time.
- * @member {boolean} [autoRenew] <code>true</code> if the domain should be
- * automatically renewed; otherwise, <code>false</code>. Default value: true .
- * @member {boolean} [readyForDnsRecordManagement] <code>true</code> if Azure
- * can assign this domain to App Service apps; otherwise, <code>false</code>.
- * This value will be <code>true</code> if domain registration status is active
- * and
- * it is hosted on name servers Azure has programmatic access to.
- * @member {array} [managedHostNames] All hostnames derived from the domain and
- * assigned to Azure resources.
- * @member {object} consent Legal agreement consent.
- * @member {array} [consent.agreementKeys] List of applicable legal agreement
- * keys. This list can be retrieved using ListLegalAgreements API under
- * <code>TopLevelDomain</code> resource.
- * @member {string} [consent.agreedBy] Client IP address.
- * @member {date} [consent.agreedAt] Timestamp when the agreements were
- * accepted.
- * @member {array} [domainNotRenewableReasons] Reasons why domain is not
- * renewable.
- * @member {string} [dnsType] Current DNS type. Possible values include:
- * 'AzureDns', 'DefaultDomainRegistrarDns'
- * @member {string} [dnsZoneId] Azure DNS Zone to use
- * @member {string} [targetDnsType] Target DNS type (would be used for
- * migration). Possible values include: 'AzureDns', 'DefaultDomainRegistrarDns'
- * @member {string} [authCode]
- */
-export interface Domain extends Resource {
-  contactAdmin: Contact;
-  contactBilling: Contact;
-  contactRegistrant: Contact;
-  contactTech: Contact;
-  readonly registrationStatus?: string;
+export interface AppServicePlanPatchResource extends ProxyOnlyResource {
+  workerTierName?: string;
+  readonly status?: string;
+  readonly subscription?: string;
+  adminSiteName?: string;
+  hostingEnvironmentProfile?: HostingEnvironmentProfile;
+  readonly maximumNumberOfWorkers?: number;
+  readonly geoRegion?: string;
+  perSiteScaling?: boolean;
+  maximumElasticWorkerCount?: number;
+  readonly numberOfSites?: number;
+  isSpot?: boolean;
+  spotExpirationTime?: Date;
+  freeOfferExpirationTime?: Date;
+  readonly resourceGroup?: string;
+  reserved?: boolean;
+  isXenon?: boolean;
+  hyperV?: boolean;
+  targetWorkerCount?: number;
+  targetWorkerSizeId?: number;
   readonly provisioningState?: string;
-  readonly nameServers?: string[];
-  privacy?: boolean;
-  readonly createdTime?: Date;
-  readonly expirationTime?: Date;
-  readonly lastRenewedTime?: Date;
-  autoRenew?: boolean;
-  readonly readyForDnsRecordManagement?: boolean;
-  readonly managedHostNames?: HostName[];
-  consent: DomainPurchaseConsent;
-  readonly domainNotRenewableReasons?: string[];
-  dnsType?: string;
-  dnsZoneId?: string;
-  targetDnsType?: string;
-  authCode?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the DomainAvailablilityCheckResult class.
+ * Initializes a new instance of the HybridConnectionLimits class.
  * @constructor
- * Domain availablility check result.
+ * Hybrid Connection limits contract. This is used to return the plan limits of
+ * Hybrid Connections.
  *
- * @member {string} [name] Name of the domain.
- * @member {boolean} [available] <code>true</code> if domain can be purchased
- * using CreateDomain API; otherwise, <code>false</code>.
- * @member {string} [domainType] Valid values are Regular domain: Azure will
- * charge the full price of domain registration, SoftDeleted: Purchasing this
- * domain will simply restore it and this operation will not cost anything.
- * Possible values include: 'Regular', 'SoftDeleted'
+ * @member {number} [current] The current number of Hybrid Connections.
+ * @member {number} [maximum] The maximum number of Hybrid Connections allowed.
  */
-export interface DomainAvailablilityCheckResult {
-  name?: string;
-  available?: boolean;
-  domainType?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DomainControlCenterSsoRequest class.
- * @constructor
- * Single sign-on request information for domain management.
- *
- * @member {string} [url] URL where the single sign-on request is to be made.
- * @member {string} [postParameterKey] Post parameter key.
- * @member {string} [postParameterValue] Post parameter value. Client should
- * use 'application/x-www-form-urlencoded' encoding for this value.
- */
-export interface DomainControlCenterSsoRequest {
-  readonly url?: string;
-  readonly postParameterKey?: string;
-  readonly postParameterValue?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DomainOwnershipIdentifier class.
- * @constructor
- * Domain ownership Identifier.
- *
- * @member {string} [ownershipId] Ownership Id.
- */
-export interface DomainOwnershipIdentifier extends ProxyOnlyResource {
-  ownershipId?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DomainPatchResource class.
- * @constructor
- * ARM resource for a domain.
- *
- * @member {object} contactAdmin Administrative contact.
- * @member {object} [contactAdmin.addressMailing] Mailing address.
- * @member {string} [contactAdmin.addressMailing.address1] First line of an
- * Address.
- * @member {string} [contactAdmin.addressMailing.address2] The second line of
- * the Address. Optional.
- * @member {string} [contactAdmin.addressMailing.city] The city for the
- * address.
- * @member {string} [contactAdmin.addressMailing.country] The country for the
- * address.
- * @member {string} [contactAdmin.addressMailing.postalCode] The postal code
- * for the address.
- * @member {string} [contactAdmin.addressMailing.state] The state or province
- * for the address.
- * @member {string} [contactAdmin.email] Email address.
- * @member {string} [contactAdmin.fax] Fax number.
- * @member {string} [contactAdmin.jobTitle] Job title.
- * @member {string} [contactAdmin.nameFirst] First name.
- * @member {string} [contactAdmin.nameLast] Last name.
- * @member {string} [contactAdmin.nameMiddle] Middle name.
- * @member {string} [contactAdmin.organization] Organization contact belongs
- * to.
- * @member {string} [contactAdmin.phone] Phone number.
- * @member {object} contactBilling Billing contact.
- * @member {object} [contactBilling.addressMailing] Mailing address.
- * @member {string} [contactBilling.addressMailing.address1] First line of an
- * Address.
- * @member {string} [contactBilling.addressMailing.address2] The second line of
- * the Address. Optional.
- * @member {string} [contactBilling.addressMailing.city] The city for the
- * address.
- * @member {string} [contactBilling.addressMailing.country] The country for the
- * address.
- * @member {string} [contactBilling.addressMailing.postalCode] The postal code
- * for the address.
- * @member {string} [contactBilling.addressMailing.state] The state or province
- * for the address.
- * @member {string} [contactBilling.email] Email address.
- * @member {string} [contactBilling.fax] Fax number.
- * @member {string} [contactBilling.jobTitle] Job title.
- * @member {string} [contactBilling.nameFirst] First name.
- * @member {string} [contactBilling.nameLast] Last name.
- * @member {string} [contactBilling.nameMiddle] Middle name.
- * @member {string} [contactBilling.organization] Organization contact belongs
- * to.
- * @member {string} [contactBilling.phone] Phone number.
- * @member {object} contactRegistrant Registrant contact.
- * @member {object} [contactRegistrant.addressMailing] Mailing address.
- * @member {string} [contactRegistrant.addressMailing.address1] First line of
- * an Address.
- * @member {string} [contactRegistrant.addressMailing.address2] The second line
- * of the Address. Optional.
- * @member {string} [contactRegistrant.addressMailing.city] The city for the
- * address.
- * @member {string} [contactRegistrant.addressMailing.country] The country for
- * the address.
- * @member {string} [contactRegistrant.addressMailing.postalCode] The postal
- * code for the address.
- * @member {string} [contactRegistrant.addressMailing.state] The state or
- * province for the address.
- * @member {string} [contactRegistrant.email] Email address.
- * @member {string} [contactRegistrant.fax] Fax number.
- * @member {string} [contactRegistrant.jobTitle] Job title.
- * @member {string} [contactRegistrant.nameFirst] First name.
- * @member {string} [contactRegistrant.nameLast] Last name.
- * @member {string} [contactRegistrant.nameMiddle] Middle name.
- * @member {string} [contactRegistrant.organization] Organization contact
- * belongs to.
- * @member {string} [contactRegistrant.phone] Phone number.
- * @member {object} contactTech Technical contact.
- * @member {object} [contactTech.addressMailing] Mailing address.
- * @member {string} [contactTech.addressMailing.address1] First line of an
- * Address.
- * @member {string} [contactTech.addressMailing.address2] The second line of
- * the Address. Optional.
- * @member {string} [contactTech.addressMailing.city] The city for the address.
- * @member {string} [contactTech.addressMailing.country] The country for the
- * address.
- * @member {string} [contactTech.addressMailing.postalCode] The postal code for
- * the address.
- * @member {string} [contactTech.addressMailing.state] The state or province
- * for the address.
- * @member {string} [contactTech.email] Email address.
- * @member {string} [contactTech.fax] Fax number.
- * @member {string} [contactTech.jobTitle] Job title.
- * @member {string} [contactTech.nameFirst] First name.
- * @member {string} [contactTech.nameLast] Last name.
- * @member {string} [contactTech.nameMiddle] Middle name.
- * @member {string} [contactTech.organization] Organization contact belongs to.
- * @member {string} [contactTech.phone] Phone number.
- * @member {string} [registrationStatus] Domain registration status. Possible
- * values include: 'Active', 'Awaiting', 'Cancelled', 'Confiscated',
- * 'Disabled', 'Excluded', 'Expired', 'Failed', 'Held', 'Locked', 'Parked',
- * 'Pending', 'Reserved', 'Reverted', 'Suspended', 'Transferred', 'Unknown',
- * 'Unlocked', 'Unparked', 'Updated', 'JsonConverterFailed'
- * @member {string} [provisioningState] Domain provisioning state. Possible
- * values include: 'Succeeded', 'Failed', 'Canceled', 'InProgress', 'Deleting'
- * @member {array} [nameServers] Name servers.
- * @member {boolean} [privacy] <code>true</code> if domain privacy is enabled
- * for this domain; otherwise, <code>false</code>.
- * @member {date} [createdTime] Domain creation timestamp.
- * @member {date} [expirationTime] Domain expiration timestamp.
- * @member {date} [lastRenewedTime] Timestamp when the domain was renewed last
- * time.
- * @member {boolean} [autoRenew] <code>true</code> if the domain should be
- * automatically renewed; otherwise, <code>false</code>. Default value: true .
- * @member {boolean} [readyForDnsRecordManagement] <code>true</code> if Azure
- * can assign this domain to App Service apps; otherwise, <code>false</code>.
- * This value will be <code>true</code> if domain registration status is active
- * and
- * it is hosted on name servers Azure has programmatic access to.
- * @member {array} [managedHostNames] All hostnames derived from the domain and
- * assigned to Azure resources.
- * @member {object} consent Legal agreement consent.
- * @member {array} [consent.agreementKeys] List of applicable legal agreement
- * keys. This list can be retrieved using ListLegalAgreements API under
- * <code>TopLevelDomain</code> resource.
- * @member {string} [consent.agreedBy] Client IP address.
- * @member {date} [consent.agreedAt] Timestamp when the agreements were
- * accepted.
- * @member {array} [domainNotRenewableReasons] Reasons why domain is not
- * renewable.
- * @member {string} [dnsType] Current DNS type. Possible values include:
- * 'AzureDns', 'DefaultDomainRegistrarDns'
- * @member {string} [dnsZoneId] Azure DNS Zone to use
- * @member {string} [targetDnsType] Target DNS type (would be used for
- * migration). Possible values include: 'AzureDns', 'DefaultDomainRegistrarDns'
- * @member {string} [authCode]
- */
-export interface DomainPatchResource extends ProxyOnlyResource {
-  contactAdmin: Contact;
-  contactBilling: Contact;
-  contactRegistrant: Contact;
-  contactTech: Contact;
-  readonly registrationStatus?: string;
-  readonly provisioningState?: string;
-  readonly nameServers?: string[];
-  privacy?: boolean;
-  readonly createdTime?: Date;
-  readonly expirationTime?: Date;
-  readonly lastRenewedTime?: Date;
-  autoRenew?: boolean;
-  readonly readyForDnsRecordManagement?: boolean;
-  readonly managedHostNames?: HostName[];
-  consent: DomainPurchaseConsent;
-  readonly domainNotRenewableReasons?: string[];
-  dnsType?: string;
-  dnsZoneId?: string;
-  targetDnsType?: string;
-  authCode?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the DomainRecommendationSearchParameters class.
- * @constructor
- * Domain recommendation search parameters.
- *
- * @member {string} [keywords] Keywords to be used for generating domain
- * recommendations.
- * @member {number} [maxDomainRecommendations] Maximum number of
- * recommendations.
- */
-export interface DomainRecommendationSearchParameters {
-  keywords?: string;
-  maxDomainRecommendations?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the TldLegalAgreement class.
- * @constructor
- * Legal agreement for a top level domain.
- *
- * @member {string} agreementKey Unique identifier for the agreement.
- * @member {string} title Agreement title.
- * @member {string} content Agreement details.
- * @member {string} [url] URL where a copy of the agreement details is hosted.
- */
-export interface TldLegalAgreement {
-  agreementKey: string;
-  title: string;
-  content: string;
-  url?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the TopLevelDomain class.
- * @constructor
- * A top level domain object.
- *
- * @member {boolean} [privacy] If <code>true</code>, then the top level domain
- * supports domain privacy; otherwise, <code>false</code>.
- */
-export interface TopLevelDomain extends ProxyOnlyResource {
-  privacy?: boolean;
-}
-
-/**
- * @class
- * Initializes a new instance of the TopLevelDomainAgreementOption class.
- * @constructor
- * Options for retrieving the list of top level domain legal agreements.
- *
- * @member {boolean} [includePrivacy] If <code>true</code>, then the list of
- * agreements will include agreements for domain privacy as well; otherwise,
- * <code>false</code>.
- * @member {boolean} [forTransfer] If <code>true</code>, then the list of
- * agreements will include agreements for domain transfer as well; otherwise,
- * <code>false</code>.
- */
-export interface TopLevelDomainAgreementOption {
-  includePrivacy?: boolean;
-  forTransfer?: boolean;
+export interface HybridConnectionLimits extends ProxyOnlyResource {
+  readonly current?: number;
+  readonly maximum?: number;
 }
 
 /**
@@ -2779,422 +2656,175 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
 
 /**
  * @class
- * Initializes a new instance of the VirtualNetworkProfile class.
+ * Initializes a new instance of the CsmOperationDisplay class.
  * @constructor
- * Specification for using a Virtual Network.
+ * Meta data about operation used for display in portal.
  *
- * @member {string} [id] Resource id of the Virtual Network.
- * @member {string} [name] Name of the Virtual Network (read-only).
- * @member {string} [type] Resource type of the Virtual Network (read-only).
- * @member {string} [subnet] Subnet within the Virtual Network.
+ * @member {string} [provider]
+ * @member {string} [resource]
+ * @member {string} [operation]
+ * @member {string} [description]
  */
-export interface VirtualNetworkProfile {
-  id?: string;
-  readonly name?: string;
-  readonly type?: string;
-  subnet?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the WorkerPool class.
- * @constructor
- * Worker pool of an App Service Environment.
- *
- * @member {number} [workerSizeId] Worker size ID for referencing this worker
- * pool.
- * @member {string} [computeMode] Shared or dedicated app hosting. Possible
- * values include: 'Shared', 'Dedicated', 'Dynamic'
- * @member {string} [workerSize] VM size of the worker pool instances.
- * @member {number} [workerCount] Number of instances in the worker pool.
- * @member {array} [instanceNames] Names of all instances in the worker pool
- * (read only).
- */
-export interface WorkerPool {
-  workerSizeId?: number;
-  computeMode?: string;
-  workerSize?: string;
-  workerCount?: number;
-  readonly instanceNames?: string[];
-}
-
-/**
- * @class
- * Initializes a new instance of the VirtualIPMapping class.
- * @constructor
- * Virtual IP mapping.
- *
- * @member {string} [virtualIP] Virtual IP address.
- * @member {number} [internalHttpPort] Internal HTTP port.
- * @member {number} [internalHttpsPort] Internal HTTPS port.
- * @member {boolean} [inUse] Is virtual IP mapping in use.
- */
-export interface VirtualIPMapping {
-  virtualIP?: string;
-  internalHttpPort?: number;
-  internalHttpsPort?: number;
-  inUse?: boolean;
-}
-
-/**
- * @class
- * Initializes a new instance of the StampCapacity class.
- * @constructor
- * Stamp capacity information.
- *
- * @member {string} [name] Name of the stamp.
- * @member {number} [availableCapacity] Available capacity (# of machines,
- * bytes of storage etc...).
- * @member {number} [totalCapacity] Total capacity (# of machines, bytes of
- * storage etc...).
- * @member {string} [unit] Name of the unit.
- * @member {string} [computeMode] Shared/dedicated workers. Possible values
- * include: 'Shared', 'Dedicated', 'Dynamic'
- * @member {string} [workerSize] Size of the machines. Possible values include:
- * 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'
- * @member {number} [workerSizeId] Size ID of machines:
- * 0 - Small
- * 1 - Medium
- * 2 - Large
- * @member {boolean} [excludeFromCapacityAllocation] If <code>true</code>, it
- * includes basic apps.
- * Basic apps are not used for capacity allocation.
- * @member {boolean} [isApplicableForAllComputeModes] <code>true</code> if
- * capacity is applicable for all apps; otherwise, <code>false</code>.
- * @member {string} [siteMode] Shared or Dedicated.
- * @member {boolean} [isLinux] Is this a linux stamp capacity
- */
-export interface StampCapacity {
-  name?: string;
-  availableCapacity?: number;
-  totalCapacity?: number;
-  unit?: string;
-  computeMode?: string;
-  workerSize?: string;
-  workerSizeId?: number;
-  excludeFromCapacityAllocation?: boolean;
-  isApplicableForAllComputeModes?: boolean;
-  siteMode?: string;
-  isLinux?: boolean;
-}
-
-/**
- * @class
- * Initializes a new instance of the NetworkAccessControlEntry class.
- * @constructor
- * Network access control entry.
- *
- * @member {string} [action] Action object. Possible values include: 'Permit',
- * 'Deny'
- * @member {string} [description] Description of network access control entry.
- * @member {number} [order] Order of precedence.
- * @member {string} [remoteSubnet] Remote subnet.
- */
-export interface NetworkAccessControlEntry {
-  action?: string;
+export interface CsmOperationDisplay {
+  provider?: string;
+  resource?: string;
+  operation?: string;
   description?: string;
-  order?: number;
-  remoteSubnet?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the AppServiceEnvironment class.
+ * Initializes a new instance of the Dimension class.
  * @constructor
- * Description of an App Service Environment.
+ * Dimension of a resource metric. For e.g. instance specific HTTP requests for
+ * a web app,
+ * where instance name is dimension of the metric HTTP request
  *
- * @member {string} name Name of the App Service Environment.
- * @member {string} location Location of the App Service Environment, e.g.
- * "West US".
- * @member {string} [provisioningState] Provisioning state of the App Service
- * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
- * 'InProgress', 'Deleting'
- * @member {string} [status] Current status of the App Service Environment.
- * Possible values include: 'Preparing', 'Ready', 'Scaling', 'Deleting'
- * @member {string} [vnetName] Name of the Virtual Network for the App Service
- * Environment.
- * @member {string} [vnetResourceGroupName] Resource group of the Virtual
- * Network.
- * @member {string} [vnetSubnetName] Subnet of the Virtual Network.
- * @member {object} virtualNetwork Description of the Virtual Network.
- * @member {string} [virtualNetwork.id] Resource id of the Virtual Network.
- * @member {string} [virtualNetwork.name] Name of the Virtual Network
- * (read-only).
- * @member {string} [virtualNetwork.type] Resource type of the Virtual Network
- * (read-only).
- * @member {string} [virtualNetwork.subnet] Subnet within the Virtual Network.
- * @member {string} [internalLoadBalancingMode] Specifies which endpoints to
- * serve internally in the Virtual Network for the App Service Environment.
- * Possible values include: 'None', 'Web', 'Publishing'
- * @member {string} [multiSize] Front-end VM size, e.g. "Medium", "Large".
- * @member {number} [multiRoleCount] Number of front-end instances.
- * @member {array} workerPools Description of worker pools with worker size
- * IDs, VM sizes, and number of workers in each pool.
- * @member {number} [ipsslAddressCount] Number of IP SSL addresses reserved for
- * the App Service Environment.
- * @member {string} [databaseEdition] Edition of the metadata database for the
- * App Service Environment, e.g. "Standard".
- * @member {string} [databaseServiceObjective] Service objective of the
- * metadata database for the App Service Environment, e.g. "S0".
- * @member {number} [upgradeDomains] Number of upgrade domains of the App
- * Service Environment.
- * @member {string} [subscriptionId] Subscription of the App Service
- * Environment.
- * @member {string} [dnsSuffix] DNS suffix of the App Service Environment.
- * @member {string} [lastAction] Last deployment action on the App Service
- * Environment.
- * @member {string} [lastActionResult] Result of the last deployment action on
- * the App Service Environment.
- * @member {string} [allowedMultiSizes] List of comma separated strings
- * describing which VM sizes are allowed for front-ends.
- * @member {string} [allowedWorkerSizes] List of comma separated strings
- * describing which VM sizes are allowed for workers.
- * @member {number} [maximumNumberOfMachines] Maximum number of VMs in the App
- * Service Environment.
- * @member {array} [vipMappings] Description of IP SSL mapping for the App
- * Service Environment.
- * @member {array} [environmentCapacities] Current total, used, and available
- * worker capacities.
- * @member {array} [networkAccessControlList] Access control list for
- * controlling traffic to the App Service Environment.
- * @member {boolean} [environmentIsHealthy] True/false indicating whether the
- * App Service Environment is healthy.
- * @member {string} [environmentStatus] Detailed message about with results of
- * the last check of the App Service Environment.
- * @member {string} [resourceGroup] Resource group of the App Service
- * Environment.
- * @member {number} [frontEndScaleFactor] Scale factor for front-ends.
- * @member {number} [defaultFrontEndScaleFactor] Default Scale Factor for
- * FrontEnds.
- * @member {string} [apiManagementAccountId] API Management Account associated
- * with the App Service Environment.
- * @member {boolean} [suspended] <code>true</code> if the App Service
- * Environment is suspended; otherwise, <code>false</code>. The environment can
- * be suspended, e.g. when the management endpoint is no longer available
- * (most likely because NSG blocked the incoming traffic).
- * @member {boolean} [dynamicCacheEnabled] True/false indicating whether the
- * App Service Environment is suspended. The environment can be suspended e.g.
- * when the management endpoint is no longer available
- * (most likely because NSG blocked the incoming traffic).
- * @member {array} [clusterSettings] Custom settings for changing the behavior
- * of the App Service Environment.
- * @member {array} [userWhitelistedIpRanges] User added ip ranges to whitelist
- * on ASE db
- * @member {boolean} [hasLinuxWorkers] Flag that displays whether an ASE has
- * linux workers or not
- * @member {string} [sslCertKeyVaultId] Key Vault ID for ILB App Service
- * Environment default SSL certificate
- * @member {string} [sslCertKeyVaultSecretName] Key Vault Secret Name for ILB
- * App Service Environment default SSL certificate
+ * @member {string} [name]
+ * @member {string} [displayName]
+ * @member {string} [internalName]
+ * @member {boolean} [toBeExportedForShoebox]
  */
-export interface AppServiceEnvironment {
-  name: string;
-  location: string;
-  readonly provisioningState?: string;
-  readonly status?: string;
-  vnetName?: string;
-  vnetResourceGroupName?: string;
-  vnetSubnetName?: string;
-  virtualNetwork: VirtualNetworkProfile;
-  internalLoadBalancingMode?: string;
-  multiSize?: string;
-  multiRoleCount?: number;
-  workerPools: WorkerPool[];
-  ipsslAddressCount?: number;
-  readonly databaseEdition?: string;
-  readonly databaseServiceObjective?: string;
-  readonly upgradeDomains?: number;
-  readonly subscriptionId?: string;
-  dnsSuffix?: string;
-  readonly lastAction?: string;
-  readonly lastActionResult?: string;
-  readonly allowedMultiSizes?: string;
-  readonly allowedWorkerSizes?: string;
-  readonly maximumNumberOfMachines?: number;
-  readonly vipMappings?: VirtualIPMapping[];
-  readonly environmentCapacities?: StampCapacity[];
-  networkAccessControlList?: NetworkAccessControlEntry[];
-  readonly environmentIsHealthy?: boolean;
-  readonly environmentStatus?: string;
-  readonly resourceGroup?: string;
-  frontEndScaleFactor?: number;
-  readonly defaultFrontEndScaleFactor?: number;
-  apiManagementAccountId?: string;
-  suspended?: boolean;
-  dynamicCacheEnabled?: boolean;
-  clusterSettings?: NameValuePair[];
-  userWhitelistedIpRanges?: string[];
-  hasLinuxWorkers?: boolean;
-  sslCertKeyVaultId?: string;
-  sslCertKeyVaultSecretName?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the LocalizableString class.
- * @constructor
- * Localizable string object containing the name and a localized value.
- *
- * @member {string} [value] Non-localized name.
- * @member {string} [localizedValue] Localized name.
- */
-export interface LocalizableString {
-  value?: string;
-  localizedValue?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the CsmUsageQuota class.
- * @constructor
- * Usage of the quota resource.
- *
- * @member {string} [unit] Units of measurement for the quota resourse.
- * @member {date} [nextResetTime] Next reset time for the resource counter.
- * @member {number} [currentValue] The current value of the resource counter.
- * @member {number} [limit] The resource limit.
- * @member {object} [name] Quota name.
- * @member {string} [name.value] Non-localized name.
- * @member {string} [name.localizedValue] Localized name.
- */
-export interface CsmUsageQuota {
-  unit?: string;
-  nextResetTime?: Date;
-  currentValue?: number;
-  limit?: number;
-  name?: LocalizableString;
-}
-
-/**
- * @class
- * Initializes a new instance of the ErrorEntity class.
- * @constructor
- * Body of the error response returned from the API.
- *
- * @member {string} [extendedCode] Type of error.
- * @member {string} [messageTemplate] Message template.
- * @member {array} [parameters] Parameters for the template.
- * @member {array} [innerErrors] Inner errors.
- * @member {string} [code] Basic error code.
- * @member {string} [message] Any details of the error.
- */
-export interface ErrorEntity {
-  extendedCode?: string;
-  messageTemplate?: string;
-  parameters?: string[];
-  innerErrors?: ErrorEntity[];
-  code?: string;
-  message?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the Operation class.
- * @constructor
- * An operation on a resource.
- *
- * @member {string} [id] Operation ID.
- * @member {string} [name] Operation name.
- * @member {string} [status] The current status of the operation. Possible
- * values include: 'InProgress', 'Failed', 'Succeeded', 'TimedOut', 'Created'
- * @member {array} [errors] Any errors associate with the operation.
- * @member {date} [createdTime] Time when operation has started.
- * @member {date} [modifiedTime] Time when operation has been updated.
- * @member {date} [expirationTime] Time when operation will expire.
- * @member {uuid} [geoMasterOperationId] Applicable only for stamp operation
- * ids.
- */
-export interface Operation {
-  id?: string;
+export interface Dimension {
   name?: string;
-  status?: string;
-  errors?: ErrorEntity[];
-  createdTime?: Date;
-  modifiedTime?: Date;
-  expirationTime?: Date;
-  geoMasterOperationId?: string;
+  displayName?: string;
+  internalName?: string;
+  toBeExportedForShoebox?: boolean;
 }
 
 /**
  * @class
- * Initializes a new instance of the ResourceMetricName class.
+ * Initializes a new instance of the MetricAvailability class.
  * @constructor
- * Name of a metric for any resource .
+ * Retention policy of a resource metric.
  *
- * @member {string} [value] metric name value.
- * @member {string} [localizedValue] Localized metric name value.
+ * @member {string} [timeGrain]
+ * @member {string} [blobDuration]
  */
-export interface ResourceMetricName {
-  readonly value?: string;
-  readonly localizedValue?: string;
+export interface MetricAvailability {
+  timeGrain?: string;
+  blobDuration?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the ResourceMetricProperty class.
+ * Initializes a new instance of the MetricSpecification class.
  * @constructor
- * Resource metric property.
+ * Definition of a single resource metric.
  *
- * @member {string} [key] Key for resource metric property.
- * @member {string} [value] Value of pair.
+ * @member {string} [name]
+ * @member {string} [displayName]
+ * @member {string} [displayDescription]
+ * @member {string} [unit]
+ * @member {string} [aggregationType]
+ * @member {boolean} [supportsInstanceLevelAggregation]
+ * @member {boolean} [enableRegionalMdmAccount]
+ * @member {string} [sourceMdmAccount]
+ * @member {string} [sourceMdmNamespace]
+ * @member {string} [metricFilterPattern]
+ * @member {boolean} [fillGapWithZero]
+ * @member {boolean} [isInternal]
+ * @member {array} [dimensions]
+ * @member {string} [category]
+ * @member {array} [availabilities]
  */
-export interface ResourceMetricProperty {
-  key?: string;
-  value?: string;
+export interface MetricSpecification {
+  name?: string;
+  displayName?: string;
+  displayDescription?: string;
+  unit?: string;
+  aggregationType?: string;
+  supportsInstanceLevelAggregation?: boolean;
+  enableRegionalMdmAccount?: boolean;
+  sourceMdmAccount?: string;
+  sourceMdmNamespace?: string;
+  metricFilterPattern?: string;
+  fillGapWithZero?: boolean;
+  isInternal?: boolean;
+  dimensions?: Dimension[];
+  category?: string;
+  availabilities?: MetricAvailability[];
 }
 
 /**
  * @class
- * Initializes a new instance of the ResourceMetricValue class.
+ * Initializes a new instance of the LogSpecification class.
  * @constructor
- * Value of resource metric.
+ * Log Definition of a single resource metric.
  *
- * @member {string} [timestamp] Value timestamp.
- * @member {number} [average] Value average.
- * @member {number} [minimum] Value minimum.
- * @member {number} [maximum] Value maximum.
- * @member {number} [total] Value total.
- * @member {number} [count] Value count.
- * @member {array} [properties] Resource metric properties collection.
+ * @member {string} [name]
+ * @member {string} [displayName]
+ * @member {string} [blobDuration]
  */
-export interface ResourceMetricValue {
-  readonly timestamp?: string;
-  readonly average?: number;
-  readonly minimum?: number;
-  readonly maximum?: number;
-  readonly total?: number;
-  readonly count?: number;
-  readonly properties?: ResourceMetricProperty[];
+export interface LogSpecification {
+  name?: string;
+  displayName?: string;
+  blobDuration?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the ResourceMetric class.
+ * Initializes a new instance of the ServiceSpecification class.
  * @constructor
- * Object representing a metric for any resource .
+ * Resource metrics service provided by Microsoft.Insights resource provider.
  *
- * @member {object} [name] Name of metric.
- * @member {string} [name.value] metric name value.
- * @member {string} [name.localizedValue] Localized metric name value.
- * @member {string} [unit] Metric unit.
- * @member {string} [timeGrain] Metric granularity. E.g PT1H, PT5M, P1D
- * @member {date} [startTime] Metric start time.
- * @member {date} [endTime] Metric end time.
- * @member {string} [resourceId] Metric resource Id.
- * @member {string} [id] Resource Id.
- * @member {array} [metricValues] Metric values.
- * @member {array} [properties] Resource metric properties collection.
+ * @member {array} [metricSpecifications]
+ * @member {array} [logSpecifications]
  */
-export interface ResourceMetric {
-  readonly name?: ResourceMetricName;
-  readonly unit?: string;
-  readonly timeGrain?: string;
-  readonly startTime?: Date;
-  readonly endTime?: Date;
-  readonly resourceId?: string;
-  readonly id?: string;
-  readonly metricValues?: ResourceMetricValue[];
-  readonly properties?: ResourceMetricProperty[];
+export interface ServiceSpecification {
+  metricSpecifications?: MetricSpecification[];
+  logSpecifications?: LogSpecification[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the CsmOperationDescriptionProperties class.
+ * @constructor
+ * Properties available for a Microsoft.Web resource provider operation.
+ *
+ * @member {object} [serviceSpecification]
+ * @member {array} [serviceSpecification.metricSpecifications]
+ * @member {array} [serviceSpecification.logSpecifications]
+ */
+export interface CsmOperationDescriptionProperties {
+  serviceSpecification?: ServiceSpecification;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the CsmOperationDescription class.
+ * @constructor
+ * Description of an operation available for Microsoft.Web resource provider.
+ *
+ * @member {string} [name]
+ * @member {object} [display]
+ * @member {string} [display.provider]
+ * @member {string} [display.resource]
+ * @member {string} [display.operation]
+ * @member {string} [display.description]
+ * @member {string} [origin]
+ * @member {object} [properties]
+ * @member {object} [properties.serviceSpecification]
+ * @member {array} [properties.serviceSpecification.metricSpecifications]
+ * @member {array} [properties.serviceSpecification.logSpecifications]
+ */
+export interface CsmOperationDescription {
+  name?: string;
+  display?: CsmOperationDisplay;
+  origin?: string;
+  properties?: CsmOperationDescriptionProperties;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the NameIdentifier class.
+ * @constructor
+ * Identifies an object.
+ *
+ * @member {string} [name] Name of the object.
+ */
+export interface NameIdentifier {
+  name?: string;
 }
 
 /**
@@ -3783,6 +3413,22 @@ export interface RecommendationRule extends ProxyOnlyResource {
   extensionName?: string;
   bladeName?: string;
   forwardLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceHealthMetadata class.
+ * @constructor
+ * Used for getting ResourceHealthCheck settings.
+ *
+ * @member {string} [category] The category that the resource matches in the
+ * RHC Policy File
+ * @member {boolean} [signalAvailability] Is there a health signal for the
+ * resource
+ */
+export interface ResourceHealthMetadata extends ProxyOnlyResource {
+  category?: string;
+  signalAvailability?: boolean;
 }
 
 /**
@@ -6435,651 +6081,148 @@ export interface WebJob extends ProxyOnlyResource {
   settings?: { [propertyName: string]: any };
 }
 
-/**
- * @class
- * Initializes a new instance of the AddressResponse class.
- * @constructor
- * Describes main public IP address and any extra virtual IPs.
- *
- * @member {string} [serviceIpAddress] Main public virtual IP.
- * @member {string} [internalIpAddress] Virtual Network internal IP address of
- * the App Service Environment if it is in internal load-balancing mode.
- * @member {array} [outboundIpAddresses] IP addresses appearing on outbound
- * connections.
- * @member {array} [vipMappings] Additional virtual IPs.
- */
-export interface AddressResponse {
-  serviceIpAddress?: string;
-  internalIpAddress?: string;
-  outboundIpAddresses?: string[];
-  vipMappings?: VirtualIPMapping[];
-}
 
 /**
  * @class
- * Initializes a new instance of the AppServiceEnvironmentResource class.
+ * Initializes a new instance of the AppServiceEnvironmentCollection class.
  * @constructor
- * App Service Environment ARM resource.
- *
- * @member {string} appServiceEnvironmentResourceName Name of the App Service
- * Environment.
- * @member {string} appServiceEnvironmentResourceLocation Location of the App
- * Service Environment, e.g. "West US".
- * @member {string} [provisioningState] Provisioning state of the App Service
- * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
- * 'InProgress', 'Deleting'
- * @member {string} [status] Current status of the App Service Environment.
- * Possible values include: 'Preparing', 'Ready', 'Scaling', 'Deleting'
- * @member {string} [vnetName] Name of the Virtual Network for the App Service
- * Environment.
- * @member {string} [vnetResourceGroupName] Resource group of the Virtual
- * Network.
- * @member {string} [vnetSubnetName] Subnet of the Virtual Network.
- * @member {object} virtualNetwork Description of the Virtual Network.
- * @member {string} [virtualNetwork.id] Resource id of the Virtual Network.
- * @member {string} [virtualNetwork.name] Name of the Virtual Network
- * (read-only).
- * @member {string} [virtualNetwork.type] Resource type of the Virtual Network
- * (read-only).
- * @member {string} [virtualNetwork.subnet] Subnet within the Virtual Network.
- * @member {string} [internalLoadBalancingMode] Specifies which endpoints to
- * serve internally in the Virtual Network for the App Service Environment.
- * Possible values include: 'None', 'Web', 'Publishing'
- * @member {string} [multiSize] Front-end VM size, e.g. "Medium", "Large".
- * @member {number} [multiRoleCount] Number of front-end instances.
- * @member {array} workerPools Description of worker pools with worker size
- * IDs, VM sizes, and number of workers in each pool.
- * @member {number} [ipsslAddressCount] Number of IP SSL addresses reserved for
- * the App Service Environment.
- * @member {string} [databaseEdition] Edition of the metadata database for the
- * App Service Environment, e.g. "Standard".
- * @member {string} [databaseServiceObjective] Service objective of the
- * metadata database for the App Service Environment, e.g. "S0".
- * @member {number} [upgradeDomains] Number of upgrade domains of the App
- * Service Environment.
- * @member {string} [subscriptionId] Subscription of the App Service
- * Environment.
- * @member {string} [dnsSuffix] DNS suffix of the App Service Environment.
- * @member {string} [lastAction] Last deployment action on the App Service
- * Environment.
- * @member {string} [lastActionResult] Result of the last deployment action on
- * the App Service Environment.
- * @member {string} [allowedMultiSizes] List of comma separated strings
- * describing which VM sizes are allowed for front-ends.
- * @member {string} [allowedWorkerSizes] List of comma separated strings
- * describing which VM sizes are allowed for workers.
- * @member {number} [maximumNumberOfMachines] Maximum number of VMs in the App
- * Service Environment.
- * @member {array} [vipMappings] Description of IP SSL mapping for the App
- * Service Environment.
- * @member {array} [environmentCapacities] Current total, used, and available
- * worker capacities.
- * @member {array} [networkAccessControlList] Access control list for
- * controlling traffic to the App Service Environment.
- * @member {boolean} [environmentIsHealthy] True/false indicating whether the
- * App Service Environment is healthy.
- * @member {string} [environmentStatus] Detailed message about with results of
- * the last check of the App Service Environment.
- * @member {string} [resourceGroup] Resource group of the App Service
- * Environment.
- * @member {number} [frontEndScaleFactor] Scale factor for front-ends.
- * @member {number} [defaultFrontEndScaleFactor] Default Scale Factor for
- * FrontEnds.
- * @member {string} [apiManagementAccountId] API Management Account associated
- * with the App Service Environment.
- * @member {boolean} [suspended] <code>true</code> if the App Service
- * Environment is suspended; otherwise, <code>false</code>. The environment can
- * be suspended, e.g. when the management endpoint is no longer available
- * (most likely because NSG blocked the incoming traffic).
- * @member {boolean} [dynamicCacheEnabled] True/false indicating whether the
- * App Service Environment is suspended. The environment can be suspended e.g.
- * when the management endpoint is no longer available
- * (most likely because NSG blocked the incoming traffic).
- * @member {array} [clusterSettings] Custom settings for changing the behavior
- * of the App Service Environment.
- * @member {array} [userWhitelistedIpRanges] User added ip ranges to whitelist
- * on ASE db
- * @member {boolean} [hasLinuxWorkers] Flag that displays whether an ASE has
- * linux workers or not
- * @member {string} [sslCertKeyVaultId] Key Vault ID for ILB App Service
- * Environment default SSL certificate
- * @member {string} [sslCertKeyVaultSecretName] Key Vault Secret Name for ILB
- * App Service Environment default SSL certificate
- */
-export interface AppServiceEnvironmentResource extends Resource {
-  appServiceEnvironmentResourceName: string;
-  appServiceEnvironmentResourceLocation: string;
-  readonly provisioningState?: string;
-  readonly status?: string;
-  vnetName?: string;
-  vnetResourceGroupName?: string;
-  vnetSubnetName?: string;
-  virtualNetwork: VirtualNetworkProfile;
-  internalLoadBalancingMode?: string;
-  multiSize?: string;
-  multiRoleCount?: number;
-  workerPools: WorkerPool[];
-  ipsslAddressCount?: number;
-  readonly databaseEdition?: string;
-  readonly databaseServiceObjective?: string;
-  readonly upgradeDomains?: number;
-  readonly subscriptionId?: string;
-  dnsSuffix?: string;
-  readonly lastAction?: string;
-  readonly lastActionResult?: string;
-  readonly allowedMultiSizes?: string;
-  readonly allowedWorkerSizes?: string;
-  readonly maximumNumberOfMachines?: number;
-  readonly vipMappings?: VirtualIPMapping[];
-  readonly environmentCapacities?: StampCapacity[];
-  networkAccessControlList?: NetworkAccessControlEntry[];
-  readonly environmentIsHealthy?: boolean;
-  readonly environmentStatus?: string;
-  readonly resourceGroup?: string;
-  frontEndScaleFactor?: number;
-  readonly defaultFrontEndScaleFactor?: number;
-  apiManagementAccountId?: string;
-  suspended?: boolean;
-  dynamicCacheEnabled?: boolean;
-  clusterSettings?: NameValuePair[];
-  userWhitelistedIpRanges?: string[];
-  hasLinuxWorkers?: boolean;
-  sslCertKeyVaultId?: string;
-  sslCertKeyVaultSecretName?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the AppServiceEnvironmentPatchResource class.
- * @constructor
- * ARM resource for a app service enviroment.
- *
- * @member {string} appServiceEnvironmentPatchResourceName Name of the App
- * Service Environment.
- * @member {string} location Location of the App Service Environment, e.g.
- * "West US".
- * @member {string} [provisioningState] Provisioning state of the App Service
- * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
- * 'InProgress', 'Deleting'
- * @member {string} [status] Current status of the App Service Environment.
- * Possible values include: 'Preparing', 'Ready', 'Scaling', 'Deleting'
- * @member {string} [vnetName] Name of the Virtual Network for the App Service
- * Environment.
- * @member {string} [vnetResourceGroupName] Resource group of the Virtual
- * Network.
- * @member {string} [vnetSubnetName] Subnet of the Virtual Network.
- * @member {object} virtualNetwork Description of the Virtual Network.
- * @member {string} [virtualNetwork.id] Resource id of the Virtual Network.
- * @member {string} [virtualNetwork.name] Name of the Virtual Network
- * (read-only).
- * @member {string} [virtualNetwork.type] Resource type of the Virtual Network
- * (read-only).
- * @member {string} [virtualNetwork.subnet] Subnet within the Virtual Network.
- * @member {string} [internalLoadBalancingMode] Specifies which endpoints to
- * serve internally in the Virtual Network for the App Service Environment.
- * Possible values include: 'None', 'Web', 'Publishing'
- * @member {string} [multiSize] Front-end VM size, e.g. "Medium", "Large".
- * @member {number} [multiRoleCount] Number of front-end instances.
- * @member {array} workerPools Description of worker pools with worker size
- * IDs, VM sizes, and number of workers in each pool.
- * @member {number} [ipsslAddressCount] Number of IP SSL addresses reserved for
- * the App Service Environment.
- * @member {string} [databaseEdition] Edition of the metadata database for the
- * App Service Environment, e.g. "Standard".
- * @member {string} [databaseServiceObjective] Service objective of the
- * metadata database for the App Service Environment, e.g. "S0".
- * @member {number} [upgradeDomains] Number of upgrade domains of the App
- * Service Environment.
- * @member {string} [subscriptionId] Subscription of the App Service
- * Environment.
- * @member {string} [dnsSuffix] DNS suffix of the App Service Environment.
- * @member {string} [lastAction] Last deployment action on the App Service
- * Environment.
- * @member {string} [lastActionResult] Result of the last deployment action on
- * the App Service Environment.
- * @member {string} [allowedMultiSizes] List of comma separated strings
- * describing which VM sizes are allowed for front-ends.
- * @member {string} [allowedWorkerSizes] List of comma separated strings
- * describing which VM sizes are allowed for workers.
- * @member {number} [maximumNumberOfMachines] Maximum number of VMs in the App
- * Service Environment.
- * @member {array} [vipMappings] Description of IP SSL mapping for the App
- * Service Environment.
- * @member {array} [environmentCapacities] Current total, used, and available
- * worker capacities.
- * @member {array} [networkAccessControlList] Access control list for
- * controlling traffic to the App Service Environment.
- * @member {boolean} [environmentIsHealthy] True/false indicating whether the
- * App Service Environment is healthy.
- * @member {string} [environmentStatus] Detailed message about with results of
- * the last check of the App Service Environment.
- * @member {string} [resourceGroup] Resource group of the App Service
- * Environment.
- * @member {number} [frontEndScaleFactor] Scale factor for front-ends.
- * @member {number} [defaultFrontEndScaleFactor] Default Scale Factor for
- * FrontEnds.
- * @member {string} [apiManagementAccountId] API Management Account associated
- * with the App Service Environment.
- * @member {boolean} [suspended] <code>true</code> if the App Service
- * Environment is suspended; otherwise, <code>false</code>. The environment can
- * be suspended, e.g. when the management endpoint is no longer available
- * (most likely because NSG blocked the incoming traffic).
- * @member {boolean} [dynamicCacheEnabled] True/false indicating whether the
- * App Service Environment is suspended. The environment can be suspended e.g.
- * when the management endpoint is no longer available
- * (most likely because NSG blocked the incoming traffic).
- * @member {array} [clusterSettings] Custom settings for changing the behavior
- * of the App Service Environment.
- * @member {array} [userWhitelistedIpRanges] User added ip ranges to whitelist
- * on ASE db
- * @member {boolean} [hasLinuxWorkers] Flag that displays whether an ASE has
- * linux workers or not
- * @member {string} [sslCertKeyVaultId] Key Vault ID for ILB App Service
- * Environment default SSL certificate
- * @member {string} [sslCertKeyVaultSecretName] Key Vault Secret Name for ILB
- * App Service Environment default SSL certificate
- */
-export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
-  appServiceEnvironmentPatchResourceName: string;
-  location: string;
-  readonly provisioningState?: string;
-  readonly status?: string;
-  vnetName?: string;
-  vnetResourceGroupName?: string;
-  vnetSubnetName?: string;
-  virtualNetwork: VirtualNetworkProfile;
-  internalLoadBalancingMode?: string;
-  multiSize?: string;
-  multiRoleCount?: number;
-  workerPools: WorkerPool[];
-  ipsslAddressCount?: number;
-  readonly databaseEdition?: string;
-  readonly databaseServiceObjective?: string;
-  readonly upgradeDomains?: number;
-  readonly subscriptionId?: string;
-  dnsSuffix?: string;
-  readonly lastAction?: string;
-  readonly lastActionResult?: string;
-  readonly allowedMultiSizes?: string;
-  readonly allowedWorkerSizes?: string;
-  readonly maximumNumberOfMachines?: number;
-  readonly vipMappings?: VirtualIPMapping[];
-  readonly environmentCapacities?: StampCapacity[];
-  networkAccessControlList?: NetworkAccessControlEntry[];
-  readonly environmentIsHealthy?: boolean;
-  readonly environmentStatus?: string;
-  readonly resourceGroup?: string;
-  frontEndScaleFactor?: number;
-  readonly defaultFrontEndScaleFactor?: number;
-  apiManagementAccountId?: string;
-  suspended?: boolean;
-  dynamicCacheEnabled?: boolean;
-  clusterSettings?: NameValuePair[];
-  userWhitelistedIpRanges?: string[];
-  hasLinuxWorkers?: boolean;
-  sslCertKeyVaultId?: string;
-  sslCertKeyVaultSecretName?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the HostingEnvironmentDiagnostics class.
- * @constructor
- * Diagnostics for an App Service Environment.
- *
- * @member {string} [name] Name/identifier of the diagnostics.
- * @member {string} [diagnosicsOutput] Diagnostics output.
- */
-export interface HostingEnvironmentDiagnostics {
-  name?: string;
-  diagnosicsOutput?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the MetricAvailabilily class.
- * @constructor
- * Metric availability and retention.
- *
- * @member {string} [timeGrain] Time grain.
- * @member {string} [retention] Retention period for the current time grain.
- */
-export interface MetricAvailabilily {
-  timeGrain?: string;
-  retention?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the MetricDefinition class.
- * @constructor
- * Metadata for a metric.
- *
- * @member {string} [unit] Unit of the metric.
- * @member {string} [primaryAggregationType] Primary aggregation type.
- * @member {array} [metricAvailabilities] List of time grains supported for the
- * metric together with retention period.
- * @member {string} [displayName] Friendly name shown in the UI.
- */
-export interface MetricDefinition extends ProxyOnlyResource {
-  readonly unit?: string;
-  readonly primaryAggregationType?: string;
-  readonly metricAvailabilities?: MetricAvailabilily[];
-  readonly displayName?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the SkuInfo class.
- * @constructor
- * SKU discovery information.
- *
- * @member {string} [resourceType] Resource type that this SKU applies to.
- * @member {object} [sku] Name and tier of the SKU.
- * @member {string} [sku.name] Name of the resource SKU.
- * @member {string} [sku.tier] Service tier of the resource SKU.
- * @member {string} [sku.size] Size specifier of the resource SKU.
- * @member {string} [sku.family] Family code of the resource SKU.
- * @member {number} [sku.capacity] Current number of instances assigned to the
- * resource.
- * @member {object} [sku.skuCapacity] Min, max, and default scale values of the
- * SKU.
- * @member {number} [sku.skuCapacity.minimum] Minimum number of workers for
- * this App Service plan SKU.
- * @member {number} [sku.skuCapacity.maximum] Maximum number of workers for
- * this App Service plan SKU.
- * @member {number} [sku.skuCapacity.default] Default number of workers for
- * this App Service plan SKU.
- * @member {string} [sku.skuCapacity.scaleType] Available scale configurations
- * for an App Service plan.
- * @member {array} [sku.locations] Locations of the SKU.
- * @member {array} [sku.capabilities] Capabilities of the SKU, e.g., is traffic
- * manager enabled?
- * @member {object} [capacity] Min, max, and default scale values of the SKU.
- * @member {number} [capacity.minimum] Minimum number of workers for this App
- * Service plan SKU.
- * @member {number} [capacity.maximum] Maximum number of workers for this App
- * Service plan SKU.
- * @member {number} [capacity.default] Default number of workers for this App
- * Service plan SKU.
- * @member {string} [capacity.scaleType] Available scale configurations for an
- * App Service plan.
- */
-export interface SkuInfo {
-  resourceType?: string;
-  sku?: SkuDescription;
-  capacity?: SkuCapacity;
-}
-
-/**
- * @class
- * Initializes a new instance of the Usage class.
- * @constructor
- * Usage of the quota resource.
- *
- * @member {string} [displayName] Friendly name shown in the UI.
- * @member {string} [resourceName] Name of the quota resource.
- * @member {string} [unit] Units of measurement for the quota resource.
- * @member {number} [currentValue] The current value of the resource counter.
- * @member {number} [limit] The resource limit.
- * @member {date} [nextResetTime] Next reset time for the resource counter.
- * @member {string} [computeMode] Compute mode used for this usage. Possible
- * values include: 'Shared', 'Dedicated', 'Dynamic'
- * @member {string} [siteMode] Site mode used for this usage.
- */
-export interface Usage extends ProxyOnlyResource {
-  readonly displayName?: string;
-  readonly resourceName?: string;
-  readonly unit?: string;
-  readonly currentValue?: number;
-  readonly limit?: number;
-  readonly nextResetTime?: Date;
-  readonly computeMode?: string;
-  readonly siteMode?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the WorkerPoolResource class.
- * @constructor
- * Worker pool of an App Service Environment ARM resource.
- *
- * @member {number} [workerSizeId] Worker size ID for referencing this worker
- * pool.
- * @member {string} [computeMode] Shared or dedicated app hosting. Possible
- * values include: 'Shared', 'Dedicated', 'Dynamic'
- * @member {string} [workerSize] VM size of the worker pool instances.
- * @member {number} [workerCount] Number of instances in the worker pool.
- * @member {array} [instanceNames] Names of all instances in the worker pool
- * (read only).
- * @member {object} [sku]
- * @member {string} [sku.name] Name of the resource SKU.
- * @member {string} [sku.tier] Service tier of the resource SKU.
- * @member {string} [sku.size] Size specifier of the resource SKU.
- * @member {string} [sku.family] Family code of the resource SKU.
- * @member {number} [sku.capacity] Current number of instances assigned to the
- * resource.
- * @member {object} [sku.skuCapacity] Min, max, and default scale values of the
- * SKU.
- * @member {number} [sku.skuCapacity.minimum] Minimum number of workers for
- * this App Service plan SKU.
- * @member {number} [sku.skuCapacity.maximum] Maximum number of workers for
- * this App Service plan SKU.
- * @member {number} [sku.skuCapacity.default] Default number of workers for
- * this App Service plan SKU.
- * @member {string} [sku.skuCapacity.scaleType] Available scale configurations
- * for an App Service plan.
- * @member {array} [sku.locations] Locations of the SKU.
- * @member {array} [sku.capabilities] Capabilities of the SKU, e.g., is traffic
- * manager enabled?
- */
-export interface WorkerPoolResource extends ProxyOnlyResource {
-  workerSizeId?: number;
-  computeMode?: string;
-  workerSize?: string;
-  workerCount?: number;
-  readonly instanceNames?: string[];
-  sku?: SkuDescription;
-}
-
-/**
- * @class
- * Initializes a new instance of the AppServicePlanPatchResource class.
- * @constructor
- * ARM resource for a app service plan.
- *
- * @member {string} [workerTierName] Target worker tier assigned to the App
- * Service plan.
- * @member {string} [status] App Service plan status. Possible values include:
- * 'Ready', 'Pending', 'Creating'
- * @member {string} [subscription] App Service plan subscription.
- * @member {string} [adminSiteName] App Service plan administration site.
- * @member {object} [hostingEnvironmentProfile] Specification for the App
- * Service Environment to use for the App Service plan.
- * @member {string} [hostingEnvironmentProfile.id] Resource ID of the App
- * Service Environment.
- * @member {string} [hostingEnvironmentProfile.name] Name of the App Service
- * Environment.
- * @member {string} [hostingEnvironmentProfile.type] Resource type of the App
- * Service Environment.
- * @member {number} [maximumNumberOfWorkers] Maximum number of instances that
- * can be assigned to this App Service plan.
- * @member {string} [geoRegion] Geographical location for the App Service plan.
- * @member {boolean} [perSiteScaling] If <code>true</code>, apps assigned to
- * this App Service plan can be scaled independently.
- * If <code>false</code>, apps assigned to this App Service plan will scale to
- * all instances of the plan. Default value: false .
- * @member {number} [maximumElasticWorkerCount] Maximum number of total workers
- * allowed for this ElasticScaleEnabled App Service Plan
- * @member {number} [numberOfSites] Number of apps assigned to this App Service
- * plan.
- * @member {boolean} [isSpot] If <code>true</code>, this App Service Plan owns
- * spot instances.
- * @member {date} [spotExpirationTime] The time when the server farm expires.
- * Valid only if it is a spot server farm.
- * @member {date} [freeOfferExpirationTime] The time when the server farm free
- * offer expires.
- * @member {string} [resourceGroup] Resource group of the App Service plan.
- * @member {boolean} [reserved] If Linux app service plan <code>true</code>,
- * <code>false</code> otherwise. Default value: false .
- * @member {boolean} [isXenon] Obsolete: If Hyper-V container app service plan
- * <code>true</code>, <code>false</code> otherwise. Default value: false .
- * @member {boolean} [hyperV] If Hyper-V container app service plan
- * <code>true</code>, <code>false</code> otherwise. Default value: false .
- * @member {number} [targetWorkerCount] Scaling worker count.
- * @member {number} [targetWorkerSizeId] Scaling worker size ID.
- * @member {string} [provisioningState] Provisioning state of the App Service
- * Environment. Possible values include: 'Succeeded', 'Failed', 'Canceled',
- * 'InProgress', 'Deleting'
- */
-export interface AppServicePlanPatchResource extends ProxyOnlyResource {
-  workerTierName?: string;
-  readonly status?: string;
-  readonly subscription?: string;
-  adminSiteName?: string;
-  hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  readonly maximumNumberOfWorkers?: number;
-  readonly geoRegion?: string;
-  perSiteScaling?: boolean;
-  maximumElasticWorkerCount?: number;
-  readonly numberOfSites?: number;
-  isSpot?: boolean;
-  spotExpirationTime?: Date;
-  freeOfferExpirationTime?: Date;
-  readonly resourceGroup?: string;
-  reserved?: boolean;
-  isXenon?: boolean;
-  hyperV?: boolean;
-  targetWorkerCount?: number;
-  targetWorkerSizeId?: number;
-  readonly provisioningState?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the HybridConnectionLimits class.
- * @constructor
- * Hybrid Connection limits contract. This is used to return the plan limits of
- * Hybrid Connections.
- *
- * @member {number} [current] The current number of Hybrid Connections.
- * @member {number} [maximum] The maximum number of Hybrid Connections allowed.
- */
-export interface HybridConnectionLimits extends ProxyOnlyResource {
-  readonly current?: number;
-  readonly maximum?: number;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResourceHealthMetadata class.
- * @constructor
- * Used for getting ResourceHealthCheck settings.
- *
- * @member {string} [category] The category that the resource matches in the
- * RHC Policy File
- * @member {boolean} [signalAvailability] Is there a health signal for the
- * resource
- */
-export interface ResourceHealthMetadata extends ProxyOnlyResource {
-  category?: string;
-  signalAvailability?: boolean;
-}
-
-
-/**
- * @class
- * Initializes a new instance of the AppServiceCertificateOrderCollection class.
- * @constructor
- * Collection of certitificate orders.
+ * Collection of App Service Environments.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface AppServiceCertificateOrderCollection extends Array<AppServiceCertificateOrder> {
+export interface AppServiceEnvironmentCollection extends Array<AppServiceEnvironmentResource> {
   readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the AppServiceCertificateCollection class.
+ * Initializes a new instance of the StampCapacityCollection class.
  * @constructor
- * Collection of certitificateorder certificates.
+ * Collection of stamp capacities.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface AppServiceCertificateCollection extends Array<AppServiceCertificateResource> {
+export interface StampCapacityCollection extends Array<StampCapacity> {
   readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the CsmOperationCollection class.
+ * Initializes a new instance of the WebAppCollection class.
  * @constructor
- * Collection of Azure resource manager operation metadata.
+ * Collection of App Service apps.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface CsmOperationCollection extends Array<CsmOperationDescription> {
+export interface WebAppCollection extends Array<Site> {
   readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the DomainCollection class.
+ * Initializes a new instance of the ResourceMetricCollection class.
  * @constructor
- * Collection of domains.
+ * Collection of metric responses.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface DomainCollection extends Array<Domain> {
+export interface ResourceMetricCollection extends Array<ResourceMetric> {
   readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the NameIdentifierCollection class.
+ * Initializes a new instance of the WorkerPoolCollection class.
  * @constructor
- * Collection of domain name identifiers.
+ * Collection of worker pools.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface NameIdentifierCollection extends Array<NameIdentifier> {
+export interface WorkerPoolCollection extends Array<WorkerPoolResource> {
   readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the DomainOwnershipIdentifierCollection class.
+ * Initializes a new instance of the ResourceMetricDefinitionCollection class.
  * @constructor
- * Collection of domain ownership identifiers.
+ * Collection of metric definitions.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface DomainOwnershipIdentifierCollection extends Array<DomainOwnershipIdentifier> {
+export interface ResourceMetricDefinitionCollection extends Array<ResourceMetricDefinition> {
   readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the TopLevelDomainCollection class.
+ * Initializes a new instance of the SkuInfoCollection class.
  * @constructor
- * Collection of Top-level domains.
+ * Collection of SKU information.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface TopLevelDomainCollection extends Array<TopLevelDomain> {
+export interface SkuInfoCollection extends Array<SkuInfo> {
   readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the TldLegalAgreementCollection class.
+ * Initializes a new instance of the UsageCollection class.
  * @constructor
- * Collection of top-level domain legal agreements.
+ * Collection of usages.
  *
  * @member {string} [nextLink] Link to next page of resources.
  */
-export interface TldLegalAgreementCollection extends Array<TldLegalAgreement> {
+export interface UsageCollection extends Array<Usage> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the AppServicePlanCollection class.
+ * @constructor
+ * Collection of App Service plans.
+ *
+ * @member {string} [nextLink] Link to next page of resources.
+ */
+export interface AppServicePlanCollection extends Array<AppServicePlan> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the CsmUsageQuotaCollection class.
+ * @constructor
+ * Collection of CSM usage quotas.
+ *
+ * @member {string} [nextLink] Link to next page of resources.
+ */
+export interface CsmUsageQuotaCollection extends Array<CsmUsageQuota> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceCollection class.
+ * @constructor
+ * Collection of resources.
+ *
+ * @member {string} [nextLink] Link to next page of resources.
+ */
+export interface ResourceCollection extends Array<string> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the HybridConnectionCollection class.
+ * @constructor
+ * Collection of hostname bindings.
+ *
+ * @member {string} [nextLink] Link to next page of resources.
+ */
+export interface HybridConnectionCollection extends Array<HybridConnection> {
   readonly nextLink?: string;
 }
 
@@ -7169,6 +6312,18 @@ export interface ApplicationStackCollection extends Array<ApplicationStack> {
 
 /**
  * @class
+ * Initializes a new instance of the CsmOperationCollection class.
+ * @constructor
+ * Collection of Azure resource manager operation metadata.
+ *
+ * @member {string} [nextLink] Link to next page of resources.
+ */
+export interface CsmOperationCollection extends Array<CsmOperationDescription> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
  * Initializes a new instance of the RecommendationCollection class.
  * @constructor
  * Collection of recommendations.
@@ -7176,6 +6331,18 @@ export interface ApplicationStackCollection extends Array<ApplicationStack> {
  * @member {string} [nextLink] Link to next page of resources.
  */
 export interface RecommendationCollection extends Array<Recommendation> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceHealthMetadataCollection class.
+ * @constructor
+ * Collection of resource health metadata.
+ *
+ * @member {string} [nextLink] Link to next page of resources.
+ */
+export interface ResourceHealthMetadataCollection extends Array<ResourceHealthMetadata> {
   readonly nextLink?: string;
 }
 
@@ -7236,18 +6403,6 @@ export interface IdentifierCollection extends Array<Identifier> {
  * @member {string} [nextLink] Link to next page of resources.
  */
 export interface PremierAddOnOfferCollection extends Array<PremierAddOnOffer> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the WebAppCollection class.
- * @constructor
- * Collection of App Service apps.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface WebAppCollection extends Array<Site> {
   readonly nextLink?: string;
 }
 
@@ -7386,30 +6541,6 @@ export interface ProcessThreadInfoCollection extends Array<ProcessThreadInfo> {
 
 /**
  * @class
- * Initializes a new instance of the ResourceMetricDefinitionCollection class.
- * @constructor
- * Collection of metric definitions.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface ResourceMetricDefinitionCollection extends Array<ResourceMetricDefinition> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResourceMetricCollection class.
- * @constructor
- * Collection of metric responses.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface ResourceMetricCollection extends Array<ResourceMetric> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the PerfMonCounterCollection class.
  * @constructor
  * Collection of performance monitor counters.
@@ -7495,18 +6626,6 @@ export interface TriggeredJobHistoryCollection extends Array<TriggeredJobHistory
 
 /**
  * @class
- * Initializes a new instance of the CsmUsageQuotaCollection class.
- * @constructor
- * Collection of CSM usage quotas.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface CsmUsageQuotaCollection extends Array<CsmUsageQuota> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
  * Initializes a new instance of the WebJobCollection class.
  * @constructor
  * Collection of Kudu web job information elements.
@@ -7514,113 +6633,5 @@ export interface CsmUsageQuotaCollection extends Array<CsmUsageQuota> {
  * @member {string} [nextLink] Link to next page of resources.
  */
 export interface WebJobCollection extends Array<WebJob> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the AppServiceEnvironmentCollection class.
- * @constructor
- * Collection of App Service Environments.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface AppServiceEnvironmentCollection extends Array<AppServiceEnvironmentResource> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the StampCapacityCollection class.
- * @constructor
- * Collection of stamp capacities.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface StampCapacityCollection extends Array<StampCapacity> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the WorkerPoolCollection class.
- * @constructor
- * Collection of worker pools.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface WorkerPoolCollection extends Array<WorkerPoolResource> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the SkuInfoCollection class.
- * @constructor
- * Collection of SKU information.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface SkuInfoCollection extends Array<SkuInfo> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the UsageCollection class.
- * @constructor
- * Collection of usages.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface UsageCollection extends Array<Usage> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the AppServicePlanCollection class.
- * @constructor
- * Collection of App Service plans.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface AppServicePlanCollection extends Array<AppServicePlan> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResourceCollection class.
- * @constructor
- * Collection of resources.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface ResourceCollection extends Array<string> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the HybridConnectionCollection class.
- * @constructor
- * Collection of hostname bindings.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface HybridConnectionCollection extends Array<HybridConnection> {
-  readonly nextLink?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ResourceHealthMetadataCollection class.
- * @constructor
- * Collection of resource health metadata.
- *
- * @member {string} [nextLink] Link to next page of resources.
- */
-export interface ResourceHealthMetadataCollection extends Array<ResourceHealthMetadata> {
   readonly nextLink?: string;
 }

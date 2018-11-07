@@ -18,7 +18,7 @@ npm install azure-arm-website
 
 ## How to use
 
-### Authentication, client creation and list appServiceCertificateOrders as an example.
+### Authentication, client creation and list appServiceEnvironments as an example.
 
 ```javascript
 const msRestAzure = require("ms-rest-azure");
@@ -26,7 +26,7 @@ const WebSiteManagementClient = require("azure-arm-website");
 msRestAzure.interactiveLogin().then((creds) => {
     const subscriptionId = "<Subscription_Id>";
     const client = new WebSiteManagementClient(creds, subscriptionId);
-    return client.appServiceCertificateOrders.list().then((result) => {
+    return client.appServiceEnvironments.list().then((result) => {
       console.log("The result is:");
       console.log(result);
     });
