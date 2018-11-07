@@ -56,20 +56,15 @@ export default class WebSiteManagementClient extends AzureServiceClient {
   generateClientRequestId: boolean;
 
   // Operation groups
-  appServiceCertificateOrders: operations.AppServiceCertificateOrders;
-  certificateRegistrationProvider: operations.CertificateRegistrationProvider;
-  domains: operations.Domains;
-  topLevelDomains: operations.TopLevelDomains;
-  domainRegistrationProvider: operations.DomainRegistrationProvider;
+  appServiceEnvironments: operations.AppServiceEnvironments;
+  appServicePlans: operations.AppServicePlans;
   certificates: operations.Certificates;
   deletedWebApps: operations.DeletedWebApps;
   diagnostics: operations.Diagnostics;
   provider: operations.Provider;
   recommendations: operations.Recommendations;
-  webApps: operations.WebApps;
-  appServiceEnvironments: operations.AppServiceEnvironments;
-  appServicePlans: operations.AppServicePlans;
   resourceHealthMetadataOperations: operations.ResourceHealthMetadataOperations;
+  webApps: operations.WebApps;
 
 
   /**
