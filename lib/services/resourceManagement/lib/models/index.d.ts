@@ -18,35 +18,677 @@ export { CloudError } from 'ms-rest-azure';
 
 /**
  * @class
+ * Initializes a new instance of the DeploymentExtendedFilter class.
+ * @constructor
+ * Deployment filter.
+ *
+ * @property {string} [provisioningState] The provisioning state.
+ */
+export interface DeploymentExtendedFilter {
+  provisioningState?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the GenericResourceFilter class.
+ * @constructor
+ * Resource filter.
+ *
+ * @property {string} [resourceType] The resource type.
+ * @property {string} [tagname] The tag name.
+ * @property {string} [tagvalue] The tag value.
+ */
+export interface GenericResourceFilter {
+  resourceType?: string;
+  tagname?: string;
+  tagvalue?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceGroupFilter class.
+ * @constructor
+ * Resource group filter.
+ *
+ * @property {string} [tagName] The tag name.
+ * @property {string} [tagValue] The tag value.
+ */
+export interface ResourceGroupFilter {
+  tagName?: string;
+  tagValue?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the TemplateLink class.
+ * @constructor
+ * Entity representing the reference to the template.
+ *
+ * @property {string} uri The URI of the template to deploy.
+ * @property {string} [contentVersion] If included, must match the
+ * ContentVersion in the template.
+ */
+export interface TemplateLink {
+  uri: string;
+  contentVersion?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ParametersLink class.
+ * @constructor
+ * Entity representing the reference to the deployment paramaters.
+ *
+ * @property {string} uri The URI of the parameters file.
+ * @property {string} [contentVersion] If included, must match the
+ * ContentVersion in the template.
+ */
+export interface ParametersLink {
+  uri: string;
+  contentVersion?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DebugSetting class.
+ * @constructor
+ * @property {string} [detailLevel] Specifies the type of information to log
+ * for debugging. The permitted values are none, requestContent,
+ * responseContent, or both requestContent and responseContent separated by a
+ * comma. The default is none. When setting this value, carefully consider the
+ * type of information you are passing in during deployment. By logging
+ * information about the request or response, you could potentially expose
+ * sensitive data that is retrieved through the deployment operations.
+ */
+export interface DebugSetting {
+  detailLevel?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the OnErrorDeployment class.
+ * @constructor
+ * Deployment on error behavior.
+ *
+ * @property {string} [type] The deployment on error behavior type. Possible
+ * values are LastSuccessful and SpecificDeployment. Possible values include:
+ * 'LastSuccessful', 'SpecificDeployment'
+ * @property {string} [deploymentName] The deployment to be used on error case.
+ */
+export interface OnErrorDeployment {
+  type?: string;
+  deploymentName?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentProperties class.
+ * @constructor
+ * Deployment properties.
+ *
+ * @property {object} [template] The template content. You use this element
+ * when you want to pass the template syntax directly in the request rather
+ * than link to an existing template. It can be a JObject or well-formed JSON
+ * string. Use either the templateLink property or the template property, but
+ * not both.
+ * @property {object} [templateLink] The URI of the template. Use either the
+ * templateLink property or the template property, but not both.
+ * @property {string} [templateLink.uri] The URI of the template to deploy.
+ * @property {string} [templateLink.contentVersion] If included, must match the
+ * ContentVersion in the template.
+ * @property {object} [parameters] Name and value pairs that define the
+ * deployment parameters for the template. You use this element when you want
+ * to provide the parameter values directly in the request rather than link to
+ * an existing parameter file. Use either the parametersLink property or the
+ * parameters property, but not both. It can be a JObject or a well formed JSON
+ * string.
+ * @property {object} [parametersLink] The URI of parameters file. You use this
+ * element to link to an existing parameters file. Use either the
+ * parametersLink property or the parameters property, but not both.
+ * @property {string} [parametersLink.uri] The URI of the parameters file.
+ * @property {string} [parametersLink.contentVersion] If included, must match
+ * the ContentVersion in the template.
+ * @property {string} mode The mode that is used to deploy resources. This
+ * value can be either Incremental or Complete. In Incremental mode, resources
+ * are deployed without deleting existing resources that are not included in
+ * the template. In Complete mode, resources are deployed and existing
+ * resources in the resource group that are not included in the template are
+ * deleted. Be careful when using Complete mode as you may unintentionally
+ * delete resources. Possible values include: 'Incremental', 'Complete'
+ * @property {object} [debugSetting] The debug setting of the deployment.
+ * @property {string} [debugSetting.detailLevel] Specifies the type of
+ * information to log for debugging. The permitted values are none,
+ * requestContent, responseContent, or both requestContent and responseContent
+ * separated by a comma. The default is none. When setting this value,
+ * carefully consider the type of information you are passing in during
+ * deployment. By logging information about the request or response, you could
+ * potentially expose sensitive data that is retrieved through the deployment
+ * operations.
+ * @property {object} [onErrorDeployment] The deployment on error behavior.
+ * @property {string} [onErrorDeployment.type] The deployment on error behavior
+ * type. Possible values are LastSuccessful and SpecificDeployment. Possible
+ * values include: 'LastSuccessful', 'SpecificDeployment'
+ * @property {string} [onErrorDeployment.deploymentName] The deployment to be
+ * used on error case.
+ */
+export interface DeploymentProperties {
+  template?: any;
+  templateLink?: TemplateLink;
+  parameters?: any;
+  parametersLink?: ParametersLink;
+  mode: string;
+  debugSetting?: DebugSetting;
+  onErrorDeployment?: OnErrorDeployment;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the Deployment class.
+ * @constructor
+ * Deployment operation parameters.
+ *
+ * @property {string} [location] The location to store the deployment data.
+ * @property {object} properties The deployment properties.
+ * @property {object} [properties.template] The template content. You use this
+ * element when you want to pass the template syntax directly in the request
+ * rather than link to an existing template. It can be a JObject or well-formed
+ * JSON string. Use either the templateLink property or the template property,
+ * but not both.
+ * @property {object} [properties.templateLink] The URI of the template. Use
+ * either the templateLink property or the template property, but not both.
+ * @property {string} [properties.templateLink.uri] The URI of the template to
+ * deploy.
+ * @property {string} [properties.templateLink.contentVersion] If included,
+ * must match the ContentVersion in the template.
+ * @property {object} [properties.parameters] Name and value pairs that define
+ * the deployment parameters for the template. You use this element when you
+ * want to provide the parameter values directly in the request rather than
+ * link to an existing parameter file. Use either the parametersLink property
+ * or the parameters property, but not both. It can be a JObject or a well
+ * formed JSON string.
+ * @property {object} [properties.parametersLink] The URI of parameters file.
+ * You use this element to link to an existing parameters file. Use either the
+ * parametersLink property or the parameters property, but not both.
+ * @property {string} [properties.parametersLink.uri] The URI of the parameters
+ * file.
+ * @property {string} [properties.parametersLink.contentVersion] If included,
+ * must match the ContentVersion in the template.
+ * @property {string} [properties.mode] The mode that is used to deploy
+ * resources. This value can be either Incremental or Complete. In Incremental
+ * mode, resources are deployed without deleting existing resources that are
+ * not included in the template. In Complete mode, resources are deployed and
+ * existing resources in the resource group that are not included in the
+ * template are deleted. Be careful when using Complete mode as you may
+ * unintentionally delete resources. Possible values include: 'Incremental',
+ * 'Complete'
+ * @property {object} [properties.debugSetting] The debug setting of the
+ * deployment.
+ * @property {string} [properties.debugSetting.detailLevel] Specifies the type
+ * of information to log for debugging. The permitted values are none,
+ * requestContent, responseContent, or both requestContent and responseContent
+ * separated by a comma. The default is none. When setting this value,
+ * carefully consider the type of information you are passing in during
+ * deployment. By logging information about the request or response, you could
+ * potentially expose sensitive data that is retrieved through the deployment
+ * operations.
+ * @property {object} [properties.onErrorDeployment] The deployment on error
+ * behavior.
+ * @property {string} [properties.onErrorDeployment.type] The deployment on
+ * error behavior type. Possible values are LastSuccessful and
+ * SpecificDeployment. Possible values include: 'LastSuccessful',
+ * 'SpecificDeployment'
+ * @property {string} [properties.onErrorDeployment.deploymentName] The
+ * deployment to be used on error case.
+ */
+export interface Deployment {
+  location?: string;
+  properties: DeploymentProperties;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentExportResult class.
+ * @constructor
+ * The deployment export result.
+ *
+ * @property {object} [template] The template content.
+ */
+export interface DeploymentExportResult {
+  template?: any;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceManagementErrorWithDetails class.
+ * @constructor
+ * The detailed error message of resource management.
+ *
+ * @property {string} [code] The error code returned when exporting the
+ * template.
+ * @property {string} [message] The error message describing the export error.
+ * @property {string} [target] The target of the error.
+ * @property {array} [details] Validation error.
+ */
+export interface ResourceManagementErrorWithDetails {
+  readonly code?: string;
+  readonly message?: string;
+  readonly target?: string;
+  readonly details?: ResourceManagementErrorWithDetails[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the AliasPathType class.
+ * @constructor
+ * The type of the paths for alias.
+ *
+ * @property {string} [path] The path of an alias.
+ * @property {array} [apiVersions] The API versions.
+ */
+export interface AliasPathType {
+  path?: string;
+  apiVersions?: string[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the AliasType class.
+ * @constructor
+ * The alias type.
+ *
+ * @property {string} [name] The alias name.
+ * @property {array} [paths] The paths for an alias.
+ */
+export interface AliasType {
+  name?: string;
+  paths?: AliasPathType[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ProviderResourceType class.
+ * @constructor
+ * Resource type managed by the resource provider.
+ *
+ * @property {string} [resourceType] The resource type.
+ * @property {array} [locations] The collection of locations where this
+ * resource type can be created.
+ * @property {array} [aliases] The aliases that are supported by this resource
+ * type.
+ * @property {array} [apiVersions] The API version.
+ * @property {object} [properties] The properties.
+ */
+export interface ProviderResourceType {
+  resourceType?: string;
+  locations?: string[];
+  aliases?: AliasType[];
+  apiVersions?: string[];
+  properties?: { [propertyName: string]: string };
+}
+
+/**
+ * @class
+ * Initializes a new instance of the Provider class.
+ * @constructor
+ * Resource provider information.
+ *
+ * @property {string} [id] The provider ID.
+ * @property {string} [namespace] The namespace of the resource provider.
+ * @property {string} [registrationState] The registration state of the
+ * provider.
+ * @property {array} [resourceTypes] The collection of provider resource types.
+ */
+export interface Provider {
+  readonly id?: string;
+  namespace?: string;
+  readonly registrationState?: string;
+  readonly resourceTypes?: ProviderResourceType[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the BasicDependency class.
+ * @constructor
+ * Deployment dependency information.
+ *
+ * @property {string} [id] The ID of the dependency.
+ * @property {string} [resourceType] The dependency resource type.
+ * @property {string} [resourceName] The dependency resource name.
+ */
+export interface BasicDependency {
+  id?: string;
+  resourceType?: string;
+  resourceName?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the Dependency class.
+ * @constructor
+ * Deployment dependency information.
+ *
+ * @property {array} [dependsOn] The list of dependencies.
+ * @property {string} [id] The ID of the dependency.
+ * @property {string} [resourceType] The dependency resource type.
+ * @property {string} [resourceName] The dependency resource name.
+ */
+export interface Dependency {
+  dependsOn?: BasicDependency[];
+  id?: string;
+  resourceType?: string;
+  resourceName?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the OnErrorDeploymentExtended class.
+ * @constructor
+ * Deployment on error behavior with additional details.
+ *
+ * @property {string} [provisioningState] The state of the provisioning for the
+ * on error deployment.
+ * @property {string} [type] The deployment on error behavior type. Possible
+ * values are LastSuccessful and SpecificDeployment. Possible values include:
+ * 'LastSuccessful', 'SpecificDeployment'
+ * @property {string} [deploymentName] The deployment to be used on error case.
+ */
+export interface OnErrorDeploymentExtended {
+  readonly provisioningState?: string;
+  type?: string;
+  deploymentName?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentPropertiesExtended class.
+ * @constructor
+ * Deployment properties with additional details.
+ *
+ * @property {string} [provisioningState] The state of the provisioning.
+ * @property {string} [correlationId] The correlation ID of the deployment.
+ * @property {date} [timestamp] The timestamp of the template deployment.
+ * @property {object} [outputs] Key/value pairs that represent
+ * deploymentoutput.
+ * @property {array} [providers] The list of resource providers needed for the
+ * deployment.
+ * @property {array} [dependencies] The list of deployment dependencies.
+ * @property {object} [template] The template content. Use only one of Template
+ * or TemplateLink.
+ * @property {object} [templateLink] The URI referencing the template. Use only
+ * one of Template or TemplateLink.
+ * @property {string} [templateLink.uri] The URI of the template to deploy.
+ * @property {string} [templateLink.contentVersion] If included, must match the
+ * ContentVersion in the template.
+ * @property {object} [parameters] Deployment parameters. Use only one of
+ * Parameters or ParametersLink.
+ * @property {object} [parametersLink] The URI referencing the parameters. Use
+ * only one of Parameters or ParametersLink.
+ * @property {string} [parametersLink.uri] The URI of the parameters file.
+ * @property {string} [parametersLink.contentVersion] If included, must match
+ * the ContentVersion in the template.
+ * @property {string} [mode] The deployment mode. Possible values are
+ * Incremental and Complete. Possible values include: 'Incremental', 'Complete'
+ * @property {object} [debugSetting] The debug setting of the deployment.
+ * @property {string} [debugSetting.detailLevel] Specifies the type of
+ * information to log for debugging. The permitted values are none,
+ * requestContent, responseContent, or both requestContent and responseContent
+ * separated by a comma. The default is none. When setting this value,
+ * carefully consider the type of information you are passing in during
+ * deployment. By logging information about the request or response, you could
+ * potentially expose sensitive data that is retrieved through the deployment
+ * operations.
+ * @property {object} [onErrorDeployment] The deployment on error behavior.
+ * @property {string} [onErrorDeployment.provisioningState] The state of the
+ * provisioning for the on error deployment.
+ * @property {string} [onErrorDeployment.type] The deployment on error behavior
+ * type. Possible values are LastSuccessful and SpecificDeployment. Possible
+ * values include: 'LastSuccessful', 'SpecificDeployment'
+ * @property {string} [onErrorDeployment.deploymentName] The deployment to be
+ * used on error case.
+ */
+export interface DeploymentPropertiesExtended {
+  readonly provisioningState?: string;
+  readonly correlationId?: string;
+  readonly timestamp?: Date;
+  outputs?: any;
+  providers?: Provider[];
+  dependencies?: Dependency[];
+  template?: any;
+  templateLink?: TemplateLink;
+  parameters?: any;
+  parametersLink?: ParametersLink;
+  mode?: string;
+  debugSetting?: DebugSetting;
+  onErrorDeployment?: OnErrorDeploymentExtended;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentValidateResult class.
+ * @constructor
+ * Information from validate template deployment response.
+ *
+ * @property {object} [error] Validation error.
+ * @property {string} [error.code] The error code returned when exporting the
+ * template.
+ * @property {string} [error.message] The error message describing the export
+ * error.
+ * @property {string} [error.target] The target of the error.
+ * @property {array} [error.details] Validation error.
+ * @property {object} [properties] The template deployment properties.
+ * @property {string} [properties.provisioningState] The state of the
+ * provisioning.
+ * @property {string} [properties.correlationId] The correlation ID of the
+ * deployment.
+ * @property {date} [properties.timestamp] The timestamp of the template
+ * deployment.
+ * @property {object} [properties.outputs] Key/value pairs that represent
+ * deploymentoutput.
+ * @property {array} [properties.providers] The list of resource providers
+ * needed for the deployment.
+ * @property {array} [properties.dependencies] The list of deployment
+ * dependencies.
+ * @property {object} [properties.template] The template content. Use only one
+ * of Template or TemplateLink.
+ * @property {object} [properties.templateLink] The URI referencing the
+ * template. Use only one of Template or TemplateLink.
+ * @property {string} [properties.templateLink.uri] The URI of the template to
+ * deploy.
+ * @property {string} [properties.templateLink.contentVersion] If included,
+ * must match the ContentVersion in the template.
+ * @property {object} [properties.parameters] Deployment parameters. Use only
+ * one of Parameters or ParametersLink.
+ * @property {object} [properties.parametersLink] The URI referencing the
+ * parameters. Use only one of Parameters or ParametersLink.
+ * @property {string} [properties.parametersLink.uri] The URI of the parameters
+ * file.
+ * @property {string} [properties.parametersLink.contentVersion] If included,
+ * must match the ContentVersion in the template.
+ * @property {string} [properties.mode] The deployment mode. Possible values
+ * are Incremental and Complete. Possible values include: 'Incremental',
+ * 'Complete'
+ * @property {object} [properties.debugSetting] The debug setting of the
+ * deployment.
+ * @property {string} [properties.debugSetting.detailLevel] Specifies the type
+ * of information to log for debugging. The permitted values are none,
+ * requestContent, responseContent, or both requestContent and responseContent
+ * separated by a comma. The default is none. When setting this value,
+ * carefully consider the type of information you are passing in during
+ * deployment. By logging information about the request or response, you could
+ * potentially expose sensitive data that is retrieved through the deployment
+ * operations.
+ * @property {object} [properties.onErrorDeployment] The deployment on error
+ * behavior.
+ * @property {string} [properties.onErrorDeployment.provisioningState] The
+ * state of the provisioning for the on error deployment.
+ * @property {string} [properties.onErrorDeployment.type] The deployment on
+ * error behavior type. Possible values are LastSuccessful and
+ * SpecificDeployment. Possible values include: 'LastSuccessful',
+ * 'SpecificDeployment'
+ * @property {string} [properties.onErrorDeployment.deploymentName] The
+ * deployment to be used on error case.
+ */
+export interface DeploymentValidateResult {
+  error?: ResourceManagementErrorWithDetails;
+  properties?: DeploymentPropertiesExtended;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentExtended class.
+ * @constructor
+ * Deployment information.
+ *
+ * @property {string} [id] The ID of the deployment.
+ * @property {string} [name] The name of the deployment.
+ * @property {string} [location] the location of the deployment.
+ * @property {object} [properties] Deployment properties.
+ * @property {string} [properties.provisioningState] The state of the
+ * provisioning.
+ * @property {string} [properties.correlationId] The correlation ID of the
+ * deployment.
+ * @property {date} [properties.timestamp] The timestamp of the template
+ * deployment.
+ * @property {object} [properties.outputs] Key/value pairs that represent
+ * deploymentoutput.
+ * @property {array} [properties.providers] The list of resource providers
+ * needed for the deployment.
+ * @property {array} [properties.dependencies] The list of deployment
+ * dependencies.
+ * @property {object} [properties.template] The template content. Use only one
+ * of Template or TemplateLink.
+ * @property {object} [properties.templateLink] The URI referencing the
+ * template. Use only one of Template or TemplateLink.
+ * @property {string} [properties.templateLink.uri] The URI of the template to
+ * deploy.
+ * @property {string} [properties.templateLink.contentVersion] If included,
+ * must match the ContentVersion in the template.
+ * @property {object} [properties.parameters] Deployment parameters. Use only
+ * one of Parameters or ParametersLink.
+ * @property {object} [properties.parametersLink] The URI referencing the
+ * parameters. Use only one of Parameters or ParametersLink.
+ * @property {string} [properties.parametersLink.uri] The URI of the parameters
+ * file.
+ * @property {string} [properties.parametersLink.contentVersion] If included,
+ * must match the ContentVersion in the template.
+ * @property {string} [properties.mode] The deployment mode. Possible values
+ * are Incremental and Complete. Possible values include: 'Incremental',
+ * 'Complete'
+ * @property {object} [properties.debugSetting] The debug setting of the
+ * deployment.
+ * @property {string} [properties.debugSetting.detailLevel] Specifies the type
+ * of information to log for debugging. The permitted values are none,
+ * requestContent, responseContent, or both requestContent and responseContent
+ * separated by a comma. The default is none. When setting this value,
+ * carefully consider the type of information you are passing in during
+ * deployment. By logging information about the request or response, you could
+ * potentially expose sensitive data that is retrieved through the deployment
+ * operations.
+ * @property {object} [properties.onErrorDeployment] The deployment on error
+ * behavior.
+ * @property {string} [properties.onErrorDeployment.provisioningState] The
+ * state of the provisioning for the on error deployment.
+ * @property {string} [properties.onErrorDeployment.type] The deployment on
+ * error behavior type. Possible values are LastSuccessful and
+ * SpecificDeployment. Possible values include: 'LastSuccessful',
+ * 'SpecificDeployment'
+ * @property {string} [properties.onErrorDeployment.deploymentName] The
+ * deployment to be used on error case.
+ */
+export interface DeploymentExtended extends BaseResource {
+  readonly id?: string;
+  readonly name?: string;
+  location?: string;
+  properties?: DeploymentPropertiesExtended;
+}
+
+/**
+ * @class
  * Initializes a new instance of the Plan class.
  * @constructor
- * Plan for the appliance.
+ * Plan for the resource.
  *
- * @member {string} name The plan name.
- * @member {string} publisher The publisher ID.
- * @member {string} product The product code.
- * @member {string} [promotionCode] The promotion code.
- * @member {string} version The plan's version.
+ * @property {string} [name] The plan ID.
+ * @property {string} [publisher] The publisher ID.
+ * @property {string} [product] The offer ID.
+ * @property {string} [promotionCode] The promotion code.
+ * @property {string} [version] The plan's version.
  */
 export interface Plan {
-  name: string;
-  publisher: string;
-  product: string;
+  name?: string;
+  publisher?: string;
+  product?: string;
   promotionCode?: string;
-  version: string;
+  version?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the Sku class.
+ * @constructor
+ * SKU for the resource.
+ *
+ * @property {string} [name] The SKU name.
+ * @property {string} [tier] The SKU tier.
+ * @property {string} [size] The SKU size.
+ * @property {string} [family] The SKU family.
+ * @property {string} [model] The SKU model.
+ * @property {number} [capacity] The SKU capacity.
+ */
+export interface Sku {
+  name?: string;
+  tier?: string;
+  size?: string;
+  family?: string;
+  model?: string;
+  capacity?: number;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the IdentityUserAssignedIdentitiesValue class.
+ * @constructor
+ * @property {string} [principalId] The principal id of user assigned identity.
+ * @property {string} [clientId] The client id of user assigned identity.
+ */
+export interface IdentityUserAssignedIdentitiesValue {
+  readonly principalId?: string;
+  readonly clientId?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the Identity class.
+ * @constructor
+ * Identity for the resource.
+ *
+ * @property {string} [principalId] The principal ID of resource identity.
+ * @property {string} [tenantId] The tenant ID of resource.
+ * @property {string} [type] The identity type. Possible values include:
+ * 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned', 'None'
+ * @property {object} [userAssignedIdentities] The list of user identities
+ * associated with the resource. The user identity dictionary key references
+ * will be ARM resource ids in the form:
+ * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+ */
+export interface Identity {
+  readonly principalId?: string;
+  readonly tenantId?: string;
+  type?: string;
+  userAssignedIdentities?: { [propertyName: string]: IdentityUserAssignedIdentitiesValue };
 }
 
 /**
  * @class
  * Initializes a new instance of the Resource class.
  * @constructor
- * Resource information.
+ * Specified resource.
  *
- * @member {string} [id] Resource ID
- * @member {string} [name] Resource name
- * @member {string} [type] Resource type
- * @member {string} [location] Resource location
- * @member {object} [tags] Resource tags
+ * @property {string} [id] Resource ID
+ * @property {string} [name] Resource name
+ * @property {string} [type] Resource type
+ * @property {string} [location] Resource location
+ * @property {object} [tags] Resource tags
  */
 export interface Resource extends BaseResource {
   readonly id?: string;
@@ -62,22 +704,39 @@ export interface Resource extends BaseResource {
  * @constructor
  * Resource information.
  *
- * @member {string} [managedBy] ID of the resource that manages this resource.
- * @member {object} [sku] The SKU of the resource.
- * @member {string} [sku.name] The SKU name.
- * @member {string} [sku.tier] The SKU tier.
- * @member {string} [sku.size] The SKU size.
- * @member {string} [sku.family] The SKU family.
- * @member {string} [sku.model] The SKU model.
- * @member {number} [sku.capacity] The SKU capacity.
- * @member {object} [identity] The identity of the resource.
- * @member {string} [identity.principalId] The principal ID of resource
+ * @property {object} [plan] The plan of the resource.
+ * @property {string} [plan.name] The plan ID.
+ * @property {string} [plan.publisher] The publisher ID.
+ * @property {string} [plan.product] The offer ID.
+ * @property {string} [plan.promotionCode] The promotion code.
+ * @property {string} [plan.version] The plan's version.
+ * @property {object} [properties] The resource properties.
+ * @property {string} [kind] The kind of the resource.
+ * @property {string} [managedBy] ID of the resource that manages this
+ * resource.
+ * @property {object} [sku] The SKU of the resource.
+ * @property {string} [sku.name] The SKU name.
+ * @property {string} [sku.tier] The SKU tier.
+ * @property {string} [sku.size] The SKU size.
+ * @property {string} [sku.family] The SKU family.
+ * @property {string} [sku.model] The SKU model.
+ * @property {number} [sku.capacity] The SKU capacity.
+ * @property {object} [identity] The identity of the resource.
+ * @property {string} [identity.principalId] The principal ID of resource
  * identity.
- * @member {string} [identity.tenantId] The tenant ID of resource.
- * @member {string} [identity.type] The identity type. Possible values include:
- * 'SystemAssigned'
+ * @property {string} [identity.tenantId] The tenant ID of resource.
+ * @property {string} [identity.type] The identity type. Possible values
+ * include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @property {object} [identity.userAssignedIdentities] The list of user
+ * identities associated with the resource. The user identity dictionary key
+ * references will be ARM resource ids in the form:
+ * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
  */
 export interface GenericResource extends Resource {
+  plan?: Plan;
+  properties?: any;
+  kind?: string;
   managedBy?: string;
   sku?: Sku;
   identity?: Identity;
@@ -85,218 +744,291 @@ export interface GenericResource extends Resource {
 
 /**
  * @class
- * Initializes a new instance of the Appliance class.
+ * Initializes a new instance of the ResourceGroupProperties class.
  * @constructor
- * Information about appliance.
+ * The resource group properties.
  *
- * @member {string} managedResourceGroupId The managed resource group Id.
- * @member {string} [applianceDefinitionId] The fully qualified path of
- * appliance definition Id.
- * @member {object} [parameters] Name and value pairs that define the appliance
- * parameters. It can be a JObject or a well formed JSON string.
- * @member {object} [outputs] Name and value pairs that define the appliance
- * outputs.
- * @member {string} [provisioningState] The appliance provisioning state.
- * Possible values include: 'Accepted', 'Running', 'Ready', 'Creating',
- * 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
- * 'Updating'
- * @member {string} [uiDefinitionUri] The blob URI where the UI definition file
- * is located.
- * @member {object} [plan] The plan information.
- * @member {string} [plan.name] The plan name.
- * @member {string} [plan.publisher] The publisher ID.
- * @member {string} [plan.product] The product code.
- * @member {string} [plan.promotionCode] The promotion code.
- * @member {string} [plan.version] The plan's version.
- * @member {string} [kind] The kind of the appliance. Allowed values are
- * MarketPlace and ServiceCatalog.
+ * @property {string} [provisioningState] The provisioning state.
  */
-export interface Appliance extends GenericResource {
-  managedResourceGroupId: string;
-  applianceDefinitionId?: string;
-  parameters?: any;
-  readonly outputs?: any;
+export interface ResourceGroupProperties {
   readonly provisioningState?: string;
-  uiDefinitionUri?: string;
-  plan?: Plan;
-  kind?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the PlanPatchable class.
+ * Initializes a new instance of the ResourceGroup class.
  * @constructor
- * Plan for the appliance.
+ * Resource group information.
  *
- * @member {string} [name] The plan name.
- * @member {string} [publisher] The publisher ID.
- * @member {string} [product] The product code.
- * @member {string} [promotionCode] The promotion code.
- * @member {string} [version] The plan's version.
+ * @property {string} [id] The ID of the resource group.
+ * @property {string} [name] The name of the resource group.
+ * @property {object} [properties]
+ * @property {string} [properties.provisioningState] The provisioning state.
+ * @property {string} location The location of the resource group. It cannot be
+ * changed after the resource group has been created. It must be one of the
+ * supported Azure locations.
+ * @property {string} [managedBy] The ID of the resource that manages this
+ * resource group.
+ * @property {object} [tags] The tags attached to the resource group.
  */
-export interface PlanPatchable {
+export interface ResourceGroup extends BaseResource {
+  readonly id?: string;
+  readonly name?: string;
+  properties?: ResourceGroupProperties;
+  location: string;
+  managedBy?: string;
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceGroupPatchable class.
+ * @constructor
+ * Resource group information.
+ *
+ * @property {string} [name] The name of the resource group.
+ * @property {object} [properties]
+ * @property {string} [properties.provisioningState] The provisioning state.
+ * @property {string} [managedBy] The ID of the resource that manages this
+ * resource group.
+ * @property {object} [tags] The tags attached to the resource group.
+ */
+export interface ResourceGroupPatchable {
   name?: string;
+  properties?: ResourceGroupProperties;
+  managedBy?: string;
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourcesMoveInfo class.
+ * @constructor
+ * Parameters of move resources.
+ *
+ * @property {array} [resources] The IDs of the resources.
+ * @property {string} [targetResourceGroup] The target resource group.
+ */
+export interface ResourcesMoveInfo {
+  resources?: string[];
+  targetResourceGroup?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ExportTemplateRequest class.
+ * @constructor
+ * Export resource group template request parameters.
+ *
+ * @property {array} [resources] The IDs of the resources. The only supported
+ * string currently is '*' (all resources). Future updates will support
+ * exporting specific resources.
+ * @property {string} [options] The export template options. Supported values
+ * include 'IncludeParameterDefaultValue', 'IncludeComments' or
+ * 'IncludeParameterDefaultValue, IncludeComments
+ */
+export interface ExportTemplateRequest {
+  resources?: string[];
+  options?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the TagCount class.
+ * @constructor
+ * Tag count.
+ *
+ * @property {string} [type] Type of count.
+ * @property {number} [value] Value of count.
+ */
+export interface TagCount {
+  type?: string;
+  value?: number;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the TagValue class.
+ * @constructor
+ * Tag information.
+ *
+ * @property {string} [id] The tag ID.
+ * @property {string} [tagValue] The tag value.
+ * @property {object} [count] The tag value count.
+ * @property {string} [count.type] Type of count.
+ * @property {number} [count.value] Value of count.
+ */
+export interface TagValue extends BaseResource {
+  readonly id?: string;
+  tagValue?: string;
+  count?: TagCount;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the TagDetails class.
+ * @constructor
+ * Tag details.
+ *
+ * @property {string} [id] The tag ID.
+ * @property {string} [tagName] The tag name.
+ * @property {object} [count] The total number of resources that use the
+ * resource tag. When a tag is initially created and has no associated
+ * resources, the value is 0.
+ * @property {string} [count.type] Type of count.
+ * @property {number} [count.value] Value of count.
+ * @property {array} [values] The list of tag values.
+ */
+export interface TagDetails {
+  readonly id?: string;
+  tagName?: string;
+  count?: TagCount;
+  values?: TagValue[];
+}
+
+/**
+ * @class
+ * Initializes a new instance of the TargetResource class.
+ * @constructor
+ * Target resource.
+ *
+ * @property {string} [id] The ID of the resource.
+ * @property {string} [resourceName] The name of the resource.
+ * @property {string} [resourceType] The type of the resource.
+ */
+export interface TargetResource {
+  id?: string;
+  resourceName?: string;
+  resourceType?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the HttpMessage class.
+ * @constructor
+ * HTTP message.
+ *
+ * @property {object} [content] HTTP message content.
+ */
+export interface HttpMessage {
+  content?: any;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentOperationProperties class.
+ * @constructor
+ * Deployment operation properties.
+ *
+ * @property {string} [provisioningState] The state of the provisioning.
+ * @property {date} [timestamp] The date and time of the operation.
+ * @property {string} [serviceRequestId] Deployment operation service request
+ * id.
+ * @property {string} [statusCode] Operation status code.
+ * @property {object} [statusMessage] Operation status message.
+ * @property {object} [targetResource] The target resource.
+ * @property {string} [targetResource.id] The ID of the resource.
+ * @property {string} [targetResource.resourceName] The name of the resource.
+ * @property {string} [targetResource.resourceType] The type of the resource.
+ * @property {object} [request] The HTTP request message.
+ * @property {object} [request.content] HTTP message content.
+ * @property {object} [response] The HTTP response message.
+ * @property {object} [response.content] HTTP message content.
+ */
+export interface DeploymentOperationProperties {
+  readonly provisioningState?: string;
+  readonly timestamp?: Date;
+  readonly serviceRequestId?: string;
+  readonly statusCode?: string;
+  readonly statusMessage?: any;
+  readonly targetResource?: TargetResource;
+  readonly request?: HttpMessage;
+  readonly response?: HttpMessage;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentOperation class.
+ * @constructor
+ * Deployment operation information.
+ *
+ * @property {string} [id] Full deployment operation ID.
+ * @property {string} [operationId] Deployment operation ID.
+ * @property {object} [properties] Deployment properties.
+ * @property {string} [properties.provisioningState] The state of the
+ * provisioning.
+ * @property {date} [properties.timestamp] The date and time of the operation.
+ * @property {string} [properties.serviceRequestId] Deployment operation
+ * service request id.
+ * @property {string} [properties.statusCode] Operation status code.
+ * @property {object} [properties.statusMessage] Operation status message.
+ * @property {object} [properties.targetResource] The target resource.
+ * @property {string} [properties.targetResource.id] The ID of the resource.
+ * @property {string} [properties.targetResource.resourceName] The name of the
+ * resource.
+ * @property {string} [properties.targetResource.resourceType] The type of the
+ * resource.
+ * @property {object} [properties.request] The HTTP request message.
+ * @property {object} [properties.request.content] HTTP message content.
+ * @property {object} [properties.response] The HTTP response message.
+ * @property {object} [properties.response.content] HTTP message content.
+ */
+export interface DeploymentOperation {
+  readonly id?: string;
+  readonly operationId?: string;
+  properties?: DeploymentOperationProperties;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceProviderOperationDisplayProperties class.
+ * @constructor
+ * Resource provider operation's display properties.
+ *
+ * @property {string} [publisher] Operation description.
+ * @property {string} [provider] Operation provider.
+ * @property {string} [resource] Operation resource.
+ * @property {string} [operation] Resource provider operation.
+ * @property {string} [description] Operation description.
+ */
+export interface ResourceProviderOperationDisplayProperties {
   publisher?: string;
-  product?: string;
-  promotionCode?: string;
-  version?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the AppliancePatchable class.
- * @constructor
- * Information about appliance.
- *
- * @member {string} [managedResourceGroupId] The managed resource group Id.
- * @member {string} [applianceDefinitionId] The fully qualified path of
- * appliance definition Id.
- * @member {object} [parameters] Name and value pairs that define the appliance
- * parameters. It can be a JObject or a well formed JSON string.
- * @member {object} [outputs] Name and value pairs that define the appliance
- * outputs.
- * @member {string} [provisioningState] The appliance provisioning state.
- * Possible values include: 'Accepted', 'Running', 'Ready', 'Creating',
- * 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
- * 'Updating'
- * @member {string} [uiDefinitionUri] The blob URI where the UI definition file
- * is located.
- * @member {object} [plan] The plan information.
- * @member {string} [plan.name] The plan name.
- * @member {string} [plan.publisher] The publisher ID.
- * @member {string} [plan.product] The product code.
- * @member {string} [plan.promotionCode] The promotion code.
- * @member {string} [plan.version] The plan's version.
- * @member {string} [kind] The kind of the appliance. Allowed values are
- * MarketPlace and ServiceCatalog.
- */
-export interface AppliancePatchable extends GenericResource {
-  managedResourceGroupId?: string;
-  applianceDefinitionId?: string;
-  parameters?: any;
-  readonly outputs?: any;
-  readonly provisioningState?: string;
-  uiDefinitionUri?: string;
-  plan?: PlanPatchable;
-  kind?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ApplianceProviderAuthorization class.
- * @constructor
- * The appliance provider authorization.
- *
- * @member {string} principalId The provider's principal identifier. This is
- * the identity that the provider will use to call ARM to manage the appliance
- * resources.
- * @member {string} roleDefinitionId The provider's role definition identifier.
- * This role will define all the permissions that the provider must have on the
- * appliance's container resource group. This role definition cannot have
- * permission to delete the resource group.
- */
-export interface ApplianceProviderAuthorization {
-  principalId: string;
-  roleDefinitionId: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ApplianceArtifact class.
- * @constructor
- * Appliance artifact.
- *
- * @member {string} [name] The appliance artifact name.
- * @member {string} [uri] The appliance artifact blob uri.
- * @member {string} [type] The the appliance artifact type. Possible values
- * include: 'Template', 'Custom'
- */
-export interface ApplianceArtifact {
-  name?: string;
-  uri?: string;
-  type?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ApplianceDefinition class.
- * @constructor
- * Information about appliance definition.
- *
- * @member {string} lockLevel The appliance lock level. Possible values
- * include: 'CanNotDelete', 'ReadOnly', 'None'
- * @member {string} [displayName] The appliance definition display name.
- * @member {array} authorizations The appliance provider authorizations.
- * @member {array} [artifacts] The collection of appliance artifacts. The
- * portal will use the files specified as artifacts to construct the user
- * experience of creating an appliance from an appliance definition.
- * @member {string} [description] The appliance definition description.
- * @member {string} packageFileUri The appliance definition package file Uri.
- */
-export interface ApplianceDefinition extends GenericResource {
-  lockLevel: string;
-  displayName?: string;
-  authorizations: ApplianceProviderAuthorization[];
-  artifacts?: ApplianceArtifact[];
+  provider?: string;
+  resource?: string;
+  operation?: string;
   description?: string;
-  packageFileUri: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the Sku class.
+ * Initializes a new instance of the SubResource class.
  * @constructor
- * SKU for the resource.
+ * Sub-resource.
  *
- * @member {string} name The SKU name.
- * @member {string} [tier] The SKU tier.
- * @member {string} [size] The SKU size.
- * @member {string} [family] The SKU family.
- * @member {string} [model] The SKU model.
- * @member {number} [capacity] The SKU capacity.
+ * @property {string} [id] Resource ID
  */
-export interface Sku {
-  name: string;
-  tier?: string;
-  size?: string;
-  family?: string;
-  model?: string;
-  capacity?: number;
+export interface SubResource extends BaseResource {
+  id?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the Identity class.
+ * Initializes a new instance of the ResourceGroupExportResult class.
  * @constructor
- * Identity for the resource.
+ * Resource group export result.
  *
- * @member {string} [principalId] The principal ID of resource identity.
- * @member {string} [tenantId] The tenant ID of resource.
- * @member {string} [type] The identity type. Possible values include:
- * 'SystemAssigned'
+ * @property {object} [template] The template content.
+ * @property {object} [error] The error.
+ * @property {string} [error.code] The error code returned when exporting the
+ * template.
+ * @property {string} [error.message] The error message describing the export
+ * error.
+ * @property {string} [error.target] The target of the error.
+ * @property {array} [error.details] Validation error.
  */
-export interface Identity {
-  readonly principalId?: string;
-  readonly tenantId?: string;
-  type?: string;
-}
-
-/**
- * @class
- * Initializes a new instance of the ErrorResponse class.
- * @constructor
- * Error reponse indicates ARM appliance is not able to process the incoming
- * request. The reason is provided in the error message.
- *
- * @member {string} [httpStatus] Http status code.
- * @member {string} [errorCode] Error code.
- * @member {string} [errorMessage] Error message indicating why the operation
- * failed.
- */
-export interface ErrorResponse {
-  httpStatus?: string;
-  errorCode?: string;
-  errorMessage?: string;
+export interface ResourceGroupExportResult {
+  template?: any;
+  error?: ResourceManagementErrorWithDetails;
 }
 
 /**
@@ -305,30 +1037,33 @@ export interface ErrorResponse {
  * @constructor
  * The object that represents the operation.
  *
- * @member {string} [provider] Service provider: Microsoft.Solutions
- * @member {string} [resource] Resource on which the operation is performed:
+ * @property {string} [provider] Service provider: Microsoft.Resources
+ * @property {string} [resource] Resource on which the operation is performed:
  * Profile, endpoint, etc.
- * @member {string} [operation] Operation type: Read, write, delete, etc.
+ * @property {string} [operation] Operation type: Read, write, delete, etc.
+ * @property {string} [description] Description of the operation.
  */
 export interface OperationDisplay {
   provider?: string;
   resource?: string;
   operation?: string;
+  description?: string;
 }
 
 /**
  * @class
  * Initializes a new instance of the Operation class.
  * @constructor
- * Microsoft.Solutions operation
+ * Microsoft.Resources operation
  *
- * @member {string} [name] Operation name: {provider}/{resource}/{operation}
- * @member {object} [display] The object that represents the operation.
- * @member {string} [display.provider] Service provider: Microsoft.Solutions
- * @member {string} [display.resource] Resource on which the operation is
+ * @property {string} [name] Operation name: {provider}/{resource}/{operation}
+ * @property {object} [display] The object that represents the operation.
+ * @property {string} [display.provider] Service provider: Microsoft.Resources
+ * @property {string} [display.resource] Resource on which the operation is
  * performed: Profile, endpoint, etc.
- * @member {string} [display.operation] Operation type: Read, write, delete,
+ * @property {string} [display.operation] Operation type: Read, write, delete,
  * etc.
+ * @property {string} [display.description] Description of the operation.
  */
 export interface Operation {
   name?: string;
@@ -340,10 +1075,10 @@ export interface Operation {
  * @class
  * Initializes a new instance of the OperationListResult class.
  * @constructor
- * Result of the request to list Microsoft.Solutions operations. It contains a
+ * Result of the request to list Microsoft.Resources operations. It contains a
  * list of operations and a URL link to get the next set of results.
  *
- * @member {string} [nextLink] URL to get the next set of operation list
+ * @property {string} [nextLink] URL to get the next set of operation list
  * results if there are any.
  */
 export interface OperationListResult extends Array<Operation> {
@@ -352,26 +1087,78 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * @class
- * Initializes a new instance of the ApplianceListResult class.
+ * Initializes a new instance of the DeploymentListResult class.
  * @constructor
- * List of appliances.
+ * List of deployments.
  *
- * @member {string} [nextLink] The URL to use for getting the next set of
+ * @property {string} [nextLink] The URL to use for getting the next set of
  * results.
  */
-export interface ApplianceListResult extends Array<Appliance> {
-  nextLink?: string;
+export interface DeploymentListResult extends Array<DeploymentExtended> {
+  readonly nextLink?: string;
 }
 
 /**
  * @class
- * Initializes a new instance of the ApplianceDefinitionListResult class.
+ * Initializes a new instance of the ProviderListResult class.
  * @constructor
- * List of appliance definitions.
+ * List of resource providers.
  *
- * @member {string} [nextLink] The URL to use for getting the next set of
+ * @property {string} [nextLink] The URL to use for getting the next set of
  * results.
  */
-export interface ApplianceDefinitionListResult extends Array<ApplianceDefinition> {
-  nextLink?: string;
+export interface ProviderListResult extends Array<Provider> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceListResult class.
+ * @constructor
+ * List of resource groups.
+ *
+ * @property {string} [nextLink] The URL to use for getting the next set of
+ * results.
+ */
+export interface ResourceListResult extends Array<GenericResource> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ResourceGroupListResult class.
+ * @constructor
+ * List of resource groups.
+ *
+ * @property {string} [nextLink] The URL to use for getting the next set of
+ * results.
+ */
+export interface ResourceGroupListResult extends Array<ResourceGroup> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the TagsListResult class.
+ * @constructor
+ * List of subscription tags.
+ *
+ * @property {string} [nextLink] The URL to use for getting the next set of
+ * results.
+ */
+export interface TagsListResult extends Array<TagDetails> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the DeploymentOperationsListResult class.
+ * @constructor
+ * List of deployment operations.
+ *
+ * @property {string} [nextLink] The URL to use for getting the next set of
+ * results.
+ */
+export interface DeploymentOperationsListResult extends Array<DeploymentOperation> {
+  readonly nextLink?: string;
 }
