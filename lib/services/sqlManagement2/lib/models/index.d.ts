@@ -2847,6 +2847,19 @@ export interface BackupLongTermRetentionPolicy extends ProxyResource {
 
 /**
  * @class
+ * Initializes a new instance of the ManagedBackupShortTermRetentionPolicy class.
+ * @constructor
+ * A short term retention policy.
+ *
+ * @member {number} [retentionDays] The backup retention period in days. This
+ * is how many days Point-in-Time Restore will be supported.
+ */
+export interface ManagedBackupShortTermRetentionPolicy extends ProxyResource {
+  retentionDays?: number;
+}
+
+/**
+ * @class
  * Initializes a new instance of the CompleteDatabaseRestoreDefinition class.
  * @constructor
  * Contains the information necessary to perform a complete database restore
@@ -4786,6 +4799,18 @@ export interface JobVersionListResult extends Array<JobVersion> {
  * @member {string} [nextLink] Link to retrieve next page of results.
  */
 export interface LongTermRetentionBackupListResult extends Array<LongTermRetentionBackup> {
+  readonly nextLink?: string;
+}
+
+/**
+ * @class
+ * Initializes a new instance of the ManagedBackupShortTermRetentionPolicyListResult class.
+ * @constructor
+ * A list of short term retention policies.
+ *
+ * @member {string} [nextLink] Link to retrieve next page of results.
+ */
+export interface ManagedBackupShortTermRetentionPolicyListResult extends Array<ManagedBackupShortTermRetentionPolicy> {
   readonly nextLink?: string;
 }
 
