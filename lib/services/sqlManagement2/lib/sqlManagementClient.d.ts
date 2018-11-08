@@ -47,6 +47,8 @@ export default class SqlManagementClient extends AzureServiceClient {
 
   subscriptionId: string;
 
+  apiVersion: string;
+
   acceptLanguage: string;
 
   longRunningOperationRetryTimeout: number;
@@ -54,76 +56,8 @@ export default class SqlManagementClient extends AzureServiceClient {
   generateClientRequestId: boolean;
 
   // Operation groups
-  recoverableDatabases: operations.RecoverableDatabases;
-  restorableDroppedDatabases: operations.RestorableDroppedDatabases;
-  servers: operations.Servers;
-  serverConnectionPolicies: operations.ServerConnectionPolicies;
-  databaseThreatDetectionPolicies: operations.DatabaseThreatDetectionPolicies;
-  dataMaskingPolicies: operations.DataMaskingPolicies;
-  dataMaskingRules: operations.DataMaskingRules;
-  firewallRules: operations.FirewallRules;
-  geoBackupPolicies: operations.GeoBackupPolicies;
-  databases: operations.Databases;
-  elasticPools: operations.ElasticPools;
-  recommendedElasticPools: operations.RecommendedElasticPools;
-  replicationLinks: operations.ReplicationLinks;
-  serverAzureADAdministrators: operations.ServerAzureADAdministrators;
-  serverCommunicationLinks: operations.ServerCommunicationLinks;
-  serviceObjectives: operations.ServiceObjectives;
-  elasticPoolActivities: operations.ElasticPoolActivities;
-  elasticPoolDatabaseActivities: operations.ElasticPoolDatabaseActivities;
-  serviceTierAdvisors: operations.ServiceTierAdvisors;
-  transparentDataEncryptions: operations.TransparentDataEncryptions;
-  transparentDataEncryptionActivities: operations.TransparentDataEncryptionActivities;
-  serverUsages: operations.ServerUsages;
-  databaseUsages: operations.DatabaseUsages;
-  databaseAutomaticTuningOperations: operations.DatabaseAutomaticTuningOperations;
-  encryptionProtectors: operations.EncryptionProtectors;
-  failoverGroups: operations.FailoverGroups;
-  managedInstances: operations.ManagedInstances;
-  operations: operations.Operations;
-  serverKeys: operations.ServerKeys;
-  syncAgents: operations.SyncAgents;
-  syncGroups: operations.SyncGroups;
-  syncMembers: operations.SyncMembers;
-  subscriptionUsages: operations.SubscriptionUsages;
-  virtualNetworkRules: operations.VirtualNetworkRules;
-  extendedDatabaseBlobAuditingPolicies: operations.ExtendedDatabaseBlobAuditingPolicies;
-  extendedServerBlobAuditingPolicies: operations.ExtendedServerBlobAuditingPolicies;
-  serverBlobAuditingPolicies: operations.ServerBlobAuditingPolicies;
-  databaseBlobAuditingPolicies: operations.DatabaseBlobAuditingPolicies;
-  databaseVulnerabilityAssessmentRuleBaselines: operations.DatabaseVulnerabilityAssessmentRuleBaselines;
-  databaseVulnerabilityAssessments: operations.DatabaseVulnerabilityAssessments;
-  jobAgents: operations.JobAgents;
-  jobCredentials: operations.JobCredentials;
-  jobExecutions: operations.JobExecutions;
-  jobs: operations.Jobs;
-  jobStepExecutions: operations.JobStepExecutions;
-  jobSteps: operations.JobSteps;
-  jobTargetExecutions: operations.JobTargetExecutions;
-  jobTargetGroups: operations.JobTargetGroups;
-  jobVersions: operations.JobVersions;
-  longTermRetentionBackups: operations.LongTermRetentionBackups;
-  backupLongTermRetentionPolicies: operations.BackupLongTermRetentionPolicies;
-  managedBackupShortTermRetentionPolicies: operations.ManagedBackupShortTermRetentionPolicies;
-  managedDatabases: operations.ManagedDatabases;
-  serverAutomaticTuningOperations: operations.ServerAutomaticTuningOperations;
-  serverDnsAliases: operations.ServerDnsAliases;
-  serverSecurityAlertPolicies: operations.ServerSecurityAlertPolicies;
-  restorePoints: operations.RestorePoints;
-  databaseOperations: operations.DatabaseOperations;
-  elasticPoolOperations: operations.ElasticPoolOperations;
   capabilities: operations.Capabilities;
-  databaseVulnerabilityAssessmentScans: operations.DatabaseVulnerabilityAssessmentScans;
-  managedDatabaseVulnerabilityAssessmentRuleBaselines: operations.ManagedDatabaseVulnerabilityAssessmentRuleBaselines;
-  managedDatabaseVulnerabilityAssessmentScans: operations.ManagedDatabaseVulnerabilityAssessmentScans;
-  managedDatabaseVulnerabilityAssessments: operations.ManagedDatabaseVulnerabilityAssessments;
-  instanceFailoverGroups: operations.InstanceFailoverGroups;
-  backupShortTermRetentionPolicies: operations.BackupShortTermRetentionPolicies;
-  tdeCertificates: operations.TdeCertificates;
-  managedInstanceTdeCertificates: operations.ManagedInstanceTdeCertificates;
-  managedInstanceKeys: operations.ManagedInstanceKeys;
-  managedInstanceEncryptionProtectors: operations.ManagedInstanceEncryptionProtectors;
+  subscriptionUsages: operations.SubscriptionUsages;
 }
 
 export { SqlManagementClient, models as SqlManagementModels };
