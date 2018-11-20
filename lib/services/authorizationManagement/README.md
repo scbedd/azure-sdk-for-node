@@ -19,7 +19,7 @@ npm install azure-arm-authorization
 
 ### How to use
 
-#### Authentication, client creation and list classicAdministrators as an example.
+#### Authentication, client creation and listForResourceGroup permissions as an example.
 
 ```javascript
 const msRestAzure = require("ms-rest-azure");
@@ -27,7 +27,8 @@ const AuthorizationManagementClient = require("azure-arm-authorization");
 msRestAzure.interactiveLogin().then((creds) => {
     const subscriptionId = "<Subscription_Id>";
     const client = new AuthorizationManagementClient(creds, subscriptionId);
-    return client.classicAdministrators.list().then((result) => {
+    const resourceGroupName = "testresourceGroupName";
+    return client.permissions.listForResourceGroup(resourceGroupName).then((result) => {
       console.log("The result is:");
       console.log(result);
     });

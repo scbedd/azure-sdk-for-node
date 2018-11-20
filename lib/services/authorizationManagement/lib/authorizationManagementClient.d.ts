@@ -47,6 +47,8 @@ export default class AuthorizationManagementClient extends AzureServiceClient {
 
   subscriptionId: string;
 
+  apiVersion: string;
+
   acceptLanguage: string;
 
   longRunningOperationRetryTimeout: number;
@@ -54,12 +56,9 @@ export default class AuthorizationManagementClient extends AzureServiceClient {
   generateClientRequestId: boolean;
 
   // Operation groups
-  classicAdministrators: operations.ClassicAdministrators;
-  providerOperationsMetadataOperations: operations.ProviderOperationsMetadataOperations;
-  roleAssignments: operations.RoleAssignments;
   permissions: operations.Permissions;
+  providerOperationsMetadataOperations: operations.ProviderOperationsMetadataOperations;
   roleDefinitions: operations.RoleDefinitions;
-  denyAssignments: operations.DenyAssignments;
 }
 
 export { AuthorizationManagementClient, models as AuthorizationManagementModels };

@@ -16,29 +16,27 @@ export {
 };
 
 /**
- * Classic Administrators
+ * Role Definitions filter
  */
-export interface ClassicAdministrator {
+export interface RoleDefinitionFilter {
   /**
-   * The ID of the administrator.
+   * Returns role definition with the specific name.
    */
-  id?: string;
+  roleName?: string;
+}
+
+/**
+ * Role definition permissions.
+ */
+export interface Permission {
   /**
-   * The name of the administrator.
+   * Allowed actions.
    */
-  name?: string;
+  actions?: string[];
   /**
-   * The type of the administrator.
+   * Denied actions.
    */
-  type?: string;
-  /**
-   * The email address of the administrator.
-   */
-  emailAddress?: string;
-  /**
-   * The role of the administrator.
-   */
-  role?: string;
+  notActions?: string[];
 }
 
 /**
@@ -65,10 +63,6 @@ export interface ProviderOperation {
    * The operation properties.
    */
   properties?: any;
-  /**
-   * The dataAction flag to specify the operation type.
-   */
-  isDataAction?: boolean;
 }
 
 /**
@@ -120,115 +114,6 @@ export interface ProviderOperationsMetadata {
 }
 
 /**
- * Role Assignments filter
- */
-export interface RoleAssignmentFilter {
-  /**
-   * Returns role assignment of the specific principal.
-   */
-  principalId?: string;
-  /**
-   * The Delegation flag for the roleassignment
-   */
-  canDelegate?: boolean;
-}
-
-/**
- * Role Assignments
- */
-export interface RoleAssignment {
-  /**
-   * The role assignment ID.
-   */
-  readonly id?: string;
-  /**
-   * The role assignment name.
-   */
-  readonly name?: string;
-  /**
-   * The role assignment type.
-   */
-  readonly type?: string;
-  /**
-   * The role assignment scope.
-   */
-  scope?: string;
-  /**
-   * The role definition ID.
-   */
-  roleDefinitionId?: string;
-  /**
-   * The principal ID.
-   */
-  principalId?: string;
-  /**
-   * The Delegation flag for the roleassignment
-   */
-  canDelegate?: boolean;
-}
-
-/**
- * Role assignment create parameters.
- */
-export interface RoleAssignmentCreateParameters {
-  /**
-   * The role definition ID used in the role assignment.
-   */
-  roleDefinitionId: string;
-  /**
-   * The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can
-   * point to a user, service principal, or security group.
-   */
-  principalId: string;
-  /**
-   * The principal type of the assigned principal ID. Possible values include: 'User', 'Group',
-   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
-   * 'DirectoryObjectOrGroup', 'Everyone'
-   */
-  principalType?: string;
-  /**
-   * The delgation flag used for creating a role assignment
-   */
-  canDelegate?: boolean;
-}
-
-/**
- * Role Definitions filter
- */
-export interface RoleDefinitionFilter {
-  /**
-   * Returns role definition with the specific name.
-   */
-  roleName?: string;
-  /**
-   * Returns role definition with the specific type.
-   */
-  type?: string;
-}
-
-/**
- * Role definition permissions.
- */
-export interface Permission {
-  /**
-   * Allowed actions.
-   */
-  actions?: string[];
-  /**
-   * Denied actions.
-   */
-  notActions?: string[];
-  /**
-   * Allowed Data actions.
-   */
-  dataActions?: string[];
-  /**
-   * Denied Data actions.
-   */
-  notDataActions?: string[];
-}
-
-/**
  * Role definition.
  */
 export interface RoleDefinition {
@@ -267,119 +152,9 @@ export interface RoleDefinition {
 }
 
 /**
- * Deny Assignments filter
+ * Permissions information.
  */
-export interface DenyAssignmentFilter {
-  /**
-   * Return deny assignment with specified name.
-   */
-  denyAssignmentName?: string;
-  /**
-   * Return all deny assignments where the specified principal is listed in the principals list of
-   * deny assignments.
-   */
-  principalId?: string;
-  /**
-   * Return all deny assignments where the specified principal is listed either in the principals
-   * list or exclude principals list of deny assignments.
-   */
-  gdprExportPrincipalId?: string;
-}
-
-/**
- * Deny assignment permissions.
- */
-export interface DenyAssignmentPermission {
-  /**
-   * Actions to which the deny assignment does not grant access.
-   */
-  actions?: string[];
-  /**
-   * Actions to exclude from that the deny assignment does not grant access.
-   */
-  notActions?: string[];
-  /**
-   * Data actions to which the deny assignment does not grant access.
-   */
-  dataActions?: string[];
-  /**
-   * Data actions to exclude from that the deny assignment does not grant access.
-   */
-  notDataActions?: string[];
-}
-
-/**
- * Deny assignment principal.
- */
-export interface Principal {
-  /**
-   * Object ID of the Azure AD principal (user, group, or service principal) to which the deny
-   * assignment applies. An empty guid '00000000-0000-0000-0000-000000000000' as principal id and
-   * principal type as 'Everyone' represents all users, groups and service principals.
-   */
-  readonly id?: string;
-  /**
-   * Type of object represented by principal id (user, group, or service principal). An empty guid
-   * '00000000-0000-0000-0000-000000000000' as principal id and principal type as 'Everyone'
-   * represents all users, groups and service principals.
-   */
-  readonly type?: string;
-}
-
-/**
- * Deny Assignment
- */
-export interface DenyAssignment {
-  /**
-   * The deny assignment ID.
-   */
-  readonly id?: string;
-  /**
-   * The deny assignment name.
-   */
-  readonly name?: string;
-  /**
-   * The deny assignment type.
-   */
-  readonly type?: string;
-  /**
-   * The display name of the deny assignment.
-   */
-  denyAssignmentName?: string;
-  /**
-   * The description of the deny assignment.
-   */
-  description?: string;
-  /**
-   * An array of permissions that are denied by the deny assignment.
-   */
-  permissions?: DenyAssignmentPermission[];
-  /**
-   * The deny assignment scope.
-   */
-  scope?: string;
-  /**
-   * Determines if the deny assignment applies to child scopes. Default value is false.
-   */
-  doNotApplyToChildScopes?: boolean;
-  /**
-   * Array of principals to which the deny assignment applies.
-   */
-  principals?: Principal[];
-  /**
-   * Array of principals to which the deny assignment does not apply.
-   */
-  excludePrincipals?: Principal[];
-  /**
-   * Specifies whether this deny assignment was created by Azure and cannot be edited or deleted.
-   */
-  isSystemProtected?: boolean;
-}
-
-/**
- * ClassicAdministrator list result information.
- */
-export interface ClassicAdministratorListResult extends Array<ClassicAdministrator> {
+export interface PermissionGetResult extends Array<Permission> {
   /**
    * The URL to use for getting the next set of results.
    */
@@ -397,39 +172,9 @@ export interface ProviderOperationsMetadataListResult extends Array<ProviderOper
 }
 
 /**
- * Role assignment list operation result.
- */
-export interface RoleAssignmentListResult extends Array<RoleAssignment> {
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * Permissions information.
- */
-export interface PermissionGetResult extends Array<Permission> {
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
  * Role definition list operation result.
  */
 export interface RoleDefinitionListResult extends Array<RoleDefinition> {
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * Deny assignment list operation result.
- */
-export interface DenyAssignmentListResult extends Array<DenyAssignment> {
   /**
    * The URL to use for getting the next set of results.
    */
