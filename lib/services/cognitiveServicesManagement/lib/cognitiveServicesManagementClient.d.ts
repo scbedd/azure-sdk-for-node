@@ -56,10 +56,7 @@ export default class CognitiveServicesManagementClient extends AzureServiceClien
   generateClientRequestId: boolean;
 
   // Operation groups
-  accounts: operations.Accounts;
-  resourceSkus: operations.ResourceSkus;
-  operations: operations.Operations;
-  checkSkuAvailability: operations.CheckSkuAvailability;
+  cognitiveServicesAccounts: operations.CognitiveServicesAccounts;
 }
 
 export { CognitiveServicesManagementClient, models as CognitiveServicesManagementModels };

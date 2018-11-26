@@ -19,7 +19,7 @@ npm install azure-arm-cognitiveservices
 
 ### How to use
 
-#### Authentication, client creation and getProperties accounts as an example.
+#### Authentication, client creation and getProperties cognitiveServicesAccounts as an example.
 
 ```javascript
 const msRestAzure = require("ms-rest-azure");
@@ -29,7 +29,7 @@ msRestAzure.interactiveLogin().then((creds) => {
     const client = new CognitiveServicesManagementClient(creds, subscriptionId);
     const resourceGroupName = "testresourceGroupName";
     const accountName = "testaccountName";
-    return client.accounts.getProperties(resourceGroupName, accountName).then((result) => {
+    return client.cognitiveServicesAccounts.getProperties(resourceGroupName, accountName).then((result) => {
       console.log("The result is:");
       console.log(result);
     });

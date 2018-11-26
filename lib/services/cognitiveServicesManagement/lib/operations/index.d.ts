@@ -14,11 +14,11 @@ import * as models from '../models';
 
 /**
  * @class
- * Accounts
+ * CognitiveServicesAccounts
  * __NOTE__: An instance of this class is automatically created for an
  * instance of the CognitiveServicesManagementClient.
  */
-export interface Accounts {
+export interface CognitiveServicesAccounts {
 
 
     /**
@@ -29,25 +29,26 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} parameters The parameters to provide for the created
      * account.
      *
-     * @param {object} parameters.sku Required. Gets or sets the SKU of the
-     * resource.
+     * @param {object} parameters.sku
      *
      * @param {string} parameters.sku.name Gets or sets the sku name. Required for
      * account creation, optional for update. Possible values include: 'F0', 'P0',
      * 'P1', 'P2', 'S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
      *
-     * @param {string} parameters.kind Required. Gets or sets the Kind of the
-     * resource. Possible values include: 'Bing.Autosuggest.v7',
-     * 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7',
-     * 'ComputerVision', 'ContentModerator', 'CustomSpeech',
-     * 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face',
-     * 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation',
-     * 'TextAnalytics', 'TextTranslation', 'WebLM'
+     * @param {string} parameters.kind Required. Indicates the type of cognitive
+     * service account. Possible values include: 'Academic', 'Bing.Autosuggest',
+     * 'Bing.Search', 'Bing.Speech', 'Bing.SpellCheck', 'ComputerVision',
+     * 'ContentModerator', 'Emotion', 'Face', 'LUIS', 'Recommendations',
+     * 'SpeakerRecognition', 'Speech', 'SpeechTranslation', 'TextAnalytics',
+     * 'TextTranslation', 'WebLM'
      *
      * @param {string} parameters.location Required. Gets or sets the location of
      * the resource. This will be one of the supported and registered Azure Geo
@@ -61,8 +62,8 @@ export interface Accounts {
      * for a resource. Each tag must have a key no greater than 128 characters and
      * value no greater than 256 characters.
      *
-     * @param {object} parameters.properties Must exist in the request. Must be an
-     * empty object. Must not be null.
+     * @param {object} parameters.properties Must exist in the request. Must not be
+     * null.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -85,25 +86,26 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} parameters The parameters to provide for the created
      * account.
      *
-     * @param {object} parameters.sku Required. Gets or sets the SKU of the
-     * resource.
+     * @param {object} parameters.sku
      *
      * @param {string} parameters.sku.name Gets or sets the sku name. Required for
      * account creation, optional for update. Possible values include: 'F0', 'P0',
      * 'P1', 'P2', 'S0', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6'
      *
-     * @param {string} parameters.kind Required. Gets or sets the Kind of the
-     * resource. Possible values include: 'Bing.Autosuggest.v7',
-     * 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech', 'Bing.SpellCheck.v7',
-     * 'ComputerVision', 'ContentModerator', 'CustomSpeech',
-     * 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face',
-     * 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation',
-     * 'TextAnalytics', 'TextTranslation', 'WebLM'
+     * @param {string} parameters.kind Required. Indicates the type of cognitive
+     * service account. Possible values include: 'Academic', 'Bing.Autosuggest',
+     * 'Bing.Search', 'Bing.Speech', 'Bing.SpellCheck', 'ComputerVision',
+     * 'ContentModerator', 'Emotion', 'Face', 'LUIS', 'Recommendations',
+     * 'SpeakerRecognition', 'Speech', 'SpeechTranslation', 'TextAnalytics',
+     * 'TextTranslation', 'WebLM'
      *
      * @param {string} parameters.location Required. Gets or sets the location of
      * the resource. This will be one of the supported and registered Azure Geo
@@ -117,8 +119,8 @@ export interface Accounts {
      * for a resource. Each tag must have a key no greater than 128 characters and
      * value no greater than 256 characters.
      *
-     * @param {object} parameters.properties Must exist in the request. Must be an
-     * empty object. Must not be null.
+     * @param {object} parameters.properties Must exist in the request. Must not be
+     * null.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -159,11 +161,14 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
-     * @param {object} [options.sku] Gets or sets the SKU of the resource.
+     * @param {object} [options.sku]
      *
      * @param {string} options.sku.name Gets or sets the sku name. Required for
      * account creation, optional for update. Possible values include: 'F0', 'P0',
@@ -192,11 +197,14 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
-     * @param {object} [options.sku] Gets or sets the SKU of the resource.
+     * @param {object} [options.sku]
      *
      * @param {string} options.sku.name Gets or sets the sku name. Required for
      * account creation, optional for update. Possible values include: 'F0', 'P0',
@@ -245,7 +253,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -266,7 +277,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -305,7 +319,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -326,7 +343,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -477,7 +497,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Congitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -498,7 +521,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Congitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -540,12 +566,15 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
-     *
-     * @param {string} keyName key name to generate (Key1|Key2). Possible values
-     * include: 'Key1', 'Key2'
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
+     *
+     * @param {string} [options.keyName] key name to generate (Key1|Key2). Possible
+     * values include: 'Key1', 'Key2'
      *
      * @param {object} [options.customHeaders] Headers that will be added to the
      * request
@@ -556,7 +585,7 @@ export interface Accounts {
      *
      * @reject {Error|ServiceError} - The error object.
      */
-    regenerateKeyWithHttpOperationResponse(resourceGroupName: string, accountName: string, keyName: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.CognitiveServicesAccountKeys>>;
+    regenerateKeyWithHttpOperationResponse(resourceGroupName: string, accountName: string, options?: { keyName? : string, customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.CognitiveServicesAccountKeys>>;
 
     /**
      * Regenerates the specified account key for the specified Cognitive Services
@@ -565,12 +594,15 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
-     *
-     * @param {string} keyName key name to generate (Key1|Key2). Possible values
-     * include: 'Key1', 'Key2'
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
+     *
+     * @param {string} [options.keyName] key name to generate (Key1|Key2). Possible
+     * values include: 'Key1', 'Key2'
      *
      * @param {object} [options.customHeaders] Headers that will be added to the
      * request
@@ -598,9 +630,9 @@ export interface Accounts {
      *
      *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
      */
-    regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.CognitiveServicesAccountKeys>;
-    regenerateKey(resourceGroupName: string, accountName: string, keyName: string, callback: ServiceCallback<models.CognitiveServicesAccountKeys>): void;
-    regenerateKey(resourceGroupName: string, accountName: string, keyName: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.CognitiveServicesAccountKeys>): void;
+    regenerateKey(resourceGroupName: string, accountName: string, options?: { keyName? : string, customHeaders? : { [headerName: string]: string; } }): Promise<models.CognitiveServicesAccountKeys>;
+    regenerateKey(resourceGroupName: string, accountName: string, callback: ServiceCallback<models.CognitiveServicesAccountKeys>): void;
+    regenerateKey(resourceGroupName: string, accountName: string, options: { keyName? : string, customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.CognitiveServicesAccountKeys>): void;
 
 
     /**
@@ -609,7 +641,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -630,7 +665,10 @@ export interface Accounts {
      * @param {string} resourceGroupName The name of the resource group within the
      * user's subscription.
      *
-     * @param {string} accountName The name of Cognitive Services account.
+     * @param {string} accountName The name of the cognitive services account
+     * within the specified resource group. Cognitive Services account names must
+     * be between 3 and 24 characters in length and use numbers and lower-case
+     * letters only.
      *
      * @param {object} [options] Optional Parameters.
      *
@@ -663,516 +701,4 @@ export interface Accounts {
     listSkus(resourceGroupName: string, accountName: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.CognitiveServicesAccountEnumerateSkusResult>;
     listSkus(resourceGroupName: string, accountName: string, callback: ServiceCallback<models.CognitiveServicesAccountEnumerateSkusResult>): void;
     listSkus(resourceGroupName: string, accountName: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.CognitiveServicesAccountEnumerateSkusResult>): void;
-
-
-    /**
-     * Get usages for the requested Cognitive Services account
-     *
-     * @param {string} resourceGroupName The name of the resource group within the
-     * user's subscription.
-     *
-     * @param {string} accountName The name of Cognitive Services account.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {string} [options.filter] An OData filter expression that describes a
-     * subset of usages to return. The supported parameter is name.value (name of
-     * the metric, can have an or of multiple names).
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<UsagesResult>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    getUsagesWithHttpOperationResponse(resourceGroupName: string, accountName: string, options?: { filter? : string, customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.UsagesResult>>;
-
-    /**
-     * Get usages for the requested Cognitive Services account
-     *
-     * @param {string} resourceGroupName The name of the resource group within the
-     * user's subscription.
-     *
-     * @param {string} accountName The name of Cognitive Services account.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {string} [options.filter] An OData filter expression that describes a
-     * subset of usages to return. The supported parameter is name.value (name of
-     * the metric, can have an or of multiple names).
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {UsagesResult} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {UsagesResult} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link UsagesResult} for more information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    getUsages(resourceGroupName: string, accountName: string, options?: { filter? : string, customHeaders? : { [headerName: string]: string; } }): Promise<models.UsagesResult>;
-    getUsages(resourceGroupName: string, accountName: string, callback: ServiceCallback<models.UsagesResult>): void;
-    getUsages(resourceGroupName: string, accountName: string, options: { filter? : string, customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.UsagesResult>): void;
-
-
-    /**
-     * Returns all the resources of a particular type belonging to a resource group
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<CognitiveServicesAccountListResult>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    listByResourceGroupNextWithHttpOperationResponse(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.CognitiveServicesAccountListResult>>;
-
-    /**
-     * Returns all the resources of a particular type belonging to a resource group
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {CognitiveServicesAccountListResult} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {CognitiveServicesAccountListResult} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link CognitiveServicesAccountListResult} for more
-     *                      information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    listByResourceGroupNext(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.CognitiveServicesAccountListResult>;
-    listByResourceGroupNext(nextPageLink: string, callback: ServiceCallback<models.CognitiveServicesAccountListResult>): void;
-    listByResourceGroupNext(nextPageLink: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.CognitiveServicesAccountListResult>): void;
-
-
-    /**
-     * Returns all the resources of a particular type belonging to a subscription.
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<CognitiveServicesAccountListResult>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    listNextWithHttpOperationResponse(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.CognitiveServicesAccountListResult>>;
-
-    /**
-     * Returns all the resources of a particular type belonging to a subscription.
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {CognitiveServicesAccountListResult} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {CognitiveServicesAccountListResult} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link CognitiveServicesAccountListResult} for more
-     *                      information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    listNext(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.CognitiveServicesAccountListResult>;
-    listNext(nextPageLink: string, callback: ServiceCallback<models.CognitiveServicesAccountListResult>): void;
-    listNext(nextPageLink: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.CognitiveServicesAccountListResult>): void;
-}
-
-/**
- * @class
- * ResourceSkus
- * __NOTE__: An instance of this class is automatically created for an
- * instance of the CognitiveServicesManagementClient.
- */
-export interface ResourceSkus {
-
-
-    /**
-     * Gets the list of Microsoft.CognitiveServices SKUs available for your
-     * Subscription.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<ResourceSkusResult>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    listWithHttpOperationResponse(options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.ResourceSkusResult>>;
-
-    /**
-     * Gets the list of Microsoft.CognitiveServices SKUs available for your
-     * Subscription.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {ResourceSkusResult} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {ResourceSkusResult} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link ResourceSkusResult} for more information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    list(options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.ResourceSkusResult>;
-    list(callback: ServiceCallback<models.ResourceSkusResult>): void;
-    list(options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.ResourceSkusResult>): void;
-
-
-    /**
-     * Gets the list of Microsoft.CognitiveServices SKUs available for your
-     * Subscription.
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<ResourceSkusResult>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    listNextWithHttpOperationResponse(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.ResourceSkusResult>>;
-
-    /**
-     * Gets the list of Microsoft.CognitiveServices SKUs available for your
-     * Subscription.
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {ResourceSkusResult} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {ResourceSkusResult} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link ResourceSkusResult} for more information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    listNext(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.ResourceSkusResult>;
-    listNext(nextPageLink: string, callback: ServiceCallback<models.ResourceSkusResult>): void;
-    listNext(nextPageLink: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.ResourceSkusResult>): void;
-}
-
-/**
- * @class
- * Operations
- * __NOTE__: An instance of this class is automatically created for an
- * instance of the CognitiveServicesManagementClient.
- */
-export interface Operations {
-
-
-    /**
-     * Lists all the available Cognitive Services account operations.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<OperationEntityListResult>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    listWithHttpOperationResponse(options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.OperationEntityListResult>>;
-
-    /**
-     * Lists all the available Cognitive Services account operations.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {OperationEntityListResult} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {OperationEntityListResult} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link OperationEntityListResult} for more
-     *                      information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    list(options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.OperationEntityListResult>;
-    list(callback: ServiceCallback<models.OperationEntityListResult>): void;
-    list(options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.OperationEntityListResult>): void;
-
-
-    /**
-     * Lists all the available Cognitive Services account operations.
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<OperationEntityListResult>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    listNextWithHttpOperationResponse(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.OperationEntityListResult>>;
-
-    /**
-     * Lists all the available Cognitive Services account operations.
-     *
-     * @param {string} nextPageLink The NextLink from the previous successful call
-     * to List operation.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {OperationEntityListResult} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {OperationEntityListResult} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link OperationEntityListResult} for more
-     *                      information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    listNext(nextPageLink: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.OperationEntityListResult>;
-    listNext(nextPageLink: string, callback: ServiceCallback<models.OperationEntityListResult>): void;
-    listNext(nextPageLink: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.OperationEntityListResult>): void;
-}
-
-/**
- * @class
- * CheckSkuAvailability
- * __NOTE__: An instance of this class is automatically created for an
- * instance of the CognitiveServicesManagementClient.
- */
-export interface CheckSkuAvailability {
-
-
-    /**
-     * Check available SKUs.
-     *
-     * @param {string} location Resource location.
-     *
-     * @param {array} skus The SKU of the resource.
-     *
-     * @param {string} kind The Kind of the resource. Possible values include:
-     * 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech',
-     * 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech',
-     * 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face',
-     * 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation',
-     * 'TextAnalytics', 'TextTranslation', 'WebLM'
-     *
-     * @param {string} type The Type of the resource.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @returns {Promise} A promise is returned
-     *
-     * @resolve {HttpOperationResponse<CheckSkuAvailabilityResultList>} - The deserialized result object.
-     *
-     * @reject {Error|ServiceError} - The error object.
-     */
-    listWithHttpOperationResponse(location: string, skus: string[], kind: string, type: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.CheckSkuAvailabilityResultList>>;
-
-    /**
-     * Check available SKUs.
-     *
-     * @param {string} location Resource location.
-     *
-     * @param {array} skus The SKU of the resource.
-     *
-     * @param {string} kind The Kind of the resource. Possible values include:
-     * 'Bing.Autosuggest.v7', 'Bing.CustomSearch', 'Bing.Search.v7', 'Bing.Speech',
-     * 'Bing.SpellCheck.v7', 'ComputerVision', 'ContentModerator', 'CustomSpeech',
-     * 'CustomVision.Prediction', 'CustomVision.Training', 'Emotion', 'Face',
-     * 'LUIS', 'QnAMaker', 'SpeakerRecognition', 'SpeechTranslation',
-     * 'TextAnalytics', 'TextTranslation', 'WebLM'
-     *
-     * @param {string} type The Type of the resource.
-     *
-     * @param {object} [options] Optional Parameters.
-     *
-     * @param {object} [options.customHeaders] Headers that will be added to the
-     * request
-     *
-     * @param {ServiceCallback} [optionalCallback] - The optional callback.
-     *
-     * @returns {ServiceCallback|Promise} If a callback was passed as the last
-     * parameter then it returns the callback else returns a Promise.
-     *
-     * {Promise} A promise is returned.
-     *
-     *                      @resolve {CheckSkuAvailabilityResultList} - The deserialized result object.
-     *
-     *                      @reject {Error|ServiceError} - The error object.
-     *
-     * {ServiceCallback} optionalCallback(err, result, request, response)
-     *
-     *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-     *
-     *                      {CheckSkuAvailabilityResultList} [result]   - The deserialized result object if an error did not occur.
-     *                      See {@link CheckSkuAvailabilityResultList} for more
-     *                      information.
-     *
-     *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-     *
-     *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-     */
-    list(location: string, skus: string[], kind: string, type: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.CheckSkuAvailabilityResultList>;
-    list(location: string, skus: string[], kind: string, type: string, callback: ServiceCallback<models.CheckSkuAvailabilityResultList>): void;
-    list(location: string, skus: string[], kind: string, type: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.CheckSkuAvailabilityResultList>): void;
 }
