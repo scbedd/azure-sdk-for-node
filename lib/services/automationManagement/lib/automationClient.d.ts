@@ -23,8 +23,6 @@ export default class AutomationClient extends AzureServiceClient {
    *
    * @param {string} subscriptionId - Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
    *
-   * @param {countType} countType1 - The type of counts to retrieve. Possible values include: 'status', 'nodeconfiguration'
-   *
    * @param {string} [baseUri] - The base URI of the service.
    *
    * @param {object} [options] - The parameter options
@@ -43,13 +41,13 @@ export default class AutomationClient extends AzureServiceClient {
    * @param {boolean} [options.generateClientRequestId] - Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
    *
    */
-  constructor(credentials: ServiceClientCredentials, subscriptionId: string, countType1: string, baseUri?: string, options?: AzureServiceClientOptions);
+  constructor(credentials: ServiceClientCredentials, subscriptionId: string, baseUri?: string, options?: AzureServiceClientOptions);
 
   credentials: ServiceClientCredentials;
 
-  subscriptionId: string;
+  apiVersion: string;
 
-  countType1: string;
+  subscriptionId: string;
 
   acceptLanguage: string;
 
@@ -58,47 +56,11 @@ export default class AutomationClient extends AzureServiceClient {
   generateClientRequestId: boolean;
 
   // Operation groups
-  automationAccountOperations: operations.AutomationAccountOperations;
-  operations: operations.Operations;
-  statisticsOperations: operations.StatisticsOperations;
-  usages: operations.Usages;
-  keys: operations.Keys;
-  certificateOperations: operations.CertificateOperations;
-  connectionOperations: operations.ConnectionOperations;
-  connectionTypeOperations: operations.ConnectionTypeOperations;
-  credentialOperations: operations.CredentialOperations;
-  dscConfigurationOperations: operations.DscConfigurationOperations;
-  hybridRunbookWorkerGroupOperations: operations.HybridRunbookWorkerGroupOperations;
-  jobScheduleOperations: operations.JobScheduleOperations;
-  linkedWorkspaceOperations: operations.LinkedWorkspaceOperations;
-  activityOperations: operations.ActivityOperations;
-  moduleOperations: operations.ModuleOperations;
-  objectDataTypes: operations.ObjectDataTypes;
-  fields: operations.Fields;
-  scheduleOperations: operations.ScheduleOperations;
-  variableOperations: operations.VariableOperations;
-  webhookOperations: operations.WebhookOperations;
-  watcherOperations: operations.WatcherOperations;
-  softwareUpdateConfigurations: operations.SoftwareUpdateConfigurations;
-  softwareUpdateConfigurationRuns: operations.SoftwareUpdateConfigurationRuns;
-  softwareUpdateConfigurationMachineRuns: operations.SoftwareUpdateConfigurationMachineRuns;
-  sourceControlOperations: operations.SourceControlOperations;
-  sourceControlSyncJobOperations: operations.SourceControlSyncJobOperations;
-  sourceControlSyncJobStreams: operations.SourceControlSyncJobStreams;
-  jobOperations: operations.JobOperations;
-  jobStreamOperations: operations.JobStreamOperations;
-  agentRegistrationInformation: operations.AgentRegistrationInformation;
-  dscNodeOperations: operations.DscNodeOperations;
-  nodeReports: operations.NodeReports;
-  dscCompilationJobOperations: operations.DscCompilationJobOperations;
-  dscCompilationJobStream: operations.DscCompilationJobStream;
-  dscNodeConfigurationOperations: operations.DscNodeConfigurationOperations;
-  nodeCountInformation: operations.NodeCountInformation;
+  python2Package: operations.Python2Package;
   runbookDraftOperations: operations.RunbookDraftOperations;
   runbookOperations: operations.RunbookOperations;
   testJobStreams: operations.TestJobStreams;
   testJobOperations: operations.TestJobOperations;
-  python2Package: operations.Python2Package;
 }
 
 export { AutomationClient, models as AutomationModels };
