@@ -1738,7 +1738,7 @@ export interface Service {
      *
      * @param {string} availableSkuRequest.location Location for data transfer. For
      * locations check:
-     * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01
+     * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-90-90
      *
      * @param {array} [availableSkuRequest.skuNames] Sku Names to filter for
      * available skus
@@ -1770,7 +1770,7 @@ export interface Service {
      *
      * @param {string} availableSkuRequest.location Location for data transfer. For
      * locations check:
-     * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01
+     * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-90-90
      *
      * @param {array} [availableSkuRequest.skuNames] Sku Names to filter for
      * available skus
