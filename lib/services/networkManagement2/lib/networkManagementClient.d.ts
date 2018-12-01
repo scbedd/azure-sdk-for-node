@@ -56,38 +56,21 @@ export default class NetworkManagementClient extends AzureServiceClient {
   // Operation groups
   applicationGateways: operations.ApplicationGateways;
   applicationSecurityGroups: operations.ApplicationSecurityGroups;
-  availableDelegations: operations.AvailableDelegations;
-  availableResourceGroupDelegations: operations.AvailableResourceGroupDelegations;
-  azureFirewalls: operations.AzureFirewalls;
-  azureFirewallFqdnTags: operations.AzureFirewallFqdnTags;
-  ddosProtectionPlans: operations.DdosProtectionPlans;
   availableEndpointServices: operations.AvailableEndpointServices;
   expressRouteCircuitAuthorizations: operations.ExpressRouteCircuitAuthorizations;
   expressRouteCircuitPeerings: operations.ExpressRouteCircuitPeerings;
-  expressRouteCircuitConnections: operations.ExpressRouteCircuitConnections;
   expressRouteCircuits: operations.ExpressRouteCircuits;
   expressRouteServiceProviders: operations.ExpressRouteServiceProviders;
-  expressRouteCrossConnections: operations.ExpressRouteCrossConnections;
-  expressRouteCrossConnectionPeerings: operations.ExpressRouteCrossConnectionPeerings;
-  expressRouteGateways: operations.ExpressRouteGateways;
-  expressRouteConnections: operations.ExpressRouteConnections;
-  expressRoutePortsLocations: operations.ExpressRoutePortsLocations;
-  expressRoutePorts: operations.ExpressRoutePorts;
-  expressRouteLinks: operations.ExpressRouteLinks;
-  interfaceEndpoints: operations.InterfaceEndpoints;
   loadBalancers: operations.LoadBalancers;
   loadBalancerBackendAddressPools: operations.LoadBalancerBackendAddressPools;
   loadBalancerFrontendIPConfigurations: operations.LoadBalancerFrontendIPConfigurations;
   inboundNatRules: operations.InboundNatRules;
   loadBalancerLoadBalancingRules: operations.LoadBalancerLoadBalancingRules;
-  loadBalancerOutboundRules: operations.LoadBalancerOutboundRules;
   loadBalancerNetworkInterfaces: operations.LoadBalancerNetworkInterfaces;
   loadBalancerProbes: operations.LoadBalancerProbes;
   networkInterfaces: operations.NetworkInterfaces;
   networkInterfaceIPConfigurations: operations.NetworkInterfaceIPConfigurations;
   networkInterfaceLoadBalancers: operations.NetworkInterfaceLoadBalancers;
-  networkInterfaceTapConfigurations: operations.NetworkInterfaceTapConfigurations;
-  networkProfiles: operations.NetworkProfiles;
   networkSecurityGroups: operations.NetworkSecurityGroups;
   securityRules: operations.SecurityRules;
   defaultSecurityRules: operations.DefaultSecurityRules;
@@ -96,14 +79,11 @@ export default class NetworkManagementClient extends AzureServiceClient {
   connectionMonitors: operations.ConnectionMonitors;
   operations: operations.Operations;
   publicIPAddresses: operations.PublicIPAddresses;
-  publicIPPrefixes: operations.PublicIPPrefixes;
   routeFilters: operations.RouteFilters;
   routeFilterRules: operations.RouteFilterRules;
   routeTables: operations.RouteTables;
   routes: operations.Routes;
   bgpServiceCommunities: operations.BgpServiceCommunities;
-  serviceEndpointPolicies: operations.ServiceEndpointPolicies;
-  serviceEndpointPolicyDefinitions: operations.ServiceEndpointPolicyDefinitions;
   usages: operations.Usages;
   virtualNetworks: operations.VirtualNetworks;
   subnets: operations.Subnets;
@@ -111,16 +91,6 @@ export default class NetworkManagementClient extends AzureServiceClient {
   virtualNetworkGateways: operations.VirtualNetworkGateways;
   virtualNetworkGatewayConnections: operations.VirtualNetworkGatewayConnections;
   localNetworkGateways: operations.LocalNetworkGateways;
-  virtualNetworkTaps: operations.VirtualNetworkTaps;
-  virtualWans: operations.VirtualWans;
-  vpnSites: operations.VpnSites;
-  vpnSitesConfiguration: operations.VpnSitesConfiguration;
-  virtualHubs: operations.VirtualHubs;
-  hubVirtualNetworkConnections: operations.HubVirtualNetworkConnections;
-  vpnGateways: operations.VpnGateways;
-  vpnConnections: operations.VpnConnections;
-  p2sVpnServerConfigurations: operations.P2sVpnServerConfigurations;
-  p2sVpnGateways: operations.P2sVpnGateways;
 
 
   /**
@@ -185,68 +155,6 @@ export default class NetworkManagementClient extends AzureServiceClient {
   checkDnsNameAvailability(location: string, domainNameLabel: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.DnsNameAvailabilityResult>;
   checkDnsNameAvailability(location: string, domainNameLabel: string, callback: ServiceCallback<models.DnsNameAvailabilityResult>): void;
   checkDnsNameAvailability(location: string, domainNameLabel: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.DnsNameAvailabilityResult>): void;
-
-
-  /**
-   * Gives the supported security providers for the virtual wan.
-   *
-   * @param {string} resourceGroupName The resource group name.
-   *
-   * @param {string} virtualWANName The name of the VirtualWAN for which
-   * supported security providers are needed.
-   *
-   * @param {object} [options] Optional Parameters.
-   *
-   * @param {object} [options.customHeaders] Headers that will be added to the
-   * request
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse<VirtualWanSecurityProviders>} - The deserialized result object.
-   *
-   * @reject {Error|ServiceError} - The error object.
-   */
-  supportedSecurityProvidersWithHttpOperationResponse(resourceGroupName: string, virtualWANName: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.VirtualWanSecurityProviders>>;
-
-  /**
-   * Gives the supported security providers for the virtual wan.
-   *
-   * @param {string} resourceGroupName The resource group name.
-   *
-   * @param {string} virtualWANName The name of the VirtualWAN for which
-   * supported security providers are needed.
-   *
-   * @param {object} [options] Optional Parameters.
-   *
-   * @param {object} [options.customHeaders] Headers that will be added to the
-   * request
-   *
-   * @param {ServiceCallback} [optionalCallback] - The optional callback.
-   *
-   * @returns {ServiceCallback|Promise} If a callback was passed as the last
-   * parameter then it returns the callback else returns a Promise.
-   *
-   * {Promise} A promise is returned.
-   *
-   *                      @resolve {VirtualWanSecurityProviders} - The deserialized result object.
-   *
-   *                      @reject {Error|ServiceError} - The error object.
-   *
-   * {ServiceCallback} optionalCallback(err, result, request, response)
-   *
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
-   *                      {VirtualWanSecurityProviders} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link VirtualWanSecurityProviders} for more
-   *                      information.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-   */
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.VirtualWanSecurityProviders>;
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, callback: ServiceCallback<models.VirtualWanSecurityProviders>): void;
-  supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.VirtualWanSecurityProviders>): void;
 }
 
 export { NetworkManagementClient, models as NetworkManagementModels };
