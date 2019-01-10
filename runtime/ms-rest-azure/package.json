@@ -56,6 +56,7 @@
     "test": "npm install && npm -s run-script tsc && npm -s run-script jshint && npm -s run-script unit",
     "unit": "node test/unit.js testlist.txt",
     "jshint": "jshint lib --reporter=jslint",
-    "tsc": "tsc index.d.ts"
+    "tsc": "tsc index.d.ts",
+    "test:acc": "npm install && npm -s run-script tsc && npm -s run-script jshint && ./node_modules/.bin/mocha acceptanceTests/*.js"
   }
 }
