@@ -124,64 +124,6 @@ export default class CdnManagementClient extends AzureServiceClient {
 
 
   /**
-   * Check the availability of a resource name. This is needed for resources
-   * where name is globally unique, such as a CDN endpoint.
-   *
-   * @param {string} name The resource name to validate.
-   *
-   * @param {object} [options] Optional Parameters.
-   *
-   * @param {object} [options.customHeaders] Headers that will be added to the
-   * request
-   *
-   * @returns {Promise} A promise is returned
-   *
-   * @resolve {HttpOperationResponse<CheckNameAvailabilityOutput>} - The deserialized result object.
-   *
-   * @reject {Error|ServiceError} - The error object.
-   */
-  checkNameAvailabilityWithSubscriptionWithHttpOperationResponse(name: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<HttpOperationResponse<models.CheckNameAvailabilityOutput>>;
-
-  /**
-   * Check the availability of a resource name. This is needed for resources
-   * where name is globally unique, such as a CDN endpoint.
-   *
-   * @param {string} name The resource name to validate.
-   *
-   * @param {object} [options] Optional Parameters.
-   *
-   * @param {object} [options.customHeaders] Headers that will be added to the
-   * request
-   *
-   * @param {ServiceCallback} [optionalCallback] - The optional callback.
-   *
-   * @returns {ServiceCallback|Promise} If a callback was passed as the last
-   * parameter then it returns the callback else returns a Promise.
-   *
-   * {Promise} A promise is returned.
-   *
-   *                      @resolve {CheckNameAvailabilityOutput} - The deserialized result object.
-   *
-   *                      @reject {Error|ServiceError} - The error object.
-   *
-   * {ServiceCallback} optionalCallback(err, result, request, response)
-   *
-   *                      {Error|ServiceError}  err        - The Error object if an error occurred, null otherwise.
-   *
-   *                      {CheckNameAvailabilityOutput} [result]   - The deserialized result object if an error did not occur.
-   *                      See {@link CheckNameAvailabilityOutput} for more
-   *                      information.
-   *
-   *                      {WebResource} [request]  - The HTTP Request object if an error did not occur.
-   *
-   *                      {http.IncomingMessage} [response] - The HTTP Response stream if an error did not occur.
-   */
-  checkNameAvailabilityWithSubscription(name: string, options?: { customHeaders? : { [headerName: string]: string; } }): Promise<models.CheckNameAvailabilityOutput>;
-  checkNameAvailabilityWithSubscription(name: string, callback: ServiceCallback<models.CheckNameAvailabilityOutput>): void;
-  checkNameAvailabilityWithSubscription(name: string, options: { customHeaders? : { [headerName: string]: string; } }, callback: ServiceCallback<models.CheckNameAvailabilityOutput>): void;
-
-
-  /**
    * Check if the probe path is a valid path and the file can be accessed. Probe
    * path is the path to a file hosted on the origin server to help accelerate
    * the delivery of dynamic content via the CDN endpoint. This path is relative
